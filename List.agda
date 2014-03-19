@@ -7,6 +7,11 @@ data List (A : Set) : Set where
 
 open import Nat
 
+onetwothree : List ℕ
+onetwothree = 1 :: (2 :: (3 :: []))
+
+
+
 -- Length of a list, first attempt
 length₀ : (A : Set) → List A → ℕ
 length₀ _ [] = zero
@@ -36,3 +41,7 @@ _map_ : {A B : Set} → List A → (A → B) → List B
 _flatMap_ : {A B : Set} → List A → (A → List B) → List B
 [] flatMap _ = []
 (a :: xs) flatMap f = (f a) ++ (xs flatMap f)
+
+
+twothreefour : List ℕ
+twothreefour = onetwothree map succ
