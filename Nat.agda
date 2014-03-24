@@ -10,7 +10,7 @@ zero + n = n
 
 _*_ : ℕ → ℕ → ℕ
 zero * n = zero
-(succ m) * n = m + (m * n)
+(succ m) * n = n + (m * n)
 
 
 factorial : ℕ → ℕ
@@ -26,3 +26,11 @@ forever (succ n) = forever (succ (succ n))
 {-# BUILTIN NATURAL ℕ #-}
 {-# BUILTIN ZERO zero #-}
 {-# BUILTIN SUC succ #-}
+
+open import BoolType
+
+_eqls_ : ℕ → ℕ → Bool
+zero eqls zero = true
+zero eqls (succ n) = false
+(succ m) eqls zero = false
+(succ n) eqls (succ m) = n eqls m
