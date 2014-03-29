@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dependent Function Types: Sections of a Bundle - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io/blog/2014/03/21/dependent-function-types">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dependent Function Types: Sections of a Bundle</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-21T17:56:43+05:30" pubdate data-updated="true">Mar 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that</p>
+
+<script type="math/tex; mode=display">\forall x\in A, f(x) = g(x)</script>
+
+<p>then
+<script type="math/tex">f=g.</script></p>
+
+<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$. </p>
+
+<p>Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,</p>
+
+<script type="math/tex; mode=display">V(x) \in T_x S^2.</script>
+
+<p>Hence it is best to view vector fields as dependent functions. In mathematics, the codomains are generally called fibers, which together form a fiber bundle, and dependent functions are called sections of this bundle.</p>
+
+<p>We can (and often do) regard a dependent function as an ordinary function with codomain the union of the various codomains. But, besides losing information, the function we get is not natural, in the sense that it does not respect the underlying symmetries.</p>
+
+<p>We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span>   <span class="kt">:</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">zero</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently. </p>
+
+<h3 id="inductive-types-and-inductive-type-families">Inductive types and inductive type families</h3>
+
+<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$. </p>
+
+<p>In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.</p>
+
+<p>In the case of vectors too, the type $A$ acts as a parameter.  Assume that the type $A$ is fixed, so vectors are now a family of types indexed by natural numbers.</p>
+
+<p>However, the vectors of a fixed size (say $7$) do not form an inductive type - we cannot define a function recursively on vectors of length $7$ alone.  In this case, this is evident from the definition, as the constructor giving vectors of size $7$ uses vectors of size $6$. So a recursive definition must also involve vectors of size $6$, hence of $5$ etc.</p>
+
+<p>We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="kt">:+</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:+</span> <span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, vectors form an inductive type family indexed by natural numbers (and parametrized by A). As we remarked, the type for a given index is not an inductive type. Note that even in cases where we can meaningfully write down a recursion rule for the type at a fixed index, such a recursion rule does not in general give a function on that type.</p>
+
+<p><strong>Remark:</strong> From the point of view of programming languages, there is another sense in which indexing by natural numbers is different from parametrizing by types - the types we construct depend on <em>objects</em>, not just other types. Modern languages usually allow types to depend on other types (sometimes called generics), but most do not allow dependence on objects.</p>
+
+<h3 id="a-dependent-function">A dependent function</h3>
+
+<p>We shall now construct a dependent function countdown that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors in natural numbers of length $n+1$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">countdown</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="err">ℕ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">countdown</span> <span class="n">m</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The definition in terms of pattern matching is similar to recursive definitions of functions. In terms of homotopy type theory, dependent functions on inductive types are constructed by applying a dependent function called the <em>induction function</em> to the data.</p>
+
+<p>The type of a dependent function is called the <em>product type</em> corresponding to the family of types with base the domain. For instance, the type of countdown is</p>
+
+<script type="math/tex; mode=display">\prod\limits_{n : \Bbb{N}} Vec (\Bbb{N}) (n+1).</script>
+
+<p>Except for universes (which we will keep in the background as far as possible), we have now seen all the type constructions - inductive types, functions and dependent functions.</p>
+
+<h3 id="type-checking-with-dependent-types">Type checking with dependent types</h3>
+
+<p>A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider component-wise addition of   vectors, or more generally component-wise application of a binary operation. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">zipop</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span>
+</span><span class="line"><span class="nf">zipop</span>  <span class="kt">[]</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">zipop</span>  <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span> <span class="ow">::</span> <span class="n">ys</span><span class="p">)</span> <span class="n">op</span> <span class="ow">=</span> <span class="p">(</span><span class="n">op</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">zipop</span>  <span class="n">xs</span> <span class="n">ys</span> <span class="n">op</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Note that we could have used lists in place of vectors, but we would then have to give a definition that can lead to errors at runtime.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-21T17:56:43+05:30" pubdate data-updated="true">Mar 21<span>st</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io/blog/2014/03/21/dependent-function-types/" data-via="" data-counturl="http://siddhartha-gadgil.github.io/blog/2014/03/21/dependent-function-types/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/19/inductive-types-natural-numbers/" title="Previous Post: Inductive types: Natural numbers, Lists">&laquo; Inductive types: Natural numbers, Lists</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/18/foundations-objects/">Foundations: Objects, Types, Rules</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 6,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

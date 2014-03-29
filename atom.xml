@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io/"/>
-  <updated>2014-03-29T15:50:00+05:30</updated>
+  <updated>2014-03-29T21:26:16+05:30</updated>
   <id>http://siddhartha-gadgil.github.io/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,253 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Dependent Function Types: Sections of a Bundle]]></title>
+    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/21/dependent-function-types/"/>
+    <updated>2014-03-21T17:56:43+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io/blog/2014/03/21/dependent-function-types</id>
+    <content type="html"><![CDATA[<p>A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that</p>
+
+<script type="math/tex; mode=display">\forall x\in A, f(x) = g(x)</script>
+
+<p>then
+<script type="math/tex">f=g.</script></p>
+
+<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$. </p>
+
+<p>Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,</p>
+
+<script type="math/tex; mode=display">V(x) \in T_x S^2.</script>
+
+<p>Hence it is best to view vector fields as dependent functions. In mathematics, the codomains are generally called fibers, which together form a fiber bundle, and dependent functions are called sections of this bundle.</p>
+
+<p>We can (and often do) regard a dependent function as an ordinary function with codomain the union of the various codomains. But, besides losing information, the function we get is not natural, in the sense that it does not respect the underlying symmetries.</p>
+
+<p>We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span>   <span class="kt">:</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">zero</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently. </p>
+
+<h3 id="inductive-types-and-inductive-type-families">Inductive types and inductive type families</h3>
+
+<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$. </p>
+
+<p>In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.</p>
+
+<p>In the case of vectors too, the type $A$ acts as a parameter.  Assume that the type $A$ is fixed, so vectors are now a family of types indexed by natural numbers.</p>
+
+<p>However, the vectors of a fixed size (say $7$) do not form an inductive type - we cannot define a function recursively on vectors of length $7$ alone.  In this case, this is evident from the definition, as the constructor giving vectors of size $7$ uses vectors of size $6$. So a recursive definition must also involve vectors of size $6$, hence of $5$ etc.</p>
+
+<p>We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="kt">:+</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:+</span> <span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, vectors form an inductive type family indexed by natural numbers (and parametrized by A). As we remarked, the type for a given index is not an inductive type. Note that even in cases where we can meaningfully write down a recursion rule for the type at a fixed index, such a recursion rule does not in general give a function on that type.</p>
+
+<p><strong>Remark:</strong> From the point of view of programming languages, there is another sense in which indexing by natural numbers is different from parametrizing by types - the types we construct depend on <em>objects</em>, not just other types. Modern languages usually allow types to depend on other types (sometimes called generics), but most do not allow dependence on objects.</p>
+
+<h3 id="a-dependent-function">A dependent function</h3>
+
+<p>We shall now construct a dependent function countdown that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors in natural numbers of length $n+1$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">countdown</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="err">ℕ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">countdown</span> <span class="n">m</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The definition in terms of pattern matching is similar to recursive definitions of functions. In terms of homotopy type theory, dependent functions on inductive types are constructed by applying a dependent function called the <em>induction function</em> to the data.</p>
+
+<p>The type of a dependent function is called the <em>product type</em> corresponding to the family of types with base the domain. For instance, the type of countdown is</p>
+
+<script type="math/tex; mode=display">\prod\limits_{n : \Bbb{N}} Vec (\Bbb{N}) (n+1).</script>
+
+<p>Except for universes (which we will keep in the background as far as possible), we have now seen all the type constructions - inductive types, functions and dependent functions.</p>
+
+<h3 id="type-checking-with-dependent-types">Type checking with dependent types</h3>
+
+<p>A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider component-wise addition of   vectors, or more generally component-wise application of a binary operation. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">zipop</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span>
+</span><span class="line"><span class="nf">zipop</span>  <span class="kt">[]</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">zipop</span>  <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span> <span class="ow">::</span> <span class="n">ys</span><span class="p">)</span> <span class="n">op</span> <span class="ow">=</span> <span class="p">(</span><span class="n">op</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">zipop</span>  <span class="n">xs</span> <span class="n">ys</span> <span class="n">op</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Note that we could have used lists in place of vectors, but we would then have to give a definition that can lead to errors at runtime.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Inductive Types: Natural Numbers, Lists]]></title>
+    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/19/inductive-types-natural-numbers/"/>
+    <updated>2014-03-19T16:03:29+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io/blog/2014/03/19/inductive-types-natural-numbers</id>
+    <content type="html"><![CDATA[<p>Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Natural Numbers: Inductive Definition</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">ℕ</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">zero</span> <span class="kt">:</span> <span class="err">ℕ</span>
+</span><span class="line">  <span class="n">succ</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here $zero$ is $0$ and $succ$ is the function taking any natural number to its successor. Any natural number can be built from these, and different expressions give different numbers. However, as with the case of Booleans, we do not have any explicit rules giving such statements  - indeed, it would be quite painful to formulate such rules, as we have to define expressions, equality of expressions etc. Instead, the rules for defining functions from natural numbers implicitly contain such statements. We define functions on natural numbers by pattern matching, but this time the patterns can involve the constructors.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Addition of natural numbers</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">+</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">zero</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The left hand sides pattern match on the constructors for natural numbers. Notice that this is a recursive definition, the right hand side in the second pattern for defining addition also involves addition. This is fine as the definition lets us rewrite a sum in terms of sums of simpler terms, and such a process eventually terminates. However, we can write nonsensical definitions in general.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Recursion resulting in infinite loops</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">forever</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">forever</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="n">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>When we try to compute $forever(1)$ (where $1 = succ (zero)$), we get that $forever(1) = forever(2)$, and this continues forever. Fortunately, Agda will not let us make such definitions. This does come at a price though - sometimes it takes a lot of work to convince Agda that functions terminate. There are deeper, conceptual limitations to any system ensuring termination, as discovered by Turing, which we return to in the future.</p>
+
+<p>In homotopy type theory, the rules for such recursive definitions are nicely formulated so we cannot making nonsensical definitions. We shall see how this is done much later. We now define a couple of other recursive functions.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Multiplication of natural numbers</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">*</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">zero</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Factorials</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">factorial</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">factorial</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">succ</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">factorial</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">factorial</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Our constructors are unfortunately only as efficient as tally marks in dealing with actual numbers. Agda has a built in type that lets us deal with natural numbers the usual way. We can invoke it as below.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Agda: Builtin natural numbers</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="cm">{-# BUILTIN NATURAL ℕ #-}</span>
+</span><span class="line"><span class="cm">{-# BUILTIN ZERO zero #-}</span>
+</span><span class="line"><span class="cm">{-# BUILTIN SUC succ #-}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="lists--a-parametrized-type">Lists : A parametrized type</h3>
+
+<p>We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Lists</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">List</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span> <span class="kt">:</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ _ :: _$ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The list [1, 2, 3]</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">open</span> <span class="kr">import</span> <span class="nn">Nat</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">onetwothree</span> <span class="kt">:</span> <span class="kt">List</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">onetwothree</span> <span class="ow">=</span> <span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can make things a little cleaner by specifying that $_::_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list: First attempt</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We have given a recursive definition. We defined a function of the type $A$ as well as the list, as we needed $A$ in the right hand side of the second pattern. But $A$ can be inferred in this pattern - it is the type of the element $a$. So we can declare $A$ to be an optional argument (by putting it in braces), and let Agda infer its value. This gives us a cleaner definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">length</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">length</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Concatenation of Lists</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">++</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line"><span class="kt">[]</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">l</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="o">++</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We next define the function that reverses a list.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Reversing a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">reverse</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line"><span class="nf">reverse</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">reverse</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">reverse</span> <span class="n">l</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We now turn to some more interesting functions. Given a list of objects of type $A$ and a function $f:A \to B$, we can apply $f$ to each entry of the list to get a list of elements of $B$. This is usually called the $map$ function.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map function on lists</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_map_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">map</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">map</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">map</span> <span class="n">f</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can do more - if we have a function $f: A \to List B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on lists</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMap_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">flatMap</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types. </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Foundations: Objects, Types, Rules]]></title>
