@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Test | Logic, Types and Spaces]]></title>
+  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/"/>
+  <updated>2014-03-29T07:36:38+05:30</updated>
+  <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/</id>
+  <author>
+    <name><![CDATA[Siddhartha Gadgil]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Trying Out Octopress]]></title>
+    <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress/"/>
+    <updated>2014-03-29T07:04:57+05:30</updated>
+    <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress</id>
+    <content type="html"><![CDATA[<h2 id="testing-octopress">Testing Octopress</h2>
+
+<p>This is a cumulative test, first with just text.</p>
+
+<p>Now I throw in some latex $x^2 + y^2 =1$ inline and</p>
+
+<script type="math/tex; mode=display">\mathbb{R}\to A</script>
+
+<p>This is brilliant. Now for Agda</p>
+
+<p><code>haskell Boolean Type
+data Bool : Set where
+  true : Bool
+  false : Bool
+</code></p>
+
+<p>Did things change?
+I pretend Agda is Haskell. Will this work for something longer, with univcode?</p>
+
+<p>``` haskell Propostions as types
+open import Nat</p>
+
+<p>open import BoolType</p>
+
+<p>module PropnTypes where</p>
+
+<p>data True : Set where
+  qed : True</p>
+
+<p>data False : Set where</p>
+
+<p>vacuous : {A : Set} → False → A
+vacuous ()</p>
+
+<p>moduspoens : {P : Set} → {Q : Set} → P → (P → Q) → Q
+moduspoens p imp = imp p</p>
+
+<p>data Even : ℕ → Set where
+  zeroeven : Even zero
+  +2even : {n : ℕ} → Even n → Even (succ (succ n))</p>
+
+<p>2even : Even 2
+2even = +2even zeroeven</p>
+
+<p>1odd : Even 1 → False
+1odd ()</p>
+
+<p>data <em>==</em> {A : Set} : A → A → Set where
+  refl : (a : A) → a == a</p>
+
+<p>transport : {A : Set} → {B : Set} → {x y : A} → (f : A → B) → x == y → f(x) == f(y)
+transport f (refl a) = refl (f a)</p>
+
+<p>symm : {A : Set} → {x y : A} → x == y → y == x
+symm (refl a) = refl a</p>
+
+<p><em>transEq</em> : {A : Set} → {x y z : A} → x == y → y == z → x == z
+(refl a) transEq (refl .a) = refl a</p>
+
+<p>open import Nat</p>
+
+<p>– If f(m+1) = f(m) for all m, then f(n) = f(0) for all n<br />
+constthm : (f : ℕ → ℕ) → ((m : ℕ) → (f (succ m)) == (f m)) → (n : ℕ) → (f n) == (f 0)
+constthm f _ 0 = refl (f 0)
+constthm f adjEq (succ n) = (adjEq n) transEq (constthm f adjEq n)
+```</p>
+
+<p>A success all around. Agda with haskell syntax is perfectly readable.</p>
+]]></content>
+  </entry>
+  
+</feed>
