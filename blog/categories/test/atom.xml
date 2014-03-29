@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Test | Logic, Types and Spaces]]></title>
-  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/categories/test/atom.xml" rel="self"/>
-  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/"/>
-  <updated>2014-03-29T07:36:38+05:30</updated>
-  <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/</id>
+  <link href="http://siddhartha-gadgil.github.io/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://siddhartha-gadgil.github.io/"/>
+  <updated>2014-03-29T08:01:50+05:30</updated>
+  <id>http://siddhartha-gadgil.github.io/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Trying Out Octopress]]></title>
-    <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress/"/>
+    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/29/trying-out-octopress/"/>
     <updated>2014-03-29T07:04:57+05:30</updated>
-    <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress</id>
+    <id>http://siddhartha-gadgil.github.io/blog/2014/03/29/trying-out-octopress</id>
     <content type="html"><![CDATA[<h2 id="testing-octopress">Testing Octopress</h2>
 
 <p>This is a cumulative test, first with just text.</p>
@@ -85,7 +85,7 @@ constthm f _ 0 = refl (f 0)
 constthm f adjEq (succ n) = (adjEq n) transEq (constthm f adjEq n)
 ```</p>
 
-<p>A success all around. Agda with haskell syntax is perfectly readable.</p>
+<p>A success all around. Agda with haskell syntax is perfectly readable</p>
 ]]></content>
   </entry>
   

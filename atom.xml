@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Logic, Types and Spaces]]></title>
-  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/atom.xml" rel="self"/>
-  <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/"/>
-  <updated>2014-03-29T07:36:38+05:30</updated>
-  <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/</id>
+  <link href="http://siddhartha-gadgil.github.io/atom.xml" rel="self"/>
+  <link href="http://siddhartha-gadgil.github.io/"/>
+  <updated>2014-03-29T08:01:50+05:30</updated>
+  <id>http://siddhartha-gadgil.github.io/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Trying Out Octopress]]></title>
-    <link href="http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress/"/>
+    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/29/trying-out-octopress/"/>
     <updated>2014-03-29T07:04:57+05:30</updated>
-    <id>http://math.iisc.ernet.in/~gadgil/logictypesspaces/blog/2014/03/29/trying-out-octopress</id>
+    <id>http://siddhartha-gadgil.github.io/blog/2014/03/29/trying-out-octopress</id>
     <content type="html"><![CDATA[<h2 id="testing-octopress">Testing Octopress</h2>
 
 <p>This is a cumulative test, first with just text.</p>
@@ -151,7 +151,7 @@ I pretend Agda is Haskell. Will this work for something longer, with univcode?</
 </span><span class="line"><span class="nf">constthm</span> <span class="n">f</span> <span class="n">adjEq</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">adjEq</span> <span class="n">n</span><span class="p">)</span> <span class="n">transEq</span> <span class="p">(</span><span class="n">constthm</span> <span class="n">f</span> <span class="n">adjEq</span> <span class="n">n</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>A success all around. Agda with haskell syntax is perfectly readable.</p>
+<p>A success all around. Agda with haskell syntax is perfectly readable</p>
 ]]></content>
   </entry>
   

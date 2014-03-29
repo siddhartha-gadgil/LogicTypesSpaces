@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://math.iisc.ernet.in/~gadgil/logictypesspaces/sitemap.xml 
+Sitemap: http://siddhartha-gadgil.github.io/sitemap.xml 
