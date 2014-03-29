@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io/"/>
-  <updated>2014-03-29T13:07:51+05:30</updated>
+  <updated>2014-03-29T13:15:30+05:30</updated>
   <id>http://siddhartha-gadgil.github.io/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Foundations: Objects]]></title>
-    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/29/foundations-objects/"/>
-    <updated>2014-03-29T09:25:57+05:30</updated>
-    <id>http://siddhartha-gadgil.github.io/blog/2014/03/29/foundations-objects</id>
+    <link href="http://siddhartha-gadgil.github.io/blog/2014/03/18/foundations-objects/"/>
+    <updated>2014-03-18T09:25:57+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io/blog/2014/03/18/foundations-objects</id>
     <content type="html"><![CDATA[<h2 id="foundations-objects-types-and-rules">Foundations: Objects, Types and Rules</h2>
 
 <p>Our foundations are those of Homotopy type theory, which in turn is based on the type theory of Per Martin Lof.</p>
