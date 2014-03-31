@@ -245,9 +245,9 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <ul>
   <li>They are both parametrized by a single type A.</li>
-  <li>The type A itself can be embedded in these: map $a$ to the list $a :: []$ in $List A$ and the object $Some a$ in $Option A$, respectively.</li>
+  <li>The type A itself can be embedded in these: map $a$ to the list $a :: []$ in $List\ A$ and the object $Some\ a$ in $Option\ A$, respectively.</li>
   <li>We can map elements of these types, given a function with domain $A$.</li>
-  <li>Given a function with domain $A$ and codomain of the form $List B$ or $Option B$ as appropriate, we can flatmap to get an object of type $List C$ or $Option C$, respectively.</li>
+  <li>Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.</li>
 </ul>
 
 <p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
