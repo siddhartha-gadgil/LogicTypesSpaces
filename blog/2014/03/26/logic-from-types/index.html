@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Logic From Types - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="At the core of homotopy type theory (and its predecessors) is the idea of propostions as types. Namely, we interpret logical propositions - &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io/blog/2014/03/26/logic-from-types">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Logic From Types</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T06:46:59+05:30" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>At the core of homotopy type theory (and its predecessors) is the idea of <em>propostions as types</em>. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner. </p>
+
+<h3 id="true-and-false">True and False</h3>
+
+<p>We begin by representing the two simplest propositions: true - always true,  and false.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>True and False types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">True</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">qed</span> <span class="kt">:</span> <span class="kt">True</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="kr">data</span> <span class="kt">False</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The $True$ type has just one constructor, giving an object with type $True$. On the other hand, the $False$ type has no constructors, so there are no objects of type $False$.</p>
+
+<p>There are various ways of building propositions from other propositions. We see how these translate to constructions of types.</p>
+
+<h3 id="logical-implies">Logical implies</h3>
+
+<p>If $P$ and $Q$ are propositions, which we identify with their corresponding types. We interpret the proposition $P \implies Q$ as the function type $P \to Q$.</p>
+
+<h3 id="some-deductions">Some deductions</h3>
+
+<p><em>Modus Poens</em> is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Poens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Poens</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">moduspoens</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">P</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Q</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">P</span> <span class="err">→</span> <span class="p">(</span><span class="kt">P</span> <span class="err">→</span> <span class="kt">Q</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Q</span>
+</span><span class="line"><span class="nf">moduspoens</span> <span class="n">p</span> <span class="n">imp</span> <span class="ow">=</span> <span class="n">imp</span> <span class="n">p</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, we see my favourite method of proof - vacuous implication. This says that a false statement implies everything, i.e., for any proposition $P$, we have $False \implies P$, which in type theory says $False\to P$ has objects.</p>
+
+<p>As the $False$ type has no cases at all, a function is defined on $False$ by using an absurd pattern, which just says that there are no cases, so no definition is needed.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Vacuous implication</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">vacuous</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">False</span> <span class="err">→</span> <span class="kt">A</span>
+</span><span class="line"><span class="nf">vacuous</span> <span class="nb">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="even-and-odd-numbers">Even and Odd numbers</h3>
+
+<p>Next, we define a type family Even n which is non-empty if and only if n is even. To do this, we see that a number is even if and only if it is even as a consequence of the rules</p>
+
+<ul>
+  <li>$0$ is even.</li>
+  <li>If $n$ is even, so is $n + 2$.</li>
+  <li>Thus, we can define the inductive type family:</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Even</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">zeroeven</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="n">zero</span>
+</span><span class="line">  <span class="o">+</span><span class="mi">2</span><span class="n">even</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Even</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Even</span> <span class="p">(</span><span class="n">succ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can prove that $2$ is even by applying the second rule, with $n=0$, to the first rule (telling us that $0$ is even).</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>2 is Even</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">2</span>
+</span><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="ow">=</span> <span class="o">+</span><span class="mi">2</span><span class="n">even</span> <span class="n">zeroeven</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We next show that $1$ is odd. This means that we have to show that the type $Even 1$ is empty. While rules let us construct objects, and verify their types, there is no rule that tells us directly that a type is empty.</p>
+
+<p>However, there is a nice way of capturing that a type $A$ is empty - if there is a function from $A$ to the empty type $False$, then $A$ must be empty - there is nowhere for an object of type $A$ to be mapped.</p>
+
+<p>Indeed, what we prove is that there is a function from $Even\ 1$ to $False$ ; we define this using an absurd pattern.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>1 is odd</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">1</span> <span class="err">→</span> <span class="kt">False</span>
+</span><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="nb">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="the-identity-type">The identity type</h3>
+
+<p>One of the most fundamental concepts in homotopy type theory is the identity type family, representing equality between objects with a given type. This is an inductive type family, generated by the reflexivity constructor giving an equality between an object and itself.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The identity type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="o">==</span><span class="kr">_</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">refl</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Note that while this is an inductive type family, for a fixed object a the type $a==a$ is <em>not</em> an inductive type defined by $refl(a)$, i.e., we cannot define (dependent) functions on this type but just defining them on the reflexivity constructor. This is a subtle point, which will become clearer as we look at the topological interpretation. We shall study the identity type extensively.</p>
+
+<p>For now, let us show some basic properties of the identity type. All these are proved by constructing objects by pattern matching (recall that these are dependent functions, so we are formally constructing them by induction, not recursion).</p>
+
+<p>Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type). </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">transfer</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span class="line"><span class="nf">transfer</span> <span class="n">f</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Further, we see that equality (given by the identity type) is symmetric and transitive. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">symm</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span>
+</span><span class="line"><span class="nf">symm</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Transitivity of equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_transEq_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">z</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">z</span>
+</span><span class="line"><span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="n">transEq</span> <span class="p">(</span><span class="n">refl</span> <span class="o">.</span><span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>There is a new Agda feature we have used in the proof of transitivity: the <em>dot notation</em>. Notice that we have a term <strong>.a</strong> - this says that we can deduce, <em>from the types</em>, that $a$ is the only possibility at its position in the pattern.</p>
+
+<h3 id="for-all">For all</h3>
+
+<p>Suppose we have a type $A$ and a family of types $P(a)$ (which we regard as propositions), with a type associated to each object $a$ of type $A$. Then all the types $P(a)$ have objects  (i.e., all corresponding propositions are true) if and only if there is a dependent function mapping each object $a$ of type $A$ to an object of type  $P(a)$. Thus, the logical statement</p>
+
+<script type="math/tex; mode=display">\forall a \in A\ P(a)</script>
+
+<p>translates to the product type</p>
+
+<script type="math/tex; mode=display">\prod\limits_{a : A} P(a).</script>
+
+<p>In Agda, we represent the product type as $(a : A) \to P(a)$</p>
+
+<h3 id="a-proof-by-induction">A proof by induction</h3>
+
+<p>We can now prove a more substantial result. Namely, suppose we have a function $f : \Bbb{N}\to \Bbb{N}$ , and suppose for all $n\in \Bbb{N}$ we have $f(n) = f(n+1)$, then we show that, for all $n$, $f(n)=f(0)$.</p>
+
+<p>Such a statement is normally proved by induction (indeed any proof must reduce to induction). We see that our pattern matching rules for constructing dependent functions suffice to prove this - this is why the dependent function that gives them is called the induction function.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>f(n)= f(n+1) for all n implies f is constant</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">constthm</span> <span class="kt">:</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">m</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="n">m</span><span class="p">))</span> <span class="err">→</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line"><span class="nf">constthm</span> <span class="n">f</span> <span class="kr">_</span> <span class="mi">0</span> <span class="ow">=</span> <span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class="line"><span class="nf">constthm</span> <span class="n">f</span> <span class="n">adjEq</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">adjEq</span> <span class="n">n</span><span class="p">)</span> <span class="n">transEq</span> <span class="p">(</span><span class="n">constthm</span> <span class="n">f</span> <span class="n">adjEq</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Let us look at the statement and proof more carefully. Firstly, note that the statement is of the form</p>
+
+<script type="math/tex; mode=display"> (f : \Bbb{N} \to \Bbb{N}) \to P(f) \to Q(f).</script>
+
+<p>As we have seen, the first term is a translation of $\forall f : \Bbb{N} \to \Bbb{N}$, so the statement says that for all functions $f : \Bbb{N} \to \Bbb{N}$ (or any other codomain with obvious modifications), we have $P(f) \to Q(f)$.</p>
+
+<p>This in turn is a translation of $P(f) \implies Q(f)$. So we can regard  $P(f)$ as the hypothesis, for a fixed function $f$,  and $Q(f)$  as the desired conclusion.</p>
+
+<p>The hypothesis P(f) is the statement</p>
+
+<script type="math/tex; mode=display"> (m : \Bbb{N}) \to f(m+1) == f(m)</script>
+
+<p>which is just the statement that for all $m$, $f(m+1)=f(m)$.  Finally, the conclusion $Q(f)$ just says that $f(n)=f(o)$ for all $n$.</p>
+
+<p>We now look at the proof. The two constructors correspond to the base case and the induction step. Here the base case is just $f(0)=f(0)$, which follows from reflexivity of equality.</p>
+
+<p>The induction step is more complicated. We prove the result for $n+1$ assuming the result for $n$. The main hypothesis $\forall m, f(m+1) = f(m)$, is, by pattern matching, $adjEq$. The right hand side, which is the proof in the case of $n+1$, is obtained from:</p>
+
+<ul>
+  <li>The hypothesis for $n$,  giving $f(n+1) = f(n).$</li>
+  <li>The induction hypothesis, which is the theorem we are proving applied to $n$, giving $f(n)=0.$</li>
+  <li>Transitivity of equality.</li>
+  <li>The proof is obtained by applying the function corresponding to the transitivity of equality to the two objects corresponding to the other ingredients above.</li>
+</ul>
+
+<p>This proof is remarkable in many ways. First of all, note that this is no longer or more complicated than an informal proof. Further, note that we did not have to invoke the usual induction axiom schema, but instead just used the rules for constructing objects. Most significantly, as most of our types are inductive type (or type families), we get recursive definitions and inductive proofs in all these cases.</p>
+
+<p>Indeed,  using recursive definitions for inductive types we get all so called <em>universal properties</em>. Furthermore, traditionally universal properties require a separate uniqueness statement. But recursion-induction is powerful enough to even give the uniqueness statements for universal properties. This means a great deal of mathematical sophistication (universal algebra, various aspects of category theory) are encapsulated in these simple functions.</p>
+
+<h3 id="more-types-for-propositions">More types for propositions</h3>
+
+<p>We now see the types corresponding to the other ways of combining propositions : and, or and there exists.</p>
+
+<p>Firstly, if $A$ and $B$ are types corresponding to propositions, then there are objects with each of these types if and only if there is a pair $(a, b)$ of the pair type $A \times B$, which we define as follows.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pair type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">×</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">×</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We have to use square brackets as parenthesis have a special meaning in Agda. Observe that there is a single constructor that takes as input an object in $A$ and an object in $B$. We regard the result as the pair.</p>
+
+<p>Next, suppose $A$ and $B$ are types corresponding to propositions and we wish to construct a type corresponding to $A$ <em>or</em> $B$, then we require a type whose elements are elements of $A$ and elements of $B$, or more accurately the images of such elements under constructors. This is the direct sum type.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Direct Sum type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">⊕</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">i</span><span class="err">₁</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
+</span><span class="line">  <span class="n">i</span><span class="err">₂</span> <span class="kt">:</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Finally, if we are given a collection of types $B(a)$ for objects $a$ of type $A$, we construct the type corresponding to at least one of these types having an element, i.e., a <em>there exists</em> type.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sigma type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">Σ</span><span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="p">(</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="err">ι</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="n">a</span> <span class="err">→</span> <span class="err">Σ</span> <span class="kt">A</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Notice that the constructor for this type has as input an element $a$ and an element of type $B(a)$. Such elements exist if and only if some $B(a)$ is non-empty, i.e., the corresponding proposition is true.</p>
+
+<p>As we see, we can express all the usual mathematical statements using types built up using our basic constructions: inductive types, functions and dependent functions. We have also seen that the basic rules for constructing objects are powerful rules of deduction. However, there are some things they cannot deduce, for instance the statement (called the axiom of extensionality) that if $f, g: A\to B$ are function with $f(a)=g(a)$ for all $a \in A$, then $f=g$. Hence, we have to introduce this as a postulate - we just postulate that  there is an object (which we give a name) of a given type.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Axiom of Extensionality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">postulate</span>
+</span><span class="line">  <span class="n">extensionality</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">g</span> <span class="n">x</span><span class="p">))</span> <span class="err">→</span> <span class="n">f</span> <span class="o">==</span> <span class="n">g</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can similarly introduce axioms specific to a domain, say Euclidean geometry, by postulating them in a module.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T06:46:59+05:30" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io/blog/2014/03/26/logic-from-types/" data-via="" data-counturl="http://siddhartha-gadgil.github.io/blog/2014/03/26/logic-from-types/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/22/fun-with-lists/" title="Previous Post: Fun with lists">&laquo; Fun with lists</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/18/foundations-objects/">Foundations: Objects, Types, Rules</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 6,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
