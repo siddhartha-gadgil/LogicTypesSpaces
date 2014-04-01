@@ -139,7 +139,8 @@ MathJax.Hub.Config({
 
 <p>We start with a built in universe called Set - objects having type Set are sets. We shall use the data statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Boolean type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Boolean type
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Bool</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -161,7 +162,8 @@ MathJax.Hub.Config({
 
 <p>We construct the function $not$ from Booleans to Booleans, which is the logical negation.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical Not function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical Not function
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">not</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
@@ -189,7 +191,8 @@ MathJax.Hub.Config({
 
 <p>We define the logical and (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical And function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical And function
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -205,7 +208,8 @@ MathJax.Hub.Config({
 
 <p>So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from existing objects. Here is an example.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using function application</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using function application
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">notnot</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 </span><span class="line"><span class="nf">notnot</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">not</span> <span class="p">(</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span>
@@ -217,7 +221,8 @@ MathJax.Hub.Config({
 
 <p>Functions can be specified by describing the image of each argument. These are given by λ-expressions, following the notation of Church’s λ-calculus. We define such a function, $verytrue$, below, by equating it with an anonymous function that forms the right hand side.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using lambda</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using lambda
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">verytrue</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
 </span><span class="line"><span class="nf">verytrue</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">x</span>
@@ -225,7 +230,8 @@ MathJax.Hub.Config({
 
 <p>We can define (curried) functions of more than one variable using λ-expressions without having to explicitly nest λs.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical &#8220;exclusive or&#8221; : nested lambdas</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical &#8220;exclusive or&#8221; : nested lambdas
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_xor_</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
 </span><span class="line"><span class="nf">_xor_</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="n">y</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">not</span> <span class="n">y</span><span class="p">))</span> <span class="o">||</span> <span class="p">((</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span>
