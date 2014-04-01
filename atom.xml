@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io/"/>
-  <updated>2014-03-31T15:47:07+05:30</updated>
+  <updated>2014-04-01T06:31:13+05:30</updated>
   <id>http://siddhartha-gadgil.github.io/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -648,7 +648,9 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     <id>http://siddhartha-gadgil.github.io/blog/2014/03/18/foundations-objects</id>
     <content type="html"><![CDATA[<p>Quoth Andrej Bauer:</p>
 
-<p><em>Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.</em></p>
+<blockquote>
+  <p>Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.*</p>
+</blockquote>
 
 <p>In this series of posts, we explore the background behind, and the basics of, homotopy type theory. We begin by laying out the basic rules governing such foundations. </p>
 
