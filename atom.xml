@@ -1,115 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Logic, Types and Spaces</title>
-  <meta name="author" content="Siddhartha Gadgil">
-
-  
-  <meta name="description" content="Truth and Deduction So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  jax: ["input/TeX", "output/HTML-CSS"],
-  tex2jax: {
-    inlineMath: [ ['$', '$'] ],
-    displayMath: [ ['$$', '$$']],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  messageStyle: "none",
-  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-});
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Logic, Types and Spaces</a></h1>
-  
-    <h2>Towards homotopy type theory</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Logic, Types and Spaces]]></title>
+  <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
+  <link href="http://siddhartha-gadgil.github.io//github/"/>
+  <updated>2014-05-02T15:24:37+05:30</updated>
+  <id>http://siddhartha-gadgil.github.io//github/</id>
+  <author>
+    <name><![CDATA[Siddhartha Gadgil]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2014/04/24/truth-and-deduction/">Truth and Deduction</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2014-04-24T10:41:17+05:30" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1 id="truth-and-deduction">Truth and Deduction</h1>
+  <entry>
+    <title type="html"><![CDATA[Truth and Deduction]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/"/>
+    <updated>2014-04-24T10:41:17+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction</id>
+    <content type="html"><![CDATA[<h1 id="truth-and-deduction">Truth and Deduction</h1>
 
 <p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general logical systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
 
@@ -153,42 +62,15 @@ MathJax.Hub.Config({
   <li>A logical system</li>
   <li>A collection of assumptions (axioms).</li>
 </ul>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/26/logic-from-types/">Logic From Types</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-26T06:46:59+05:30" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>At the core of homotopy type theory (and its predecessors) is the idea of <em>propostions as types</em>. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner. </p>
+  <entry>
+    <title type="html"><![CDATA[Logic From Types]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types/"/>
+    <updated>2014-03-26T06:46:59+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types</id>
+    <content type="html"><![CDATA[<p>At the core of homotopy type theory (and its predecessors) is the idea of <em>propostions as types</em>. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner. </p>
 
 <h3 id="true-and-false">True and False</h3>
 
@@ -423,42 +305,15 @@ MathJax.Hub.Config({
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>We can similarly introduce axioms specific to a domain, say Euclidean geometry, by postulating them in a module.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/22/fun-with-lists/">Fun With Lists</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-22T07:39:57+05:30" pubdate data-updated="true">Mar 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.</p>
+  <entry>
+    <title type="html"><![CDATA[Fun With Lists]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/"/>
+    <updated>2014-03-22T07:39:57+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists</id>
+    <content type="html"><![CDATA[<p>We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.</p>
 
 <h3 id="filtering--and-if-then-else">Filtering  and if-then-else</h3>
 
@@ -612,42 +467,15 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </ul>
 
 <p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-21T17:56:43+05:30" pubdate data-updated="true">Mar 21<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that</p>
+  <entry>
+    <title type="html"><![CDATA[Dependent Function Types: Sections of a Bundle]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/21/dependent-function-types/"/>
+    <updated>2014-03-21T17:56:43+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/21/dependent-function-types</id>
+    <content type="html"><![CDATA[<p>A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that</p>
 
 <script type="math/tex; mode=display">\forall x\in A, f(x) = g(x)</script>
 
@@ -737,42 +565,15 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Note that we could have used lists in place of vectors, but we would then have to give a definition that can lead to errors at runtime.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-19T16:03:29+05:30" pubdate data-updated="true">Mar 19<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).</p>
+  <entry>
+    <title type="html"><![CDATA[Inductive Types: Natural Numbers, Lists]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/19/inductive-types-natural-numbers/"/>
+    <updated>2014-03-19T16:03:29+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/19/inductive-types-natural-numbers</id>
+    <content type="html"><![CDATA[<p>Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Natural Numbers: Inductive Definition
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -931,42 +732,15 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types. </p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/18/foundations-objects/">Foundations: Objects, Types, Rules</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-18T09:25:57+05:30" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Quoth Andrej Bauer:</p>
+  <entry>
+    <title type="html"><![CDATA[Foundations: Objects, Types, Rules]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/18/foundations-objects/"/>
+    <updated>2014-03-18T09:25:57+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/18/foundations-objects</id>
+    <content type="html"><![CDATA[<p>Quoth Andrej Bauer:</p>
 
 <blockquote>
   <p>Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.</p>
@@ -1098,143 +872,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>We have now seen the most basic constructions of types and objects. We shall next turn to the more powerful constructions - inductive types and dependent types.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/04/24/truth-and-deduction/">Truth and Deduction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/26/logic-from-types/">Logic From Types</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'siddhartha-gadgil',
-            count: 4,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-<section class="googleplus">
-  <h1>
-    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Siddhartha Gadgil -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'logictypesandspaces';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

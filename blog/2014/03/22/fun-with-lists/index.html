@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fun With Lists - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fun With Lists</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-22T07:39:57+05:30" pubdate data-updated="true">Mar 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.</p>
+
+<h3 id="filtering--and-if-then-else">Filtering  and if-then-else</h3>
+
+<p>Let us start with a function checking if a list contains an element with a certain property.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_contains_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Bool</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">contains</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">false</span>
+</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">contains</span> <span class="n">p</span> <span class="ow">=</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">xs</span> <span class="n">contains</span> <span class="n">p</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Before turning to filtering, we define an <em>if expression</em>, which gives one of two values depending on whether a Boolean term is $true$ or $false$. Note that this is not an if statement, doing something according to a condition, but a function that returns a value depending on the condition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">if_then_else</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span>  <span class="err">→</span> <span class="kt">A</span>
+</span><span class="line"><span class="kr">if</span> <span class="n">true</span> <span class="kr">then</span> <span class="n">x</span> <span class="kr">else</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">x</span>
+</span><span class="line"><span class="kr">if</span> <span class="n">false</span> <span class="kr">then</span> <span class="kr">_</span> <span class="kr">else</span> <span class="n">y</span> <span class="ow">=</span> <span class="n">y</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>With this in hand, we define a function filtering elements of a list by a given property. This is defined inductively, using the if expression to decide whether to prepend the first element.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_filter_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">filter</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">filter</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="kr">then</span> <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">filter</span> <span class="n">p</span><span class="p">))</span> <span class="kr">else</span> <span class="p">(</span><span class="n">xs</span> <span class="n">filter</span> <span class="n">p</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="folding">Folding</h3>
+
+<p>So far we have defined many objects and types, but not actually computed anything concrete. To do this, we shall use a very useful function on lists, folding. This is a function that takes as input:</p>
+
+<ul>
+  <li>A list of type $A$, say $[a<em>0, a</em>1, \dots, a_n]$.</li>
+  <li>An element of type $B$, $b : B$.</li>
+  <li>A binary operation that lets us multiply (or add) an element of $A$ to (the left of) an element of $B$, $op : A \to B \to B$.</li>
+</ul>
+
+<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, given an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
+
+<script type="math/tex; mode=display">fold([a_0, a_1, \dots, a_n], b) = a_0*a_1 * \dots * a_n *b</script>
+
+<p>As usual, we define the fold function recursively.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">fold_by_from_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span>
+</span><span class="line"><span class="nf">fold</span> <span class="kt">[]</span> <span class="n">by</span> <span class="kr">_</span> <span class="n">from</span> <span class="n">b</span> <span class="ow">=</span> <span class="n">b</span>
+</span><span class="line"><span class="nf">fold</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">as</span><span class="p">)</span> <span class="n">by</span> <span class="n">op</span> <span class="n">from</span> <span class="n">b</span> <span class="ow">=</span> <span class="n">op</span> <span class="n">a</span> <span class="p">(</span><span class="n">fold</span> <span class="n">as</span> <span class="n">by</span> <span class="n">op</span> <span class="n">from</span> <span class="n">b</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="a-program">A program</h3>
+
+<p>Equipped with this, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">open</span> <span class="kr">import</span> <span class="nn">Nat</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">upto</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">upto</span> <span class="n">zero</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">upto</span> <span class="n">n</span><span class="p">)</span> <span class="o">++</span> <span class="p">((</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">listsqs</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">listsqs</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">upto</span> <span class="n">n</span> <span class="n">map</span> <span class="p">(</span><span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">sumsqs</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">sumsqs</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">fold</span> <span class="p">(</span><span class="n">listsqs</span> <span class="n">n</span><span class="p">)</span> <span class="n">by</span> <span class="kr">_</span><span class="o">+</span><span class="kr">_</span> <span class="n">from</span> <span class="n">zero</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In the Agda mode of emacs, we can evaluate , for example, the sum of squares up to $20$ to get $2870$. This illustrates that what we are doing does include general purpose programming - indeed it implements an older model of computing, due to Church, which is equivalent to what may be more familiar models.</p>
+
+<h3 id="finding-and-option-types">Finding and option types.</h3>
+
+<p>We next define a function that finds an element in a list (of type $A$) having a given property. However the list may have no such element, so we cannot always return an object in $A$. Simply giving an error is meaningless mathematically and a bad idea for a program.</p>
+
+<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Option</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">Some</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
+</span><span class="line">  <span class="kt">None</span> <span class="kt">:</span> <span class="kt">Option</span> <span class="kt">A</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can now define a find function, returning an option type, containing an object in the list with the given property if there is such an object.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_find_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">find</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
+</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">find</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="kr">then</span> <span class="p">(</span><span class="kt">Some</span> <span class="n">x</span><span class="p">)</span> <span class="kr">else</span> <span class="p">(</span><span class="n">xs</span> <span class="n">find</span> <span class="n">p</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, using option types, we can represent partially defined functions - those defined on some objects of a type $A$. One often encounters partial functions - finding in a list, taking square-roots, division (avoiding division by $0$), etc.
+We can <em>lift</em> such a partially defined function to one taking values in an option type. We shall identify partial functions with their lifts.</p>
+
+<p>Suppose we have a partially defined function $f: A\to B$ (not defined on some values of $A$ in general) and a function $g : B \to C$ (defined everywhere). Then it is natural to define the composition of $f$ and $g$ as a partial function defined wherever $f$ is defined. Passing to lifts, this is accomplished by the map function on option types.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_mapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">None</span> <span class="n">mapOption</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
+</span><span class="line"><span class="p">(</span><span class="kt">Some</span> <span class="n">a</span><span class="p">)</span> <span class="n">mapOption</span> <span class="n">f</span> <span class="ow">=</span> <span class="kt">Some</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Even better, if both $f: A\to B$ and $g : B\to C$ are both partially defined, we can compose them to get a value in $C$ exactly for elements $a : A$ for which $f(a)$ is defined and lies in the domain of g. We do this  by flatmapping (after passing to lifts once more).</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span>  <span class="kt">Option</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">None</span> <span class="n">flatMapOption</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
+</span><span class="line"><span class="p">(</span><span class="kt">Some</span> <span class="n">a</span><span class="p">)</span> <span class="n">flatMapOption</span> <span class="n">f</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">a</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>There are some obvious common features between lists and option types.</p>
+
+<ul>
+  <li>They are both parametrized by a single type A.</li>
+  <li>The type A itself can be embedded in these: map $a$ to the list $a :: []$ in $List\ A$ and the object $Some\ a$ in $Option\ A$, respectively.</li>
+  <li>We can map elements of these types, given a function with domain $A$.</li>
+  <li>Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.</li>
+</ul>
+
+<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-22T07:39:57+05:30" pubdate data-updated="true">Mar 22<span>nd</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/21/dependent-function-types/" title="Previous Post: Dependent function types: Sections of a bundle">&laquo; Dependent function types: Sections of a bundle</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/03/26/logic-from-types/" title="Next Post: Logic from Types">Logic from Types &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/24/truth-and-deduction/">Truth and Deduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/26/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'logictypesandspaces';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
