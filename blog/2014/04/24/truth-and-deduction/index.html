@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="Truth and Deduction So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of &hellip;">
+  <meta name="description" content="So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -106,50 +106,37 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><h1 id="truth-and-deduction">Truth and Deduction</h1>
+<div class="entry-content"><p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general deductive systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
 
-<p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general logical systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
+<h2 id="deductive-systems">Deductive Systems:</h2>
 
-<h2 id="logical-systems">Logical Systems:</h2>
-<p>We begin with some generalities concerning logical systems. </p>
+<p>A <em>deductive system</em> is a mechanical system for generating <em>true</em> statement. It consists of axioms - statements that are given to be true, and rules for inference, letting us deduce statements from others. Here <em>statements</em> are mathematical expressions that are either true or false.</p>
 
-<ul>
-  <li>A logical system is based on a <em>formal language</em>, which specifies a set of (well-formed) expressions of various kinds.</li>
-  <li>The language typically involves various types of <em>constants</em>. </li>
-  <li>An <em>interpretation</em> associates to constants concrete mathematical objects. The logical system specifies what are valid interpretations.</li>
-  <li>There is a specified class of expressions, called <em>statements</em>, which, for a given interpretation, are unambiguously either true or false. Note that we do not mean that there is an algorithm to decide whether a given statement is true or false.</li>
-  <li>Given a collection of statements, our <em>assumptions</em>, the <em>rules of deduction</em> specify a collection of statements, which we say can be <em>deduced</em> from the assumptions. </li>
-</ul>
+<p>In the deductive system we have seen so far, statements correspond to types, with statements true if there is a term (object) of that type. The rules of deduction are the rules for constructing new objects. Unfortunately, some the properties we desire of deductive systems are either not true or unknown for this system.</p>
 
-<h3 id="desired-properties-of-logical-systems">Desired properties of logical systems:</h3>
+<p>The best behave deductive system is that of <em>predicate calculus</em>, also known as <em>first order logic</em>. We shall study this in more detail. But first we consider some general (desired) features of deductive systems.</p>
 
-<p>Suppose we have a logical system. For any sane person to accept it, it must at least be <strong>sound</strong>, in the following sense:</p>
+<h2 id="interpretations-models-consequences">Interpretations, Models, Consequences</h2>
 
-<h4 id="soundness">Soundness:</h4>
+<p>Typically, statements and other expressions we consider depend on certain constants. An <em>interpretation</em> associates to these constants mathematical objects. The truth of a statement depends on the interpretation.</p>
 
-<p>A logical system is sound if, given a set of assumptions, and an interpretation in which all our assumptions are true, then all the statements that we deduce from our assumptions are also true.</p>
+<p>Given a collection of axioms, an interpretation where these are all true is called a <em>model</em>. A statement is a <em>consequence</em> of the given axiom if it is true in all models for the axioms.</p>
 
-<h4 id="completeness-of--a-logical-system">Completeness of  a logical system:</h4>
+<p>The rules of inference form a mechanical system for generating consequences of axioms.</p>
 
-<p>Suppose we fix our assumptions - a collection of statements. We say that a statement $P$ is a <em>consequence</em> of these assumptions if, for every interpretation in which our assumptions are true, the statement $P$ is true.</p>
+<h2 id="soundness">Soundness</h2>
 
-<p>A logical system is <em>complete</em> if every statement that is a consequence of a collection of assumptions can be deduced from these.</p>
+<p>The most crucial property of the rules of inference is that all statements we deduce are true, or more generally consequences of our axioms. </p>
 
-<h2 id="axiomatisation">Axiomatisation</h2>
+<h2 id="consistency">Consistency</h2>
 
-<p>Suppose we are given a mathematical object, such as the natural numbers (or the Euclidean plane). Then an <em>axiomatisation</em> is a formal system of rules that generates statements about the object under consideration so that</p>
+<p>A deductive system is consistent if it does not generate both a statement and its negation. If we are working with sound rules of inference, this is a property of our system of axioms.</p>
 
-<ul>
-  <li>Every statement generated is true.</li>
-  <li>All true statements are generated.</li>
-</ul>
+<h2 id="completeness">Completeness</h2>
 
-<p>We can give an axiomatisation by specifying:</p>
+<p>The rules of inference of a deduction system is complete if we can deduce all the consequences of our axioms using the rules of inference. A landmark result of Godel was his completeness theorem, asserting that first-order logic is complete.</p>
 
-<ul>
-  <li>A logical system</li>
-  <li>A collection of assumptions (axioms).</li>
-</ul>
+<p>A deduction theorem for arithmetic (or, for example, Euclidean geometry) is complete if it generates all the true statements concerning natural numbers and their usual operations. The famous Godel incompleteness theorem asserts that there is no consistent and complete deduction system for natural numbers.</p>
 </div>
 
 
