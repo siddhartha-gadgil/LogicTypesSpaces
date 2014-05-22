@@ -13,4 +13,7 @@ vendor
 node_modules
 *~
 *.agdai
-
+.cache
+.classpath
+.project
+bin/
