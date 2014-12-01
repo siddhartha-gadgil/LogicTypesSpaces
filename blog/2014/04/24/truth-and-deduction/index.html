@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Truth and Deduction - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction">
+  <link href="/LogicTypesSpaces/favicon.png" rel="icon">
+  <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/LogicTypesSpaces/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/LogicTypesSpaces/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/LogicTypesSpaces/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/LogicTypesSpaces/">Blog</a></li>
+  <li><a href="/LogicTypesSpaces/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Truth and Deduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general deductive systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
+
+<h2 id="deductive-systems">Deductive Systems:</h2>
+
+<p>A <em>deductive system</em> is a mechanical system for generating <em>true</em> statement. It consists of axioms - statements that are given to be true, and rules for inference, letting us deduce statements from others. Here <em>statements</em> are mathematical expressions that are either true or false.</p>
+
+<p>In the deductive system we have seen so far, statements correspond to types, with statements true if there is a term (object) of that type. The rules of deduction are the rules for constructing new objects. Unfortunately, some the properties we desire of deductive systems are either not true or unknown for this system.</p>
+
+<p>The best behave deductive system is that of <em>predicate calculus</em>, also known as <em>first order logic</em>. We shall study this in more detail. But first we consider some general (desired) features of deductive systems.</p>
+
+<h2 id="interpretations-models-consequences">Interpretations, Models, Consequences</h2>
+
+<p>Typically, statements and other expressions we consider depend on certain constants. An <em>interpretation</em> associates to these constants mathematical objects. The truth of a statement depends on the interpretation.</p>
+
+<p>Given a collection of axioms, an interpretation where these are all true is called a <em>model</em>. A statement is a <em>consequence</em> of the given axiom if it is true in all models for the axioms.</p>
+
+<p>The rules of inference form a mechanical system for generating consequences of axioms.</p>
+
+<h2 id="soundness">Soundness</h2>
+
+<p>The most crucial property of the rules of inference is that all statements we deduce are true, or more generally consequences of our axioms. </p>
+
+<h2 id="consistency">Consistency</h2>
+
+<p>A deductive system is consistent if it does not generate both a statement and its negation. If we are working with sound rules of inference, this is a property of our system of axioms.</p>
+
+<h2 id="completeness">Completeness</h2>
+
+<p>The rules of inference of a deduction system is complete if we can deduce all the consequences of our axioms using the rules of inference. A landmark result of Godel was his completeness theorem, asserting that first-order logic is complete.</p>
+
+<p>A deduction theorem for arithmetic (or, for example, Euclidean geometry) is complete if it generates all the true statements concerning natural numbers and their usual operations. The famous Godel incompleteness theorem asserts that there is no consistent and complete deduction system for natural numbers.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2014/03/26/logic-from-types/" title="Previous Post: Logic from Types">&laquo; Logic from Types</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/04/24/truth-and-deduction/">Truth and Deduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/26/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/21/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/LogicTypesSpaces/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'logictypesandspaces';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
