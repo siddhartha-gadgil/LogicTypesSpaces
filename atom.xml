@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
@@ -18,6 +19,28 @@
     <link href="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/"/>
     <updated>2014-04-24T10:41:17+05:30</updated>
     <id>http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction</id>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Logic, Types and Spaces]]></title>
+  <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
+  <link href="http://siddhartha-gadgil.github.io//github/"/>
+  <updated>2014-12-04T09:35:46+05:30</updated>
+  <id>http://siddhartha-gadgil.github.io//github/</id>
+  <author>
+    <name><![CDATA[Siddhartha Gadgil]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Truth and Deduction]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/"/>
+    <updated>2014-04-24T10:41:17+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction</id>
+>>>>>>> a4cb38ef57b082d64ef0f38665bacb565a6c69b8
     <content type="html"><![CDATA[<p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general deductive systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
 
 <h2 id="deductive-systems">Deductive Systems:</h2>
