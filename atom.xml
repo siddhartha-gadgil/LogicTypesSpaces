@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2014-12-11T14:05:36+05:30</updated>
+  <updated>2014-12-12T10:31:33+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,45 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Truth and Deduction]]></title>
-    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction/"/>
-    <updated>2014-04-24T10:41:17+05:30</updated>
-    <id>http://siddhartha-gadgil.github.io//github/blog/2014/04/24/truth-and-deduction</id>
-    <content type="html"><![CDATA[<p>So far we have been working with rules for constructing objects (including types) and seen that these can express a wide range of statements as well as deductions. However, we have not considered the relations of the statements we deduce to those that are <em>true</em>. We now turn to such questions. We shall consider these for general deductive systems, and then focus on first-order logic, where there are nice answers to such questions.</p>
-
-<h2 id="deductive-systems">Deductive Systems:</h2>
-
-<p>A <em>deductive system</em> is a mechanical system for generating <em>true</em> statement. It consists of axioms - statements that are given to be true, and rules for inference, letting us deduce statements from others. Here <em>statements</em> are mathematical expressions that are either true or false.</p>
-
-<p>In the deductive system we have seen so far, statements correspond to types, with statements true if there is a term (object) of that type. The rules of deduction are the rules for constructing new objects. Unfortunately, some the properties we desire of deductive systems are either not true or unknown for this system.</p>
-
-<p>The best behave deductive system is that of <em>predicate calculus</em>, also known as <em>first order logic</em>. We shall study this in more detail. But first we consider some general (desired) features of deductive systems.</p>
-
-<h2 id="interpretations-models-consequences">Interpretations, Models, Consequences</h2>
-
-<p>Typically, statements and other expressions we consider depend on certain constants. An <em>interpretation</em> associates to these constants mathematical objects. The truth of a statement depends on the interpretation.</p>
-
-<p>Given a collection of axioms, an interpretation where these are all true is called a <em>model</em>. A statement is a <em>consequence</em> of the given axiom if it is true in all models for the axioms.</p>
-
-<p>The rules of inference form a mechanical system for generating consequences of axioms.</p>
-
-<h2 id="soundness">Soundness</h2>
-
-<p>The most crucial property of the rules of inference is that all statements we deduce are true, or more generally consequences of our axioms. </p>
-
-<h2 id="consistency">Consistency</h2>
-
-<p>A deductive system is consistent if it does not generate both a statement and its negation. If we are working with sound rules of inference, this is a property of our system of axioms.</p>
-
-<h2 id="completeness">Completeness</h2>
-
-<p>The rules of inference of a deduction system is complete if we can deduce all the consequences of our axioms using the rules of inference. A landmark result of Godel was his completeness theorem, asserting that first-order logic is complete.</p>
-
-<p>A deduction theorem for arithmetic (or, for example, Euclidean geometry) is complete if it generates all the true statements concerning natural numbers and their usual operations. The famous Godel incompleteness theorem asserts that there is no consistent and complete deduction system for natural numbers.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Logic From Types]]></title>
