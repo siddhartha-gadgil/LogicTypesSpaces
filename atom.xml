@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2014-12-12T12:37:11+05:30</updated>
+  <updated>2014-12-12T14:08:01+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Welcome to the Course: Logic, Types, Spaces]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/12/12/welcome-to-the-course-logic/"/>
+    <updated>2014-12-12T14:05:52+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/12/12/welcome-to-the-course-logic</id>
+    <content type="html"><![CDATA[<p>The course Ma 210: Logic, Types and Spaces will start in January 2015. For a description and related resources, please visit the <a href="http://siddhartha-gadgil.github.io//github/LogicTypesSpaces/home/">course home page</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Logic From Types]]></title>
