@@ -3,10 +3,10 @@ layout: post
 title: "Logic from Types"
 date: 2014-03-26 06:46:59 +0530
 comments: true
-categories: 
+categories:
 ---
 
-At the core of homotopy type theory (and its predecessors) is the idea of *propostions as types*. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner. 
+At the core of homotopy type theory (and its predecessors) is the idea of *propostions as types*. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner.
 
 ###True and False###
 
@@ -31,11 +31,11 @@ If $P$ and $Q$ are propositions, which we identify with their corresponding type
 
 ###Some deductions###
 
-*Modus Poens* is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Poens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.
+*Modus Ponens* is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Ponens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.
 
-```haskell Modus Poens
-moduspoens : {P : Set} → {Q : Set} → P → (P → Q) → Q
-moduspoens p imp = imp p
+```haskell Modus Ponens
+modusponens : {P : Set} → {Q : Set} → P → (P → Q) → Q
+modusponens p imp = imp p
 ```
 
 Next, we see my favourite method of proof - vacuous implication. This says that a false statement implies everything, i.e., for any proposition $P$, we have $False \implies P$, which in type theory says $False\to P$ has objects.
@@ -54,7 +54,7 @@ Next, we define a type family Even n which is non-empty if and only if n is even
 
 * $0$ is even.
 * If $n$ is even, so is $n + 2$.
-* 
+*
 Thus, we can define the inductive type family:
 
 ```haskell Even type family
@@ -94,14 +94,14 @@ Note that while this is an inductive type family, for a fixed object a the type 
 
 For now, let us show some basic properties of the identity type. All these are proved by constructing objects by pattern matching (recall that these are dependent functions, so we are formally constructing them by induction, not recursion).
 
-Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type). 
+Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type).
 
 ```haskell Equality under function application
 transfer : {A : Set} → {B : Set} → {x y : A} → (f : A → B) → x == y → f(x) == f(y)
 transfer f (refl a) = refl (f a)
 ```
 
-Further, we see that equality (given by the identity type) is symmetric and transitive. 
+Further, we see that equality (given by the identity type) is symmetric and transitive.
 
 ```haskell Symmetry of the equality
 symm : {A : Set} → {x y : A} → x == y → y == x
@@ -137,7 +137,7 @@ Such a statement is normally proved by induction (indeed any proof must reduce t
 constthm : (f : ℕ → ℕ) → ((m : ℕ) → (f (succ m)) == (f m)) → (n : ℕ) → (f n) == (f 0)
 constthm f _ 0 = refl (f 0)
 constthm f adjEq (succ n) = (adjEq n) transEq (constthm f adjEq n)
-``` 
+```
 
 Let us look at the statement and proof more carefully. Firstly, note that the statement is of the form
 
@@ -160,7 +160,7 @@ The induction step is more complicated. We prove the result for $n+1$ assuming t
 * The hypothesis for $n$,  giving $f(n+1) = f(n).$
 * The induction hypothesis, which is the theorem we are proving applied to $n$, giving $f(n)=0.$
 * Transitivity of equality.
-* 
+*
 The proof is obtained by applying the function corresponding to the transitivity of equality to the two objects corresponding to the other ingredients above.
 
 This proof is remarkable in many ways. First of all, note that this is no longer or more complicated than an informal proof. Further, note that we did not have to invoke the usual induction axiom schema, but instead just used the rules for constructing objects. Most significantly, as most of our types are inductive type (or type families), we get recursive definitions and inductive proofs in all these cases.
@@ -200,7 +200,7 @@ Notice that the constructor for this type has as input an element $a$ and an ele
 As we see, we can express all the usual mathematical statements using types built up using our basic constructions: inductive types, functions and dependent functions. We have also seen that the basic rules for constructing objects are powerful rules of deduction. However, there are some things they cannot deduce, for instance the statement (called the axiom of extensionality) that if $f, g: A\to B$ are function with $f(a)=g(a)$ for all $a \in A$, then $f=g$. Hence, we have to introduce this as a postulate - we just postulate that  there is an object (which we give a name) of a given type.
 
 ```haskell Axiom of Extensionality
-postulate 
+postulate
   extensionality : {A B : Set} → (f g : A → B) → ((x : A) → (f x) == (g x)) → f == g
 ```
 
