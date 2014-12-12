@@ -106,7 +106,7 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><p>At the core of homotopy type theory (and its predecessors) is the idea of <em>propostions as types</em>. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner. </p>
+<div class="entry-content"><p>At the core of homotopy type theory (and its predecessors) is the idea of <em>propostions as types</em>. Namely, we interpret logical propositions - statements that are either true or false, as types, with a proposition being true if and only if the corresponding type has an element (i.e., there is an object with that type). The Curry-Howard correspondence lets us embed all of logic into type theory in the manner.</p>
 
 <h3 id="true-and-false">True and False</h3>
 
@@ -135,13 +135,13 @@ MathJax.Hub.Config({
 
 <h3 id="some-deductions">Some deductions</h3>
 
-<p><em>Modus Poens</em> is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Poens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.</p>
+<p><em>Modus Ponens</em> is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Ponens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Poens
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Ponens
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">moduspoens</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">P</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Q</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">P</span> <span class="err">→</span> <span class="p">(</span><span class="kt">P</span> <span class="err">→</span> <span class="kt">Q</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Q</span>
-</span><span class="line"><span class="nf">moduspoens</span> <span class="n">p</span> <span class="n">imp</span> <span class="ow">=</span> <span class="n">imp</span> <span class="n">p</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">modusponens</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">P</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Q</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">P</span> <span class="err">→</span> <span class="p">(</span><span class="kt">P</span> <span class="err">→</span> <span class="kt">Q</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Q</span>
+</span><span class="line"><span class="nf">modusponens</span> <span class="n">p</span> <span class="n">imp</span> <span class="ow">=</span> <span class="n">imp</span> <span class="n">p</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <p>Next, we see my favourite method of proof - vacuous implication. This says that a false statement implies everything, i.e., for any proposition $P$, we have $False \implies P$, which in type theory says $False\to P$ has objects.</p>
@@ -161,8 +161,9 @@ MathJax.Hub.Config({
 
 <ul>
   <li>$0$ is even.</li>
-  <li>If $n$ is even, so is $n + 2$.</li>
-  <li>Thus, we can define the inductive type family:</li>
+  <li>If $n$ is even, so is $n + 2$.
+*
+Thus, we can define the inductive type family:</li>
 </ul>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family
@@ -211,7 +212,7 @@ MathJax.Hub.Config({
 
 <p>For now, let us show some basic properties of the identity type. All these are proved by constructing objects by pattern matching (recall that these are dependent functions, so we are formally constructing them by induction, not recursion).</p>
 
-<p>Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type). </p>
+<p>Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type).</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -220,7 +221,7 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="nf">transfer</span> <span class="n">f</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Further, we see that equality (given by the identity type) is symmetric and transitive. </p>
+<p>Further, we see that equality (given by the identity type) is symmetric and transitive.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -286,8 +287,9 @@ MathJax.Hub.Config({
 <ul>
   <li>The hypothesis for $n$,  giving $f(n+1) = f(n).$</li>
   <li>The induction hypothesis, which is the theorem we are proving applied to $n$, giving $f(n)=0.$</li>
-  <li>Transitivity of equality.</li>
-  <li>The proof is obtained by applying the function corresponding to the transitivity of equality to the two objects corresponding to the other ingredients above.</li>
+  <li>Transitivity of equality.
+*
+The proof is obtained by applying the function corresponding to the transitivity of equality to the two objects corresponding to the other ingredients above.</li>
 </ul>
 
 <p>This proof is remarkable in many ways. First of all, note that this is no longer or more complicated than an informal proof. Further, note that we did not have to invoke the usual induction axiom schema, but instead just used the rules for constructing objects. Most significantly, as most of our types are inductive type (or type families), we get recursive definitions and inductive proofs in all these cases.</p>
