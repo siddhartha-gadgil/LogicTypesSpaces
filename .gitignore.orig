@@ -1,0 +1,24 @@
+.bundle
+.DS_Store
+.sass-cache
+.gist-cache
+.pygments-cache
+_deploy
+public
+sass.old
+source.old
+source/_stash
+source/stylesheets/screen.css
+vendor
+node_modules
+<<<<<<< HEAD
+*~
+*.agdai
+.cache
+.classpath
+.project
+bin/
+code/html/
+=======
+Gemfile.lock
+>>>>>>> 3345fa5897377c5a5aebc7c637ca985894cde88a
