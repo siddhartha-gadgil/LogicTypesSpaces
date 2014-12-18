@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Language, Logic, Types"
+date: 2014-12-17 13:58:05 +0530
+comments: true
+categories:
+---
+
+### Recursive structures
+
+A sentence is made of phrases, which in turn are made of words, just as matter is made molecules, which are in turn made of atoms. Just as atoms are of different types (elements), words are of different types (parts of speech).
+
+But there is a crucial difference. A typical sentence consists of a _verb phrase_ and a _noun phrase_. These may be single words - verbs or nouns, but can also be built from words and phrases, including verb phrases and noun phrases. Thus phrases are **recursive** - they can be built from other phrases of the same type. This gives language a richness that is absent in **hierarchical** structures such as matter, where each level is built from simpler structures.
+
+It is this richness of language that makes it a natural model for logic, and much of formal logic was traditionally modeled on language. We see this briefly in the case of first order logic, before turning to an overview of how and why to go beyond this.
+
+### First order logic
+
+First-order logic is based on a language with words being _variables_, _constants_, _functions_, _relations_ (predicates),  _quantifiers_, _logical operations_. There are two types of phrases - __terms__ and __formulas__, which are built out of these words. Terms can be single words - constants or variables, or can be built by applying a function to the appropriate number of terms; formulas can be built from terms. This is very similar to a formal grammar for a language.
+
+Traditional foundations of mathematics are based on _first order logic_ giving the grammar - i.e., rules for constructing terms, formulas, proofs etc., with the vocabulary of _set theory_. This has proved sufficient to work consistently. Yet there are serious limitations.
+
+We can build functions by applying functions to terms, but not to other functions (functions are not terms). This means that we cannot naturally express functions of functions, such as the norm of a linear transformation. A naive approach will be to simply treat functions as terms, and allow expressions like $f(f)$, but this leads to paradoxes.
+
+In set theory the approach taken  is to use indirect descriptions - functions as relations, which are sets of pairs. This is fine in terms of issues like paradoxes and consistency, but results in formalizations of actual mathematics being absurdly verbose and bearing hardly any resemblance to real mathematics.
+
+
+### Type theory
+
+While terms in first-order logic, like phrases in a language, can be built recursively, the _types_ of words, like the part of speech, are a fixed finite set - variables, constants, functions, quantifiers etc. In particular there is no type representing functions from a given type to another given type. In _type theory_, we allow not only terms but their types to be recursively generated, with rules telling us how to construct both terms and types, and how to determine the type of a term.
+
+There are many flavours of type theory. It was discovered by Curry and Howard that _dependent type theory_ contains not only set theory but the usual rules of reasoning, making for very efficient and elegant foundations. We shall study a flavour of dependent type theory due to Per Martin-Lof, which turns out to have remarkable connections to topology.
