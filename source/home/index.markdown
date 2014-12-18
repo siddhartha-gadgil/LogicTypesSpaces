@@ -7,6 +7,16 @@ sharing: true
 footer: true
 ---
 
+## Timings and Venue:
+
+* **Lectures:** Tuesday, Thursday 9:30 a.m. to 11:00 a.m.
+
+* **Venue:** Lecture Hall - III (ground floor), Department of Mathematics.
+
+* **First lecture:** Tuesday, January 6, 2015 at 9:30 a.m.
+
+### Instuctor : Siddhartha Gadgil
+__E-mail:__ <siddhartha.gadgil@gmail.com>
 
 ## Course description:
 
