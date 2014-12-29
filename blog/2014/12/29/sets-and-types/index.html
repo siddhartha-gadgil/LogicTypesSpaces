@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Language, Logic, Types - Logic, Types and Spaces</title>
+  <title>Sets and Types - Logic, Types and Spaces</title>
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="Recursive structures A sentence is made of phrases, which in turn are made of words, just as matter is made molecules, which are in turn made of &hellip;">
+  <meta name="description" content="A set is a collection of objects with no further structure. Thus, the only property (or function) associated with a set $S$ is membership - a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language">
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types">
   <link href="/LogicTypesSpaces/favicon.png" rel="icon">
   <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
@@ -84,7 +84,7 @@ MathJax.Hub.Config({
   
   <header>
     
-      <h1 class="entry-title">Language, Logic, Types</h1>
+      <h1 class="entry-title">Sets and Types</h1>
     
     
       <p class="meta">
@@ -100,29 +100,11 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><h3 id="recursive-structures">Recursive structures</h3>
+<div class="entry-content"><p>A <em>set</em> is a collection of objects with no further structure. Thus, the only property (or function) associated with a set $S$ is <em>membership</em> - a different object $x$ may or may not belong to $S$ (denoted as usual $x\in S$).</p>
 
-<p>A sentence is made of phrases, which in turn are made of words, just as matter is made molecules, which are in turn made of atoms. Just as atoms are of different types (elements), words are of different types (parts of speech).</p>
+<p>It is natural to try to reverse this and consider, for any property of objects (for example sets) the set that consists of those satisfying this (for example all sets that have a certain property). Cantor discovered, however, that this leads to paradoxes. For instance, Russell’s paradox appears if we consider the set</p>
 
-<p>But there is a crucial difference. A typical sentence consists of a <em>verb phrase</em> and a <em>noun phrase</em>. These may be single words - verbs or nouns, but can also be built from words and phrases, including verb phrases and noun phrases. Thus phrases are <strong>recursive</strong> - they can be built from other phrases of the same type. This gives language a richness that is absent in <strong>hierarchical</strong> structures such as matter, where each level is built from simpler structures.</p>
-
-<p>It is this richness of language that makes it a natural model for logic, and much of formal logic was traditionally modeled on language. We see this briefly in the case of first order logic, before turning to an overview of how and why to go beyond this.</p>
-
-<h3 id="first-order-logic">First order logic</h3>
-
-<p>First-order logic is based on a language with words being <em>variables</em>, <em>constants</em>, <em>functions</em>, <em>relations</em> (predicates),  <em>quantifiers</em>, <em>logical operations</em>. There are two types of phrases - <strong>terms</strong> and <strong>formulas</strong>, which are built out of these words. Terms can be single words - constants or variables, or can be built by applying a function to the appropriate number of terms; formulas can be built from terms. This is very similar to a formal grammar for a language.</p>
-
-<p>Traditional foundations of mathematics are based on <em>first order logic</em> giving the grammar - i.e., rules for constructing terms, formulas, proofs etc., with the vocabulary of <em>set theory</em>. This has proved sufficient to work consistently. Yet there are serious limitations.</p>
-
-<p>We can build functions by applying functions to terms, but not to other functions (functions are not terms). This means that we cannot naturally express functions of functions, such as the norm of a linear transformation. A naive approach will be to simply treat functions as terms, and allow expressions like $f(f)$, but this leads to paradoxes.</p>
-
-<p>In set theory the approach taken  is to use indirect descriptions - functions as relations, which are sets of pairs. This is fine in terms of issues like paradoxes and consistency, but results in formalizations of actual mathematics being absurdly verbose and bearing hardly any resemblance to real mathematics.</p>
-
-<h3 id="type-theory">Type theory</h3>
-
-<p>While terms in first-order logic, like phrases in a language, can be built recursively, the <em>types</em> of words, like the part of speech, are a fixed finite set - variables, constants, functions, quantifiers etc. In particular there is no type representing functions from a given type to another given type. In <em>type theory</em>, we allow not only terms but their types to be recursively generated, with rules telling us how to construct both terms and types, and how to determine the type of a term.</p>
-
-<p>There are many flavours of type theory. It was discovered by Curry and Howard that <em>dependent type theory</em> contains not only set theory but the usual rules of reasoning, making for very efficient and elegant foundations. We shall study a flavour of dependent type theory due to Per Martin-Lof, which turns out to have remarkable connections to topology.</p>
+<script type="math/tex; mode=display"> S = \\{\text\{$X$ set\} : X \notin X\\}.</script>
 </div>
 
 
@@ -146,7 +128,7 @@ MathJax.Hub.Config({
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -157,10 +139,8 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2014/12/12/welcome-to-the-course-logic/" title="Previous Post: Welcome to the course: Logic, Types, Spaces">&laquo; Welcome to the course: Logic, Types, Spaces</a>
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2014/12/17/language/" title="Previous Post: Language, Logic, Types">&laquo; Language, Logic, Types</a>
       
-      
-        <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/" title="Next Post: Sets and Types">Sets and Types &raquo;</a>
       
     </p>
   </footer>
@@ -264,8 +244,8 @@ MathJax.Hub.Config({
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language/';
-        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language/';
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/';
         var disqus_script = 'embed.js';
       
     (function () {

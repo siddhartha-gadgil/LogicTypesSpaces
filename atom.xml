@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2014-12-29T06:04:06+05:30</updated>
+  <updated>2014-12-29T13:35:49+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sets and Types]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/"/>
+    <updated>2014-12-29T13:29:36+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types</id>
+    <content type="html"><![CDATA[<p>A <em>set</em> is a collection of objects with no further structure. Thus, the only property (or function) associated with a set $S$ is <em>membership</em> - a different object $x$ may or may not belong to $S$ (denoted as usual $x\in S$).</p>
+
+<p>It is natural to try to reverse this and consider, for any property of objects (for example sets) the set that consists of those satisfying this (for example all sets that have a certain property). Cantor discovered, however, that this leads to paradoxes. For instance, Russell’s paradox appears if we consider the set</p>
+
+<script type="math/tex; mode=display"> S = \\{\text\{$X$ set\} : X \notin X\\}.</script>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Language, Logic, Types]]></title>
