@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2014-12-29T13:46:40+05:30</updated>
+  <updated>2014-12-29T13:47:26+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -20,7 +20,7 @@
     <id>http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types</id>
     <content type="html"><![CDATA[<p>A <em>set</em> is a collection of objects with no further structure. Thus, the only property (or function) associated with a set $S$ is <em>membership</em> - a different object $x$ may or may not belong to $S$ (denoted as usual $x\in S$).</p>
 
-<p>It is natural to try to reverse this and consider, for any property of objects (for example sets) the set that consists of those satisfying this (for example all sets that have a certain property). Cantor discovered, however, that this leads to paradoxes. For instance, Russell’s paradox appears if we consider the set $ S = {X : X \notin X}.$</p>
+<p>It is natural to try to reverse this and consider, for any property of objects (for example sets) the set that consists of those satisfying this (for example all sets that have a certain property). Cantor discovered, however, that this leads to paradoxes. For instance, Russell’s paradox appears if we consider the set $ S = \{X : X \notin X\}.$</p>
 
 <p>We ask whether $S\in S$. By the definition of $S$, if $X\in X$, then $X\notin X$ and vice versa. To prevent such paradoxes, we cannot allow</p>
 ]]></content>
