@@ -31,18 +31,6 @@
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-58114020-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
 
 </head>
 
@@ -119,7 +107,7 @@ MathJax.Hub.Config({
 <p>then
 <script type="math/tex">f=g.</script></p>
 
-<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$. </p>
+<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$.</p>
 
 <p>Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,</p>
 
@@ -140,11 +128,11 @@ MathJax.Hub.Config({
 </span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently. </p>
+<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently.</p>
 
 <h3 id="inductive-types-and-inductive-type-families">Inductive types and inductive type families</h3>
 
-<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$. </p>
+<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$.</p>
 
 <p>In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.</p>
 
@@ -169,7 +157,7 @@ MathJax.Hub.Config({
 
 <h3 id="a-dependent-function">A dependent function</h3>
 
-<p>We shall now construct a dependent function countdown that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors in natural numbers of length $n+1$.</p>
+<p>We shall now construct a dependent function <em>countdown</em> that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -260,6 +248,10 @@ MathJax.Hub.Config({
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/04/types-and-first-order-languages/">Types and First-order Languages</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/">Sets and Types</a>
       </li>
     
@@ -273,10 +265,6 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/03/26/logic-from-types/">Logic From Types</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
       </li>
     
   </ul>
@@ -331,7 +319,7 @@ MathJax.Hub.Config({
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Siddhartha Gadgil -
+  Copyright &copy; 2015 - Siddhartha Gadgil -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
