@@ -3,7 +3,7 @@ layout: post
 title: "Dependent function types: Sections of a bundle"
 date: 2014-03-21 17:56:43 +0530
 comments: true
-categories: 
+categories:
 ---
 
 A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that
@@ -13,7 +13,7 @@ $$\forall x\in A, f(x) = g(x)$$
 then
 $$f=g.$$
 
-Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$. 
+Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$.
 
 Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,
 
@@ -31,11 +31,11 @@ data Vec (A : Set) : ℕ → Set where
   _::_ : {n : ℕ} → A → Vec A n → Vec A (succ n)
 ```
 
-This gives a family of types *parametrized* by A and *indexed* by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently. 
+This gives a family of types *parametrized* by A and *indexed* by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently.
 
 ###Inductive types and inductive type families###
 
-We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$. 
+We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$.
 
 In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.
 
@@ -57,7 +57,7 @@ Thus, vectors form an inductive type family indexed by natural numbers (and para
 
 ###A dependent function###
 
-We shall now construct a dependent function countdown that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors in natural numbers of length $n+1$.
+We shall now construct a dependent function _countdown_ that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.
 
 ```haskell countdown : a dependent function
 countdown : (n : ℕ) → Vec ℕ (succ n)

@@ -1,22 +1,22 @@
 ---
 layout: post
-title: "Foundations: Objects, Types, Rules"
+title: "Foundations: Mathematical objects, Types, Rules"
 date: 2014-03-18 09:25:57 +0530
 comments: true
-categories: 
+categories:
 ---
 
 Quoth Andrej Bauer:
 
 > Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.
 
-In this series of posts, we explore the background behind, and the basics of, homotopy type theory. We begin by laying out the basic rules governing such foundations. 
+We now turn to the basics of homotopy type theory. We begin by laying out the basic rules governing such foundations.
 
-We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Strictly speaking objects should be called terms, based on standard terminology of logic, but I shall use the word object as it better represents how I feel we should think about them.
+We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Formally objects are called _terms_, based on standard terminology of logic, but it is best to think of _term_ as a synonym for _mathematical object_.
 
-Every object has a type, which is generally (but not always) unique. Types themselves are objects, so in particular have types. A type whose objects are themselves types is called a universe. Every set is a type, but not all types are sets.
+Every term has a type, which is generally (but not always) unique. Types themselves are terms, so in particular have types. A type whose objects are themselves types is called a universe. Every set is a type, but not all types are sets.
 
-Our foundations are governed by rules telling us the ways in which we can construct objects, which we will see as we go on. Further, we have rules letting us make two types of judgements:
+Our foundations are governed by rules telling us the ways in which we can construct terms, which we will see as we go on. Further, we have rules letting us make two types of judgements:
 
 * that an object $x$ has a type $T$ (denoted $x : T$).
 * that two objects $x$ and $y$ are equal by definition.
@@ -27,13 +27,13 @@ $$sin^2(x) + cos^2(x) =1$$
 
 which it would be silly to say is true by definition. Rather, it is a proposition that it is true, and we say the two sides of these are propositionally equal (but not definitionally or judgementally equal). Similar considerations also apply to objects having specified types.
 
-In addition to constructing objects by our rules, we can introduce objects and make some judgements related to them as axioms - this may of course introduce inconsistencies.
+In addition to constructing objects by our rules, we can introduce objects and make some judgements related to them as axioms. Axioms may of course introduce inconsistencies.
 
 ###The Boolean type###
 
-Let us begin constructing objects. We shall do this in the language/formal proof system Agda, but I will try to be self-contained.
+Let us begin constructing some mathematical objects. We shall do this in the language/formal proof system Agda, but I will try to be self-contained.
 
-We start with a built in universe called Set - objects having type Set are sets. We shall use the data statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.
+We start with a built in universe called Set - objects having type Set are sets. We shall use the **data** statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.
 
 ``` haskell The Boolean type
 data Bool : Set where
@@ -41,9 +41,9 @@ data Bool : Set where
   false  : Bool
 ```
 
-The above code gives the construction of three objects: a type called Bool and two objects true and false that have type Bool. This is a simple rule for constructing a type - give it a name and list objects in it.
+The above code gives the construction of three objects: a type called Bool and two objects true and false that have type Bool. This is a simple rule for constructing a type - give it a name and list objects in it. Such a rule, in both Agda and Homotopy type theory (HoTT) is a special case of a more general rule (for constructing inductive types) which we will see later.
 
-Note that we do not have an explicit rule saying that the type Bool has no other objects, or even that true and false are different objects. Indeed we will not introduce any such rule, but rules for constructing objects will implicitly tell us that Bool has exactly two distinct objects, true and false.
+Note that we do not have an explicit rule saying that any term with type Bool is either _true_ or _false_, or even that _true_ and _false_ are not equal. Indeed we will not introduce any such rule; instead rules for constructing objects will implicitly tell us that there are exactly two distinct terms with type Bool, true and false.
 
 ###A function###
 
@@ -61,7 +61,7 @@ not true = false
 not false = true
 ```
 
-We have defined the function not by giving the values on each Boolean constant, and these values are constants. This is the simplest form of *pattern matching*.
+We have defined the function _not_ by giving the values on each Boolean constant, and these values are constants. This is the simplest form of *pattern matching*.
 
 Note that being able to construct such a function means $true$ and $false$ are distinct objects as promised.
 
@@ -69,9 +69,9 @@ Note that being able to construct such a function means $true$ and $false$ are d
 
 Let us now turn to functions of two variables. By a trick due to the logician Haskell Curry, we do not have to introduce a new type. Instead, observe that if we have a function $f(x,y)$ of two variables (of types $A$ and $B$, taking values of type $C$), then for fixed $x$ we get a function of $y$ only
 
-$f(x , \_ ) = y \mapsto f(x,y)$
+$f(x , \\_ ) = y \mapsto f(x,y)$
 
-so $f(x, _ )$ has the type of functions from $B$ to $C$. Now viewing $f(x, _)$ as a function of $x$, we get the curried form of $f$,
+so $f(x, \\_ )$ has the type of functions from $B$ to $C$. Now viewing $f(x, \\_)$ as a function of $x$, we get the curried form of $f$,
 
 $$x \mapsto (y \mapsto f(x,y))$$
 
@@ -79,7 +79,7 @@ which has type
 
 $$A \to B \to C = A \to (B \to C).$$
 
-We define the logical and (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.
+We next define the logical _and_ (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.
 
 ``` haskell Logical And function
 _&_ : Bool → Bool → Bool
@@ -92,14 +92,14 @@ The definition is a small extension of pattern matching we used in defining not.
 
 ###Function application###
 
-So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from existing objects. Here is an example.
+So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from previously constructed terms and the variables. Here is an example.
 
 ``` haskell A function using function application
 notnot : Bool -> Bool
 notnot x = not (not x)
 ```
 
-We used a variable for the argument of the function, another generalization of pattern matching. The right hand side was built from previously constructed objects using function application, a function $f$ from $A$ to $B$ can be applied to an object with type $A$ to get an object $f(a)$ with type $B$.
+We used a variable for the argument of the function, another generalization of pattern matching. The right hand side was built from previously constructed terms using function application. Namely, a function $f$ from $A$ to $B$ can be applied to an object with type $A$ to get an object $f(a)$ with type $B$.
 
 ###Lambda: Expressions giving functions
 
@@ -117,4 +117,4 @@ _xor_ : Bool → Bool → Bool
 _xor_ = λ x y → (x & (not y)) || ((not x) & y)
 ```
 
-We have now seen the most basic constructions of types and objects. We shall next turn to the more powerful constructions - inductive types and dependent types.
+We have now seen the most basic constructions of types and terms. We shall next turn to the more powerful constructions - inductive types and dependent types.
