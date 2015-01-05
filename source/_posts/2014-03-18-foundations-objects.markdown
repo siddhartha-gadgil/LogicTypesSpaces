@@ -3,14 +3,14 @@ layout: post
 title: "Foundations: Objects, Types, Rules"
 date: 2014-03-18 09:25:57 +0530
 comments: true
-categories: 
+categories:
 ---
 
 Quoth Andrej Bauer:
 
 > Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.
 
-In this series of posts, we explore the background behind, and the basics of, homotopy type theory. We begin by laying out the basic rules governing such foundations. 
+In this series of posts, we explore the background behind, and the basics of, homotopy type theory. We begin by laying out the basic rules governing such foundations.
 
 We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Strictly speaking objects should be called terms, based on standard terminology of logic, but I shall use the word object as it better represents how I feel we should think about them.
 
@@ -118,3 +118,17 @@ _xor_ = λ x y → (x & (not y)) || ((not x) & y)
 ```
 
 We have now seen the most basic constructions of types and objects. We shall next turn to the more powerful constructions - inductive types and dependent types.
+
+## Exercise:
+Complete the following three definitions of the logical _nand_ function (look up definition if it is not familiar). Note that subscripts in Agda are obtained by typing, for example, **nand\\\_0**
+
+``` haskell
+nand₀ : Bool → Bool → Bool
+nand₀ x y =
+
+nand₁ : Bool → Bool → Bool
+nand₁ true true =  
+
+nand₂ : Bool → Bool → Bool
+nand₂ = λ x y →
+```

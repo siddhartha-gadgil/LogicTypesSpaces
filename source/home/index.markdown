@@ -18,6 +18,9 @@ footer: true
 ### Instuctor : Siddhartha Gadgil
 __E-mail:__ <siddhartha.gadgil@gmail.com>
 
+### Exercise submission:
+To submit an exercise please e-mail the instructor with the __subject__ containing __LTS__ (as a separate word). All exercises in the blog/lectures are to be submitted within a week of posting.
+
 ## Course description:
 
 The following is an overview of the topics in the course. We shall try to work most of the time within the language/formal proof system [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php).

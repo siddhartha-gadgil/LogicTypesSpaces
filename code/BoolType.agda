@@ -34,6 +34,8 @@ false || true = true
 _xor_ : Bool → Bool → Bool
 _xor_ = λ x y → (x & (not y)) || ((not x) & y)
 
+_nand₀_ : Bool → Bool → Bool
+x nand₀ y = 
 
 
 
