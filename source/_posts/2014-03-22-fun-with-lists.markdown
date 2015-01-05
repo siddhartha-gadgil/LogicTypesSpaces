@@ -3,7 +3,7 @@ layout: post
 title: "Fun with lists"
 date: 2014-03-22 07:39:57 +0530
 comments: true
-categories: 
+categories:
 ---
 
 We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.
@@ -39,11 +39,11 @@ _filter_ : {A : Set} → List A → (A → Bool) → List A
 
 So far we have defined many objects and types, but not actually computed anything concrete. To do this, we shall use a very useful function on lists, folding. This is a function that takes as input:
 
-* A list of type $A$, say $[a_0, a_1, \dots, a_n]$.
-* An element of type $B$, $b : B$.
+* A list of type $A$, say $\[ a\_ 0, a\_ 1 \dots, a\_ n \]$.
+* An element of type $B$, say $b : B$.
 * A binary operation that lets us multiply (or add) an element of $A$ to (the left of) an element of $B$, $op : A \to B \to B$.
 
-The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, given an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function
+The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, giving an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function
 
 $$fold([a_0, a_1, \dots, a_n], b) = a_0*a_1 * \dots * a_n *b$$
 
@@ -57,7 +57,7 @@ fold (a :: as) by op from b = op a (fold as by op from b)
 
 ###A program###
 
-Equipped with this, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.
+Equipped with our list operations, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.
 
 ```haskell Sum of squares
 open import Nat
@@ -79,7 +79,7 @@ In the Agda mode of emacs, we can evaluate , for example, the sum of squares up 
 
 We next define a function that finds an element in a list (of type $A$) having a given property. However the list may have no such element, so we cannot always return an object in $A$. Simply giving an error is meaningless mathematically and a bad idea for a program.
 
-To deal with such a situation, we use the type $Option A$, whose objects are $Some a$ for objects $a$ of type $A$, and an object $None$ representing no result.
+To deal with such a situation, we use the type $Option A$, whose objects are $Some\\ a$ for objects $a$ of type $A$, and an object $None$ representing no result.
 
 ```haskell Option types
 data Option (A : Set) : Set where
@@ -121,4 +121,4 @@ There are some obvious common features between lists and option types.
 * We can map elements of these types, given a function with domain $A$.
 * Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.
 
-Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.
+Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future\\ A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.

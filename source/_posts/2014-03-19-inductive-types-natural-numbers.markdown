@@ -3,7 +3,7 @@ layout: post
 title: "Inductive types: Natural numbers, Lists"
 date: 2014-03-19 16:03:29 +0530
 comments: true
-categories: 
+categories:
 ---
 
 Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).
@@ -65,7 +65,7 @@ data List (A : Set) : Set where
   _::_ : A → List A → List A
 ```
 
-The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \_ :: \_$ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as
+The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \\_ :: \\_ $ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as
 
 ```haskell The list [1, 2, 3]
 open import Nat
@@ -74,7 +74,7 @@ onetwothree : List ℕ
 onetwothree = 1 :: (2 :: (3 :: []))
 ```
 
-We can make things a little cleaner by specifying that $\_::\_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.
+We can make things a little cleaner by specifying that $\\_::\\_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.
 
 ```haskell Length of a list: First attempt
 length₀ : (A : Set) → List A → ℕ
@@ -90,7 +90,7 @@ length [] = zero
 length (a :: l) = succ (length l)
 ```
 
-Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second. 
+Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.
 
 ``` haskell Concatenation of Lists
 _++_ : {A : Set} → List A → List A → List A
@@ -114,7 +114,7 @@ _map_ : {A B : Set} → List A → (A → B) → List B
 (a :: xs) map f = (f a) :: (xs map f)
 ```
 
-We can do more - if we have a function $f: A \to List B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.
+We can do more - if we have a function $f: A \to List\\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.
 
 ``` haskell flatmap on lists
 _flatMap_ : {A B : Set} → List A → (A → List B) → List B
@@ -122,4 +122,4 @@ _flatMap_ : {A B : Set} → List A → (A → List B) → List B
 (a :: xs) flatMap f = (f a) ++ (xs flatMap f)
 ```
 
-In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types. 
+In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.
