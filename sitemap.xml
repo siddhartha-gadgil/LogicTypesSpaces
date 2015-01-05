@@ -2,23 +2,23 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/18/foundations-objects/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:20:15+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://siddhartha-gadgil.github.io//github/blog/2014/03/19/inductive-types-natural-numbers/
         </loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://siddhartha-gadgil.github.io//github/blog/2014/03/21/dependent-function-types/
         </loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types/</loc>
@@ -32,19 +32,25 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/12/17/language/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/12/29/sets-and-types/</loc>
         <lastmod>2014-12-31T09:09:37+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/01/04/types-and-first-order-languages/
+        </loc>
+        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:20:15+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/home/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:08:04+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/robots.txt</loc>
@@ -52,6 +58,6 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/archives/</loc>
-        <lastmod>2014-12-31T09:09:37+05:30</lastmod>
+        <lastmod>2015-01-05T14:20:15+05:30</lastmod>
     </url>
 </urlset>
