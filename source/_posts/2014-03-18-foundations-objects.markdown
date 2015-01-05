@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Foundations: Mathematical objects, Types, Rules"
-date: 2014-03-18 09:25:57 +0530
+date: 2016-01-06 09:25:57 +0530
 comments: true
-categories: 
+categories:
 ---
 
 Quoth Andrej Bauer:
