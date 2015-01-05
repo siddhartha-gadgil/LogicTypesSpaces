@@ -31,6 +31,18 @@
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58114020-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -179,7 +191,7 @@ MathJax.Hub.Config({
 </span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \_ :: \_ $ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
+<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ _ :: _$ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The list [1, 2, 3]
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -192,7 +204,7 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="nf">onetwothree</span> <span class="ow">=</span> <span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">))</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We can make things a little cleaner by specifying that $\<em>::\</em>$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
+<p>We can make things a little cleaner by specifying that $_::_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list: First attempt
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -214,7 +226,7 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="nf">length</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.</p>
+<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second. </p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Concatenation of Lists
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -247,7 +259,7 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">map</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">map</span> <span class="n">f</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We can do more - if we have a function $f: A \to List\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
+<p>We can do more - if we have a function $f: A \to List B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on lists
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -258,7 +270,7 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.</p>
+<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types. </p>
 </div>
 
 
@@ -293,7 +305,7 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2014/03/18/foundations-objects/" title="Previous Post: Foundations: Mathematical objects, Types, Rules">&laquo; Foundations: Mathematical objects, Types, Rules</a>
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2014/03/18/foundations-objects/" title="Previous Post: Foundations: Objects, Types, Rules">&laquo; Foundations: Objects, Types, Rules</a>
       
       
         <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2014/03/21/dependent-function-types/" title="Next Post: Dependent function types: Sections of a bundle">Dependent function types: Sections of a bundle &raquo;</a>
@@ -317,10 +329,6 @@ MathJax.Hub.Config({
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/04/types-and-first-order-languages/">Types and First-order Languages</a>
-      </li>
-    
-      <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/">Sets and Types</a>
       </li>
     
@@ -334,6 +342,10 @@ MathJax.Hub.Config({
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/03/26/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
       </li>
     
   </ul>
@@ -388,7 +400,7 @@ MathJax.Hub.Config({
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Siddhartha Gadgil -
+  Copyright &copy; 2014 - Siddhartha Gadgil -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

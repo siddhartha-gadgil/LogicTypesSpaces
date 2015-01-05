@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-04T13:40:31+05:30</updated>
+  <updated>2014-12-31T09:12:26+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,39 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Types and First-order Languages]]></title>
-    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/01/04/types-and-first-order-languages/"/>
-    <updated>2015-01-04T13:25:39+05:30</updated>
-    <id>http://siddhartha-gadgil.github.io//github/blog/2015/01/04/types-and-first-order-languages</id>
-    <content type="html"><![CDATA[<h2 id="grammar">Grammar</h2>
-
-<p>A first-order languages has words and phrases (expressions) belonging to four types/type families.</p>
-
-<ul>
-  <li>term</li>
-  <li>formula</li>
-  <li>function - determined by degree</li>
-  <li>predicate - determined by degree.</li>
-</ul>
-
-<p>Note that the last two types can only have words as members, i.e., we cannot create elements of these types. So for a fixed language, there are only a fixed number of types. Usually functions and predicates have degrees $1$ or $2$, so there are only about $6$ types of expressions.</p>
-
-<h2 id="formation-rules">Formation rules.</h2>
-
-<p>The formation rule for new phrases are entirely in terms of the types of its constituent words/phrases, and there are typically only about $6$ such types. This means the language is not very <em>expressive</em>.</p>
-
-<h2 id="consequences-of-low-expressiveness">Consequences of low expressiveness</h2>
-
-<p>Depending on ones objective, there are two ways to cope with lack of expressiveness.</p>
-
-<ul>
-  <li>In <em>weakly typed</em> or <em>dynamically typed</em> programming languages, a lot of expressions are permitted (at compile time, or even run time) but lead to errors.</li>
-  <li>In mathematics, one embeds actually mathematics in the not very expressive language of set theory paying the price of being verbose and opaque.</li>
-</ul>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sets and Types]]></title>
@@ -114,7 +81,7 @@
 
 <p>While terms in first-order logic, like phrases in a language, can be built recursively, the <em>types</em> of words, like the part of speech, are a fixed finite set - variables, constants, functions, quantifiers etc. In particular there is no type representing functions from a given type to another given type. In <em>type theory</em>, we allow not only terms but their types to be recursively generated, with rules telling us how to construct both terms and types, and how to determine the type of a term.</p>
 
-<p>There are many flavours of type theory. It was discovered by Curry and Howard that <em>dependent type theory</em> contains not only set theory but the usual rules of reasoning, making for very efficient and elegant foundations. We shall study a flavour of dependent type theory due to Per Martin-Löf, which turns out to have remarkable connections to topology.</p>
+<p>There are many flavours of type theory. It was discovered by Curry and Howard that <em>dependent type theory</em> contains not only set theory but the usual rules of reasoning, making for very efficient and elegant foundations. We shall study a flavour of dependent type theory due to Per Martin-Lof, which turns out to have remarkable connections to topology.</p>
 ]]></content>
   </entry>
   
@@ -138,8 +105,7 @@
 
 <p>We begin by representing the two simplest propositions: true - always true,  and false.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>True and False types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>True and False types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -163,8 +129,7 @@
 
 <p><em>Modus Ponens</em> is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Ponens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Ponens
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Ponens</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">modusponens</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">P</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Q</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">P</span> <span class="err">→</span> <span class="p">(</span><span class="kt">P</span> <span class="err">→</span> <span class="kt">Q</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Q</span>
 </span><span class="line"><span class="nf">modusponens</span> <span class="n">p</span> <span class="n">imp</span> <span class="ow">=</span> <span class="n">imp</span> <span class="n">p</span>
@@ -174,8 +139,7 @@
 
 <p>As the $False$ type has no cases at all, a function is defined on $False$ by using an absurd pattern, which just says that there are no cases, so no definition is needed.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Vacuous implication
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Vacuous implication</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">vacuous</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">False</span> <span class="err">→</span> <span class="kt">A</span>
 </span><span class="line"><span class="nf">vacuous</span> <span class="nb">()</span>
@@ -192,8 +156,7 @@
 Thus, we can define the inductive type family:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Even</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -203,8 +166,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>We can prove that $2$ is even by applying the second rule, with $n=0$, to the first rule (telling us that $0$ is even).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>2 is Even
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>2 is Even</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">2</span>
 </span><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="ow">=</span> <span class="o">+</span><span class="mi">2</span><span class="n">even</span> <span class="n">zeroeven</span>
@@ -216,8 +178,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Indeed, what we prove is that there is a function from $Even\ 1$ to $False$ ; we define this using an absurd pattern.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>1 is odd
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>1 is odd</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">1</span> <span class="err">→</span> <span class="kt">False</span>
 </span><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="nb">()</span>
@@ -227,8 +188,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>One of the most fundamental concepts in homotopy type theory is the identity type family, representing equality between objects with a given type. This is an inductive type family, generated by the reflexivity constructor giving an equality between an object and itself.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The identity type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The identity type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="o">==</span><span class="kr">_</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="n">refl</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
@@ -240,8 +200,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">transfer</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </span><span class="line"><span class="nf">transfer</span> <span class="n">f</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
@@ -249,15 +208,13 @@ Thus, we can define the inductive type family:</li>
 
 <p>Further, we see that equality (given by the identity type) is symmetric and transitive.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">symm</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span>
 </span><span class="line"><span class="nf">symm</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Transitivity of equality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Transitivity of equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_transEq_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">z</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">z</span>
 </span><span class="line"><span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="n">transEq</span> <span class="p">(</span><span class="n">refl</span> <span class="o">.</span><span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
@@ -283,8 +240,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Such a statement is normally proved by induction (indeed any proof must reduce to induction). We see that our pattern matching rules for constructing dependent functions suffice to prove this - this is why the dependent function that gives them is called the induction function.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>f(n)= f(n+1) for all n implies f is constant
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>f(n)= f(n+1) for all n implies f is constant</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">constthm</span> <span class="kt">:</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">m</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="n">m</span><span class="p">))</span> <span class="err">→</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="mi">0</span><span class="p">)</span>
@@ -328,8 +284,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Firstly, if $A$ and $B$ are types corresponding to propositions, then there are objects with each of these types if and only if there is a pair $(a, b)$ of the pair type $A \times B$, which we define as follows.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pair type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pair type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">×</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">×</span> <span class="kt">B</span>
@@ -339,8 +294,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Next, suppose $A$ and $B$ are types corresponding to propositions and we wish to construct a type corresponding to $A$ <em>or</em> $B$, then we require a type whose elements are elements of $A$ and elements of $B$, or more accurately the images of such elements under constructors. This is the direct sum type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Direct Sum type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Direct Sum type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">⊕</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -350,8 +304,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Finally, if we are given a collection of types $B(a)$ for objects $a$ of type $A$, we construct the type corresponding to at least one of these types having an element, i.e., a <em>there exists</em> type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sigma type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sigma type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">Σ</span><span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="p">(</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="err">ι</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="n">a</span> <span class="err">→</span> <span class="err">Σ</span> <span class="kt">A</span> <span class="kt">B</span>
@@ -361,8 +314,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>As we see, we can express all the usual mathematical statements using types built up using our basic constructions: inductive types, functions and dependent functions. We have also seen that the basic rules for constructing objects are powerful rules of deduction. However, there are some things they cannot deduce, for instance the statement (called the axiom of extensionality) that if $f, g: A\to B$ are function with $f(a)=g(a)$ for all $a \in A$, then $f=g$. Hence, we have to introduce this as a postulate - we just postulate that  there is an object (which we give a name) of a given type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Axiom of Extensionality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Axiom of Extensionality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">postulate</span>
 </span><span class="line">  <span class="n">extensionality</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">g</span> <span class="n">x</span><span class="p">))</span> <span class="err">→</span> <span class="n">f</span> <span class="o">==</span> <span class="n">g</span>
@@ -383,8 +335,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Let us start with a function checking if a list contains an element with a certain property.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_contains_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Bool</span>
@@ -394,8 +345,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Before turning to filtering, we define an <em>if expression</em>, which gives one of two values depending on whether a Boolean term is $true$ or $false$. Note that this is not an if statement, doing something according to a condition, but a function that returns a value depending on the condition.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">if_then_else</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span>  <span class="err">→</span> <span class="kt">A</span>
@@ -405,8 +355,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>With this in hand, we define a function filtering elements of a list by a given property. This is defined inductively, using the if expression to decide whether to prepend the first element.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_filter_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
@@ -419,19 +368,18 @@ The proof is obtained by applying the function corresponding to the transitivity
 <p>So far we have defined many objects and types, but not actually computed anything concrete. To do this, we shall use a very useful function on lists, folding. This is a function that takes as input:</p>
 
 <ul>
-  <li>A list of type $A$, say $[ a_ 0, a_ 1 \dots, a_ n ]$.</li>
-  <li>An element of type $B$, say $b : B$.</li>
+  <li>A list of type $A$, say $[a<em>0, a</em>1, \dots, a_n]$.</li>
+  <li>An element of type $B$, $b : B$.</li>
   <li>A binary operation that lets us multiply (or add) an element of $A$ to (the left of) an element of $B$, $op : A \to B \to B$.</li>
 </ul>
 
-<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, giving an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
+<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, given an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
 
 <script type="math/tex; mode=display">fold([a_0, a_1, \dots, a_n], b) = a_0*a_1 * \dots * a_n *b</script>
 
 <p>As usual, we define the fold function recursively.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">fold_by_from_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span>
@@ -441,10 +389,9 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <h3 id="a-program">A program</h3>
 
-<p>Equipped with our list operations, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
+<p>Equipped with this, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -474,10 +421,9 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>We next define a function that finds an element in a list (of type $A$) having a given property. However the list may have no such element, so we cannot always return an object in $A$. Simply giving an error is meaningless mathematically and a bad idea for a program.</p>
 
-<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some\ a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
+<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Option</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -487,8 +433,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>We can now define a find function, returning an option type, containing an object in the list with the given property if there is such an object.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_find_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
@@ -501,8 +446,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>Suppose we have a partially defined function $f: A\to B$ (not defined on some values of $A$ in general) and a function $g : B \to C$ (defined everywhere). Then it is natural to define the composition of $f$ and $g$ as a partial function defined wherever $f$ is defined. Passing to lifts, this is accomplished by the map function on option types.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_mapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
@@ -512,8 +456,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>Even better, if both $f: A\to B$ and $g : B\to C$ are both partially defined, we can compose them to get a value in $C$ exactly for elements $a : A$ for which $f(a)$ is defined and lies in the domain of g. We do this  by flatmapping (after passing to lifts once more).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span>  <span class="kt">Option</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
@@ -530,7 +473,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <li>Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.</li>
 </ul>
 
-<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future\ A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
+<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
 ]]></content>
   </entry>
   
@@ -546,7 +489,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 <p>then
 <script type="math/tex">f=g.</script></p>
 
-<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$.</p>
+<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$. </p>
 
 <p>Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,</p>
 
@@ -567,11 +510,11 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently.</p>
+<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently. </p>
 
 <h3 id="inductive-types-and-inductive-type-families">Inductive types and inductive type families</h3>
 
-<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$.</p>
+<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$. </p>
 
 <p>In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.</p>
 
@@ -596,7 +539,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <h3 id="a-dependent-function">A dependent function</h3>
 
-<p>We shall now construct a dependent function <em>countdown</em> that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.</p>
+<p>We shall now construct a dependent function countdown that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors in natural numbers of length $n+1$.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -716,7 +659,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \_ :: \_ $ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
+<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ _ :: _$ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The list [1, 2, 3]
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -729,7 +672,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="nf">onetwothree</span> <span class="ow">=</span> <span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">))</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We can make things a little cleaner by specifying that $\<em>::\</em>$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
+<p>We can make things a little cleaner by specifying that $_::_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list: First attempt
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -751,7 +694,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="nf">length</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.</p>
+<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second. </p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Concatenation of Lists
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -784,7 +727,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">map</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">map</span> <span class="n">f</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We can do more - if we have a function $f: A \to List\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
+<p>We can do more - if we have a function $f: A \to List B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on lists
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -795,12 +738,12 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.</p>
+<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types. </p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Foundations: Mathematical Objects, Types, Rules]]></title>
+    <title type="html"><![CDATA[Foundations: Objects, Types, Rules]]></title>
     <link href="http://siddhartha-gadgil.github.io//github/blog/2014/03/18/foundations-objects/"/>
     <updated>2014-03-18T09:25:57+05:30</updated>
     <id>http://siddhartha-gadgil.github.io//github/blog/2014/03/18/foundations-objects</id>
@@ -810,13 +753,13 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <p>Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.</p>
 </blockquote>
 
-<p>We now turn to the basics of homotopy type theory. We begin by laying out the basic rules governing such foundations.</p>
+<p>In this series of posts, we explore the background behind, and the basics of, homotopy type theory. We begin by laying out the basic rules governing such foundations. </p>
 
-<p>We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Formally objects are called <em>terms</em>, based on standard terminology of logic, but it is best to think of <em>term</em> as a synonym for <em>mathematical object</em>.</p>
+<p>We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Strictly speaking objects should be called terms, based on standard terminology of logic, but I shall use the word object as it better represents how I feel we should think about them.</p>
 
-<p>Every term has a type, which is generally (but not always) unique. Types themselves are terms, so in particular have types. A type whose objects are themselves types is called a universe. Every set is a type, but not all types are sets.</p>
+<p>Every object has a type, which is generally (but not always) unique. Types themselves are objects, so in particular have types. A type whose objects are themselves types is called a universe. Every set is a type, but not all types are sets.</p>
 
-<p>Our foundations are governed by rules telling us the ways in which we can construct terms, which we will see as we go on. Further, we have rules letting us make two types of judgements:</p>
+<p>Our foundations are governed by rules telling us the ways in which we can construct objects, which we will see as we go on. Further, we have rules letting us make two types of judgements:</p>
 
 <ul>
   <li>that an object $x$ has a type $T$ (denoted $x : T$).</li>
@@ -829,13 +772,13 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>which it would be silly to say is true by definition. Rather, it is a proposition that it is true, and we say the two sides of these are propositionally equal (but not definitionally or judgementally equal). Similar considerations also apply to objects having specified types.</p>
 
-<p>In addition to constructing objects by our rules, we can introduce objects and make some judgements related to them as axioms. Axioms may of course introduce inconsistencies.</p>
+<p>In addition to constructing objects by our rules, we can introduce objects and make some judgements related to them as axioms - this may of course introduce inconsistencies.</p>
 
 <h3 id="the-boolean-type">The Boolean type</h3>
 
-<p>Let us begin constructing some mathematical objects. We shall do this in the language/formal proof system Agda, but I will try to be self-contained.</p>
+<p>Let us begin constructing objects. We shall do this in the language/formal proof system Agda, but I will try to be self-contained.</p>
 
-<p>We start with a built in universe called Set - objects having type Set are sets. We shall use the <strong>data</strong> statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.</p>
+<p>We start with a built in universe called Set - objects having type Set are sets. We shall use the data statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Boolean type
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -846,9 +789,9 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line">  <span class="n">false</span>  <span class="kt">:</span> <span class="kt">Bool</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>The above code gives the construction of three objects: a type called Bool and two objects true and false that have type Bool. This is a simple rule for constructing a type - give it a name and list objects in it. Such a rule, in both Agda and Homotopy type theory (HoTT) is a special case of a more general rule (for constructing inductive types) which we will see later.</p>
+<p>The above code gives the construction of three objects: a type called Bool and two objects true and false that have type Bool. This is a simple rule for constructing a type - give it a name and list objects in it.</p>
 
-<p>Note that we do not have an explicit rule saying that any term with type Bool is either <em>true</em> or <em>false</em>, or even that <em>true</em> and <em>false</em> are not equal. Indeed we will not introduce any such rule; instead rules for constructing objects will implicitly tell us that there are exactly two distinct terms with type Bool, true and false.</p>
+<p>Note that we do not have an explicit rule saying that the type Bool has no other objects, or even that true and false are different objects. Indeed we will not introduce any such rule, but rules for constructing objects will implicitly tell us that Bool has exactly two distinct objects, true and false.</p>
 
 <h3 id="a-function">A function</h3>
 
@@ -869,7 +812,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="nf">not</span> <span class="n">false</span> <span class="ow">=</span> <span class="n">true</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We have defined the function <em>not</em> by giving the values on each Boolean constant, and these values are constants. This is the simplest form of <em>pattern matching</em>.</p>
+<p>We have defined the function not by giving the values on each Boolean constant, and these values are constants. This is the simplest form of <em>pattern matching</em>.</p>
 
 <p>Note that being able to construct such a function means $true$ and $false$ are distinct objects as promised.</p>
 
@@ -877,9 +820,9 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>Let us now turn to functions of two variables. By a trick due to the logician Haskell Curry, we do not have to introduce a new type. Instead, observe that if we have a function $f(x,y)$ of two variables (of types $A$ and $B$, taking values of type $C$), then for fixed $x$ we get a function of $y$ only</p>
 
-<p>$f(x , \_ ) = y \mapsto f(x,y)$</p>
+<p>$f(x , _ ) = y \mapsto f(x,y)$</p>
 
-<p>so $f(x, \_ )$ has the type of functions from $B$ to $C$. Now viewing $f(x, \_)$ as a function of $x$, we get the curried form of $f$,</p>
+<p>so $f(x, _ )$ has the type of functions from $B$ to $C$. Now viewing $f(x, _)$ as a function of $x$, we get the curried form of $f$,</p>
 
 <script type="math/tex; mode=display">x \mapsto (y \mapsto f(x,y))</script>
 
@@ -887,7 +830,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <script type="math/tex; mode=display">A \to B \to C = A \to (B \to C).</script>
 
-<p>We next define the logical <em>and</em> (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.</p>
+<p>We define the logical and (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical And function
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -904,7 +847,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <h3 id="function-application">Function application</h3>
 
-<p>So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from previously constructed terms and the variables. Here is an example.</p>
+<p>So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from existing objects. Here is an example.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using function application
 </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
@@ -913,7 +856,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="nf">notnot</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">not</span> <span class="p">(</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We used a variable for the argument of the function, another generalization of pattern matching. The right hand side was built from previously constructed terms using function application. Namely, a function $f$ from $A$ to $B$ can be applied to an object with type $A$ to get an object $f(a)$ with type $B$.</p>
+<p>We used a variable for the argument of the function, another generalization of pattern matching. The right hand side was built from previously constructed objects using function application, a function $f$ from $A$ to $B$ can be applied to an object with type $A$ to get an object $f(a)$ with type $B$.</p>
 
 <h3 id="lambda-expressions-giving-functions">Lambda: Expressions giving functions</h3>
 
@@ -935,7 +878,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="nf">_xor_</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="n">y</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">not</span> <span class="n">y</span><span class="p">))</span> <span class="o">||</span> <span class="p">((</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We have now seen the most basic constructions of types and terms. We shall next turn to the more powerful constructions - inductive types and dependent types.</p>
+<p>We have now seen the most basic constructions of types and objects. We shall next turn to the more powerful constructions - inductive types and dependent types.</p>
 ]]></content>
   </entry>
   

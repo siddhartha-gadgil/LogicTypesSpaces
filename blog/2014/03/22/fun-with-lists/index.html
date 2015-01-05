@@ -31,6 +31,18 @@
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58114020-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -106,8 +118,7 @@ MathJax.Hub.Config({
 
 <p>Let us start with a function checking if a list contains an element with a certain property.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_contains_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Bool</span>
@@ -117,8 +128,7 @@ MathJax.Hub.Config({
 
 <p>Before turning to filtering, we define an <em>if expression</em>, which gives one of two values depending on whether a Boolean term is $true$ or $false$. Note that this is not an if statement, doing something according to a condition, but a function that returns a value depending on the condition.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">if_then_else</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span>  <span class="err">→</span> <span class="kt">A</span>
@@ -128,8 +138,7 @@ MathJax.Hub.Config({
 
 <p>With this in hand, we define a function filtering elements of a list by a given property. This is defined inductively, using the if expression to decide whether to prepend the first element.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_filter_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
@@ -142,19 +151,18 @@ MathJax.Hub.Config({
 <p>So far we have defined many objects and types, but not actually computed anything concrete. To do this, we shall use a very useful function on lists, folding. This is a function that takes as input:</p>
 
 <ul>
-  <li>A list of type $A$, say $[ a_ 0, a_ 1 \dots, a_ n ]$.</li>
-  <li>An element of type $B$, say $b : B$.</li>
+  <li>A list of type $A$, say $[a<em>0, a</em>1, \dots, a_n]$.</li>
+  <li>An element of type $B$, $b : B$.</li>
   <li>A binary operation that lets us multiply (or add) an element of $A$ to (the left of) an element of $B$, $op : A \to B \to B$.</li>
 </ul>
 
-<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, giving an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
+<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, given an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
 
 <script type="math/tex; mode=display">fold([a_0, a_1, \dots, a_n], b) = a_0*a_1 * \dots * a_n *b</script>
 
 <p>As usual, we define the fold function recursively.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">fold_by_from_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span>
@@ -164,10 +172,9 @@ MathJax.Hub.Config({
 
 <h3 id="a-program">A program</h3>
 
-<p>Equipped with our list operations, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
+<p>Equipped with this, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -197,10 +204,9 @@ MathJax.Hub.Config({
 
 <p>We next define a function that finds an element in a list (of type $A$) having a given property. However the list may have no such element, so we cannot always return an object in $A$. Simply giving an error is meaningless mathematically and a bad idea for a program.</p>
 
-<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some\ a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
+<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Option</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -210,8 +216,7 @@ MathJax.Hub.Config({
 
 <p>We can now define a find function, returning an option type, containing an object in the list with the given property if there is such an object.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_find_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
@@ -224,8 +229,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>Suppose we have a partially defined function $f: A\to B$ (not defined on some values of $A$ in general) and a function $g : B \to C$ (defined everywhere). Then it is natural to define the composition of $f$ and $g$ as a partial function defined wherever $f$ is defined. Passing to lifts, this is accomplished by the map function on option types.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_mapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
@@ -235,8 +239,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>Even better, if both $f: A\to B$ and $g : B\to C$ are both partially defined, we can compose them to get a value in $C$ exactly for elements $a : A$ for which $f(a)$ is defined and lies in the domain of g. We do this  by flatmapping (after passing to lifts once more).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span>  <span class="kt">Option</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
@@ -253,7 +256,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <li>Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.</li>
 </ul>
 
-<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future\ A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
+<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
 </div>
 
 
@@ -312,10 +315,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/04/types-and-first-order-languages/">Types and First-order Languages</a>
-      </li>
-    
-      <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/">Sets and Types</a>
       </li>
     
@@ -329,6 +328,10 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/03/26/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2014/03/22/fun-with-lists/">Fun With Lists</a>
       </li>
     
   </ul>
@@ -383,7 +386,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Siddhartha Gadgil -
+  Copyright &copy; 2014 - Siddhartha Gadgil -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
