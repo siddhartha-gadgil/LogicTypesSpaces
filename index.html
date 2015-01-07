@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="Quoth Andrej Bauer: Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of &hellip;">
+  <meta name="description" content="Agda uses the notation Set for the first universe. This is incorrect from the point of view of Homotopy type theory, as not all types in this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,7 +99,54 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2016/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a></h1>
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Agda uses the notation <strong>Set</strong> for the first universe. This is incorrect from the point of view of Homotopy type theory, as not all types in this universe are sets. Following HoTT-Agda, we shall denote this instead as <strong>Type</strong>. We accordingly modify the definition of Booleans.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kt">Type</span> <span class="kt">:</span> <span class="kt">Set</span><span class="err">₁</span>
+</span><span class="line"><span class="kt">Type</span> <span class="ow">=</span> <span class="kt">Set</span>
+</span><span class="line">
+</span><span class="line"><span class="kr">data</span> <span class="kt">Bool</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">true</span>   <span class="kt">:</span> <span class="kt">Bool</span>
+</span><span class="line">  <span class="n">false</span>  <span class="kt">:</span> <span class="kt">Bool</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The statement <strong>Bool : Type</strong> should be read as saying that <strong>Bool</strong> has type <strong>Type</strong>, which implies in particular that it is a type. This is analogous to an expression like <strong>3 : Int</strong> in a programming language, which says that <strong>3</strong> is an integer.</p>
+
+<p>Note that <strong>Type</strong> itself has to have type in a higher universe to avoid Russel’s paradox. Agda (like HoTT) has a hierarchy of such universes, $Set = Set_0$, $Set_1$ etc.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a></h1>
     
     
       <p class="meta">
@@ -262,53 +309,6 @@ MathJax.Hub.Config({
 </span><span class="line"><span class="nf">nand</span><span class="err">₂</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
 </span><span class="line"><span class="nf">nand</span><span class="err">₂</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="n">y</span> <span class="err">→</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Agda uses the notation <strong>Set</strong> for the first universe. This is incorrect from the point of view of Homotopy type theory, as not all types in this universe are sets. Following HoTT-Agda, we shall denote this instead as <strong>Type</strong>. We accordingly modify the definition of Booleans.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kt">Type</span> <span class="kt">:</span> <span class="kt">Set</span><span class="err">₁</span>
-</span><span class="line"><span class="kt">Type</span> <span class="ow">=</span> <span class="kt">Set</span>
-</span><span class="line">
-</span><span class="line"><span class="kr">data</span> <span class="kt">Bool</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
-</span><span class="line">  <span class="n">true</span>   <span class="kt">:</span> <span class="kt">Bool</span>
-</span><span class="line">  <span class="n">false</span>  <span class="kt">:</span> <span class="kt">Bool</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The statement <strong>Bool : Type</strong> should be read as saying that <strong>Bool</strong> has type <strong>Type</strong>, which implies in particular that it is a type. This is analogous to an expression like <strong>3 : Int</strong> in a programming language, which says that <strong>3</strong> is an integer.</p>
-
-<p>Note that <strong>Type</strong> itself has to have type in a higher universe to avoid Russel’s paradox. Agda (like HoTT) has a hierarchy of such universes, $Set = Set_0$, $Set_1$ etc.</p>
 </div>
   
   
@@ -1222,8 +1222,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   
   <div class="pagination">
     
-      <a class="prev" href="">&larr; Older</a>
-    
     <a href="/LogicTypesSpaces/blog/archives">Blog Archives</a>
     
   </div>
@@ -1235,11 +1233,11 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2016/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a>
       </li>
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a>
       </li>
     
       <li class="post">
