@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Foundations: Mathematical objects, Types, Rules"
-date: 2016-01-06 09:25:57 +0530
+date: 2015-01-06 09:25:57 +0530
 comments: true
 categories:
 ---
