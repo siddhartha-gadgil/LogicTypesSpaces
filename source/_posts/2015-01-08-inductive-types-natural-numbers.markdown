@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Inductive types: Natural numbers, Lists"
-date: 2014-03-19 16:03:29 +0530
+date: 2015-01-08 09:03:29 +0530
 comments: true
 categories:
 ---
