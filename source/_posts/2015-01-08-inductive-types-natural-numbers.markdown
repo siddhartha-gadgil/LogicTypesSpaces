@@ -55,7 +55,21 @@ Our constructors are unfortunately only as efficient as tally marks in dealing w
 {-# BUILTIN SUC succ #-}
 ```
 
-###Lists : A parametrized type###
+### Exercise
+
+Complete the following definitions of the square of a natural number, using the previously defined function
+
+```haskell
+sq₀ : ℕ → ℕ
+sq₀ zero =
+sq₀ (succ n) =
+
+sq₁ : ℕ → ℕ
+sq₁ = λ n →
+```
+
+
+#Lists : A parametrized type###
 
 We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.
 
@@ -123,3 +137,8 @@ _flatMap_ : {A B : Set} → List A → (A → List B) → List B
 ```
 
 In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.
+
+### Exercises
+
+* Define a function **fill** which, given a type $A$ (implicitly), an element $a : A$ and a natural number $n$, gives a list of length $n$ all of whose entries are $a$.
+* Define a Boolean valued function **empty** on lists giving whether a list is empty. 
