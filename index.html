@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="Quoth Andrej Bauer: Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of &hellip;">
+  <meta name="description" content="Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,7 +99,241 @@ MathJax.Hub.Config({
       
   <header>
     
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2016/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a></h1>
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/08/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Natural Numbers: Inductive Definition
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">ℕ</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">zero</span> <span class="kt">:</span> <span class="err">ℕ</span>
+</span><span class="line">  <span class="n">succ</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here $zero$ is $0$ and $succ$ is the function taking any natural number to its successor. Any natural number can be built from these, and different expressions give different numbers. However, as with the case of Booleans, we do not have any explicit rules giving such statements  - indeed, it would be quite painful to formulate such rules, as we have to define expressions, equality of expressions etc. Instead, the rules for defining functions from natural numbers implicitly contain such statements. We define functions on natural numbers by pattern matching, but this time the patterns can involve the constructors.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Addition of natural numbers
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">+</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">zero</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The left hand sides pattern match on the constructors for natural numbers. Notice that this is a recursive definition, the right hand side in the second pattern for defining addition also involves addition. This is fine as the definition lets us rewrite a sum in terms of sums of simpler terms, and such a process eventually terminates. However, we can write nonsensical definitions in general.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Recursion resulting in infinite loops
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">forever</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">forever</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="n">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>When we try to compute $forever(1)$ (where $1 = succ (zero)$), we get that $forever(1) = forever(2)$, and this continues forever. Fortunately, Agda will not let us make such definitions. This does come at a price though - sometimes it takes a lot of work to convince Agda that functions terminate. There are deeper, conceptual limitations to any system ensuring termination, as discovered by Turing, which we return to in the future.</p>
+
+<p>In homotopy type theory, the rules for such recursive definitions are nicely formulated so we cannot making nonsensical definitions. We shall see how this is done much later. We now define a couple of other recursive functions.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Multiplication of natural numbers
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">*</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">zero</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Factorials
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">factorial</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">factorial</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">succ</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">factorial</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">factorial</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Our constructors are unfortunately only as efficient as tally marks in dealing with actual numbers. Agda has a built in type that lets us deal with natural numbers the usual way. We can invoke it as below.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Agda: Builtin natural numbers
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="cm">{-# BUILTIN NATURAL ℕ #-}</span>
+</span><span class="line"><span class="cm">{-# BUILTIN ZERO zero #-}</span>
+</span><span class="line"><span class="cm">{-# BUILTIN SUC succ #-}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="lists--a-parametrized-type">Lists : A parametrized type</h3>
+
+<p>We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Lists
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">List</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span> <span class="kt">:</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \_ :: \_ $ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The list [1, 2, 3]
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">open</span> <span class="kr">import</span> <span class="nn">Nat</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">onetwothree</span> <span class="kt">:</span> <span class="kt">List</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">onetwothree</span> <span class="ow">=</span> <span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can make things a little cleaner by specifying that $\<em>::\</em>$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list: First attempt
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We have given a recursive definition. We defined a function of the type $A$ as well as the list, as we needed $A$ in the right hand side of the second pattern. But $A$ can be inferred in this pattern - it is the type of the element $a$. So we can declare $A$ to be an optional argument (by putting it in braces), and let Agda infer its value. This gives us a cleaner definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">length</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
+</span><span class="line"><span class="nf">length</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Concatenation of Lists
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">++</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line"><span class="kt">[]</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">l</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="o">++</span> <span class="n">l</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We next define the function that reverses a list.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Reversing a list
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">reverse</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
+</span><span class="line"><span class="nf">reverse</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">reverse</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">reverse</span> <span class="n">l</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We now turn to some more interesting functions. Given a list of objects of type $A$ and a function $f:A \to B$, we can apply $f$ to each entry of the list to get a list of elements of $B$. This is usually called the $map$ function.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map function on lists
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_map_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">map</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">map</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">map</span> <span class="n">f</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can do more - if we have a function $f: A \to List\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on lists
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMap_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
+</span><span class="line"><span class="kt">[]</span> <span class="n">flatMap</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Agda uses the notation <strong>Set</strong> for the first universe. This is incorrect from the point of view of Homotopy type theory, as not all types in this universe are sets. Following HoTT-Agda, we shall denote this instead as <strong>Type</strong>. We accordingly modify the definition of Booleans.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kt">Type</span> <span class="kt">:</span> <span class="kt">Set</span><span class="err">₁</span>
+</span><span class="line"><span class="kt">Type</span> <span class="ow">=</span> <span class="kt">Set</span>
+</span><span class="line">
+</span><span class="line"><span class="kr">data</span> <span class="kt">Bool</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">true</span>   <span class="kt">:</span> <span class="kt">Bool</span>
+</span><span class="line">  <span class="n">false</span>  <span class="kt">:</span> <span class="kt">Bool</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The statement <strong>Bool : Type</strong> should be read as saying that <strong>Bool</strong> has type <strong>Type</strong>, which implies in particular that it is a type. This is analogous to an expression like <strong>3 : Int</strong> in a programming language, which says that <strong>3</strong> is an integer.</p>
+
+<p>Note that <strong>Type</strong> itself has to have type in a higher universe to avoid Russel’s paradox. Agda (like HoTT) has a hierarchy of such universes, $Set = Set_0$, $Set_1$ etc.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a></h1>
     
     
       <p class="meta">
@@ -1028,193 +1262,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2014/03/19/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Natural Numbers: Inductive Definition
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">ℕ</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
-</span><span class="line">  <span class="n">zero</span> <span class="kt">:</span> <span class="err">ℕ</span>
-</span><span class="line">  <span class="n">succ</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Here $zero$ is $0$ and $succ$ is the function taking any natural number to its successor. Any natural number can be built from these, and different expressions give different numbers. However, as with the case of Booleans, we do not have any explicit rules giving such statements  - indeed, it would be quite painful to formulate such rules, as we have to define expressions, equality of expressions etc. Instead, the rules for defining functions from natural numbers implicitly contain such statements. We define functions on natural numbers by pattern matching, but this time the patterns can involve the constructors.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Addition of natural numbers
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">+</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">zero</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span>
-</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The left hand sides pattern match on the constructors for natural numbers. Notice that this is a recursive definition, the right hand side in the second pattern for defining addition also involves addition. This is fine as the definition lets us rewrite a sum in terms of sums of simpler terms, and such a process eventually terminates. However, we can write nonsensical definitions in general.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Recursion resulting in infinite loops
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">forever</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">forever</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span>
-</span><span class="line"><span class="nf">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="n">forever</span> <span class="p">(</span><span class="n">succ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>When we try to compute $forever(1)$ (where $1 = succ (zero)$), we get that $forever(1) = forever(2)$, and this continues forever. Fortunately, Agda will not let us make such definitions. This does come at a price though - sometimes it takes a lot of work to convince Agda that functions terminate. There are deeper, conceptual limitations to any system ensuring termination, as discovered by Turing, which we return to in the future.</p>
-
-<p>In homotopy type theory, the rules for such recursive definitions are nicely formulated so we cannot making nonsensical definitions. We shall see how this is done much later. We now define a couple of other recursive functions.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Multiplication of natural numbers
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">*</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">zero</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">zero</span>
-</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Factorials
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">factorial</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">factorial</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">succ</span> <span class="n">zero</span>
-</span><span class="line"><span class="nf">factorial</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">factorial</span> <span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Our constructors are unfortunately only as efficient as tally marks in dealing with actual numbers. Agda has a built in type that lets us deal with natural numbers the usual way. We can invoke it as below.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Agda: Builtin natural numbers
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="cm">{-# BUILTIN NATURAL ℕ #-}</span>
-</span><span class="line"><span class="cm">{-# BUILTIN ZERO zero #-}</span>
-</span><span class="line"><span class="cm">{-# BUILTIN SUC succ #-}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="lists--a-parametrized-type">Lists : A parametrized type</h3>
-
-<p>We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Lists
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">List</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
-</span><span class="line">  <span class="kt">[]</span> <span class="kt">:</span> <span class="kt">List</span> <span class="kt">A</span>
-</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The constructor $[]$ is just a constant, giving us the empty list. The constructor $ \_ :: \_ $ gives a list from an element $a$ in $A$ and a list $l$ of elements in $A$ by adding $a$ to the beginning of the list $l$. For instance (after importing the natural numbers constructed earlier) we can describe the list [1, 2, 3] as</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The list [1, 2, 3]
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">open</span> <span class="kr">import</span> <span class="nn">Nat</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">onetwothree</span> <span class="kt">:</span> <span class="kt">List</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">onetwothree</span> <span class="ow">=</span> <span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">::</span> <span class="p">(</span><span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We can make things a little cleaner by specifying that $\<em>::\</em>$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list: First attempt
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kr">_</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
-</span><span class="line"><span class="nf">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span><span class="err">₀</span> <span class="kt">A</span> <span class="n">l</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We have given a recursive definition. We defined a function of the type $A$ as well as the list, as we needed $A$ in the right hand side of the second pattern. But $A$ can be inferred in this pattern - it is the type of the element $a$. So we can declare $A$ to be an optional argument (by putting it in braces), and let Agda infer its value. This gives us a cleaner definition.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Length of a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">length</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">length</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">zero</span>
-</span><span class="line"><span class="nf">length</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">length</span> <span class="n">l</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Concatenation of Lists
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">++</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
-</span><span class="line"><span class="kt">[]</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">l</span>
-</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="o">++</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="o">++</span> <span class="n">l</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We next define the function that reverses a list.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Reversing a list
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">reverse</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
-</span><span class="line"><span class="nf">reverse</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
-</span><span class="line"><span class="nf">reverse</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">l</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">reverse</span> <span class="n">l</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We now turn to some more interesting functions. Given a list of objects of type $A$ and a function $f:A \to B$, we can apply $f$ to each entry of the list to get a list of elements of $B$. This is usually called the $map$ function.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map function on lists
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_map_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
-</span><span class="line"><span class="kt">[]</span> <span class="n">map</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
-</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">map</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">map</span> <span class="n">f</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We can do more - if we have a function $f: A \to List\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on lists
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMap_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">B</span>
-</span><span class="line"><span class="kt">[]</span> <span class="n">flatMap</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
-</span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
     <a href="/LogicTypesSpaces/blog/archives">Blog Archives</a>
@@ -1228,7 +1275,15 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2016/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/08/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/07/notation-for-universes/">Notation for Universes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a>
       </li>
     
       <li class="post">
@@ -1237,14 +1292,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/">Sets and Types</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2014/12/17/language/">Language, Logic, Types</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2014/12/12/welcome-to-the-course-logic/">Welcome to the Course: Logic, Types, Spaces</a>
       </li>
     
   </ul>
