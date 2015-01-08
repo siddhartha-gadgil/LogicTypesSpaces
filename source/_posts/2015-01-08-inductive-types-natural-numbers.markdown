@@ -55,6 +55,8 @@ Our constructors are unfortunately only as efficient as tally marks in dealing w
 {-# BUILTIN SUC succ #-}
 ```
 
+**Note**:  If you are using the latest version of Agda (2.4.2.2),  it is enough to include this line `{-# BUILTIN NATURAL ℕ #-}`  
+
 ###Lists : A parametrized type###
 
 We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.
