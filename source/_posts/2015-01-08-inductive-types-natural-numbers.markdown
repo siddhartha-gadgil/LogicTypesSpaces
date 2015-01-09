@@ -55,6 +55,8 @@ Our constructors are unfortunately only as efficient as tally marks in dealing w
 {-# BUILTIN SUC succ #-}
 ```
 
+**Note**:  If you are using the latest version of Agda (2.4.2.2),  it is enough to include this line `{-# BUILTIN NATURAL ℕ #-}`  
+
 ### Exercise
 
 Complete the following definitions of the square of a natural number, using the previously defined function
@@ -137,8 +139,3 @@ _flatMap_ : {A B : Set} → List A → (A → List B) → List B
 ```
 
 In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.
-
-### Exercises
-
-* Define a function **fill** which, given a type $A$ (implicitly), an element $a : A$ and a natural number $n$, gives a list of length $n$ all of whose entries are $a$.
-* Define a Boolean valued function **empty** on lists giving whether a list is empty. 
