@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-08T14:34:50+05:30</updated>
+  <updated>2015-01-09T15:56:06+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -78,21 +78,25 @@
 </span><span class="line"><span class="cm">{-# BUILTIN SUC succ #-}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p><strong>Note</strong>:  If you are using the latest version of Agda (2.4.2.2),  it is enough to include this line <code>{-# BUILTIN NATURAL ℕ #-}</code>  </p>
+
 <h3 id="exercise">Exercise</h3>
 
-<p>Complete the following definitions of the square of a natural number, using the previously defined function</p>
+<p>Complete the following definitions of the square of a natural number, using the addition but <strong>not</strong> the multiplication of natural numbers.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">sq</span><span class="err">₀</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
 </span><span class="line"><span class="nf">sq</span><span class="err">₀</span> <span class="n">zero</span> <span class="ow">=</span>
 </span><span class="line"><span class="nf">sq</span><span class="err">₀</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">sq</span><span class="err">₁</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Complete the following definitions of the square of a natural number. You may use the addition and multiplication of natural numbers.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">sq</span><span class="err">₁</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
 </span><span class="line"><span class="nf">sq</span><span class="err">₁</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">n</span> <span class="err">→</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
@@ -186,7 +190,7 @@
 
 <ul>
   <li>Define a function <strong>fill</strong> which, given a type $A$ (implicitly), an element $a : A$ and a natural number $n$, gives a list of length $n$ all of whose entries are $a$.</li>
-  <li>Define a Boolean valued function <strong>empty</strong> on lists giving whether a list is empty. </li>
+  <li>Define a Boolean valued function <strong>empty</strong> on lists giving whether a list is empty.</li>
 </ul>
 ]]></content>
   </entry>
