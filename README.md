@@ -24,8 +24,9 @@ agda-mode setup
 agda-mode compile
 ```
 
-
 ----
+
+A short [Tutorial](https://github.com/guillaumebrunerie/HoTT/blob/master/Agda/tutorial/README.md#emacs-mode) for Agda development in Emacs
 
 
 ####Some Agda commands in Emacs
@@ -42,6 +43,7 @@ Keybinding                      | Description
 <kbd>ctrl-c ctrl-b</kbd>        | Previous goal
 <kbd>ctrl-c ctrl-n</kbd>        | Evaluate an expression
 <kbd>ctrl-c ctrl-d</kbd>        | Infer (Deduce) type
+
 
 
 
