@@ -21,6 +21,16 @@ __E-mail:__ <siddhartha.gadgil@gmail.com>
 ### Exercise submission:
 To submit an exercise please e-mail the instructor with the __subject__ containing __LTS__ (as a separate word). All exercises in the blog/lectures are to be submitted within a week of posting.
 
+### Grades
+
+The grades will be based on a composite score consisting of
+* Assignments - 20% (code)
+* Project - 30% (code)
+* Midterm - 20% (theory)
+* Final - 30% (theory)
+
+For the project, the student is expected to formalize some mathematical structures and results in Homotopy type theory using Agda (as a literate agda file).
+
 ## Course description:
 
 The following is an overview of the topics in the course. We shall try to work most of the time within the language/formal proof system [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php).
