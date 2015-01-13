@@ -7,10 +7,6 @@
         <lastmod>2015-01-05T14:17:18+05:30</lastmod>
     </url>
     <url>
-        <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/22/fun-with-lists/</loc>
-        <lastmod>2015-01-05T14:17:18+05:30</lastmod>
-    </url>
-    <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types/</loc>
         <lastmod>2014-12-31T09:09:37+05:30</lastmod>
     </url>
@@ -51,8 +47,12 @@
         <lastmod>2015-01-09T15:54:34+05:30</lastmod>
     </url>
     <url>
+        <loc>http://siddhartha-gadgil.github.io//github/blog/2015/01/13/fun-with-lists/</loc>
+        <lastmod>2015-01-13T09:29:54+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
-        <lastmod>2015-01-09T15:54:34+05:30</lastmod>
+        <lastmod>2015-01-13T09:29:54+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/home/</loc>
@@ -64,6 +64,6 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/archives/</loc>
-        <lastmod>2015-01-09T15:54:34+05:30</lastmod>
+        <lastmod>2015-01-13T09:29:54+05:30</lastmod>
     </url>
 </urlset>
