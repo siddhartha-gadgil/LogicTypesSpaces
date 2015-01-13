@@ -1,7 +1,7 @@
+open import Base
+
 module Boolean where
 
-Type : Set₁
-Type = Set
 
 data Bool : Type where 
   true : Bool
@@ -48,3 +48,7 @@ xor₀ = λ x → (λ y → (x || y) & not (x & y))
 
 xor₁ : Bool → Bool → Bool
 xor₁ x y = (x || y) & not (x & y)
+
+if_then_else_ : {A : Type} → Bool → A → A → A
+if true then x else y = x
+if false then x else y = y 
