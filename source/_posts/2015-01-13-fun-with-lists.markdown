@@ -1,12 +1,12 @@
 ---
 layout: post
 title: "Fun with lists"
-date: 2014-03-22 07:39:57 +0530
+date: 2015-01-13 07:39:57 +0530
 comments: true
 categories:
 ---
 
-We shall now return to lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.
+We continue working with lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.
 
 ###Filtering  and if-then-else###
 

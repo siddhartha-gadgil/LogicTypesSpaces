@@ -24,6 +24,7 @@ To submit an exercise please e-mail the instructor with the __subject__ containi
 ### Grades
 
 The grades will be based on a composite score consisting of
+
 * Assignments - 20% (code)
 * Project - 30% (code)
 * Midterm - 20% (theory)
