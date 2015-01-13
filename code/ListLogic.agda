@@ -34,6 +34,18 @@ listsqs n = upto n map (λ x → (x * x))
 sumsqs : ℕ → ℕ
 sumsqs n = fold (listsqs n) by _+_ from zero
 
+_leq_ : ℕ → ℕ → Bool
+zero leq _ = true
+(succ n) leq zero = false
+(succ n) leq (succ m) = n leq m
+
+{-
+Given lists xs and ys, list sums x + y for x in xs, y in ys s.t. x ≤ y
+-}
+eglist : List ℕ → List ℕ → List ℕ
+eglist xs ys = xs flatMap (λ x → (ys filter (_leq_ x))  map (λ y → x + y))
+
+
 
 data Option (A : Set) : Set where
   Some : A → Option A
