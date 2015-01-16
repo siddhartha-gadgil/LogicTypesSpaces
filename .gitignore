@@ -20,3 +20,6 @@ bin/
 code/html/
 code/fontconfig/
 code/#*
+livecode/MAlonzo/
+code/MAlonzo/
+.preview-mode
