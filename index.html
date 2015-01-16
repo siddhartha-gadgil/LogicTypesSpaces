@@ -9,8 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="Given types $A$ and $B$, we can combine them to get the product types $A\times B$ and the sum type $A \oplus B$. These are both inductive types &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,7 +115,29 @@ MathJax.Hub.Config({
   </header>
 
 
-  <div class="entry-content">
+  <div class="entry-content"><p>Given types $A$ and $B$, we can combine them to get the product types $A\times B$ and the sum type $A \oplus B$. These are both inductive types parametrized by $A$ and $B$.</p>
+
+<h2 id="the-product">The Product</h2>
+
+<p>A term in the product $A \times B$ corresponds to an element of $A$ and an element of $B$. Hence we can define the product using a single constructor. We use square brackets for pairs as parenthesis have other meanings in Agda.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">×</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">×</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="the-direct-sum">The (direct) Sum</h2>
+
+<p>The direct sum $A \oplus B$ of types $A$ and $B$ can be thought of as the type whose elements are the elements of $A$ and the elements of $B$. Formally we have inclusion maps $\iota_j$ from the given types. Hence we get a description with two constructors.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">⊕</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="err">ι₁</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
+</span><span class="line">  <span class="err">ι₂</span> <span class="kt">:</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
