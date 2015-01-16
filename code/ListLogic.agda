@@ -43,8 +43,15 @@ zero leq _ = true
 Given lists xs and ys, list sums x + y for x in xs, y in ys s.t. x ≤ y
 -}
 eglist : List ℕ → List ℕ → List ℕ
-eglist xs ys = xs flatMap (λ x → (ys filter (_leq_ x))  map (λ y → x + y))
+eglist xs ys = xs flatMap (λ x → (ys filter (λ y → x leq y))  map (λ y → x + y))
 
+data _===_ : ℕ → ℕ → Set where
+  refll : (n : ℕ) → (n === n) 
+
+zez = refll zero
+
+onall : {a b : ℕ} → (a === b) → (b === a) 
+onall (refll n) = refll n
 
 
 data Option (A : Set) : Set where
