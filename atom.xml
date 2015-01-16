@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-13T09:30:31+05:30</updated>
+  <updated>2015-01-16T16:34:50+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Products and Sums]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums/"/>
+    <updated>2015-01-16T16:22:28+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fun With Lists]]></title>
@@ -337,7 +346,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 </span><span class="line"><span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">flatMap</span> <span class="n">f</span> <span class="ow">=</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">xs</span> <span class="n">flatMap</span> <span class="n">f</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will eventually see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. But before that we shall take a first look at dependent types.</p>
+<p>In case you did not notice, we have been programming in a functional language. To those used to imperative languages (say C), this may not look like programming, but programming in functional languages is essentially building functions, collections and structures. Indeed anyone who has programmed in (for example) scala for a while hungers for a flatmap function. We will next see some of the other main ingredients of collections in functional languages - finding in, filtering and folding lists. </p>
 
 <h3 id="exercises">Exercises</h3>
 
