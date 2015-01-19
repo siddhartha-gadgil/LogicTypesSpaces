@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-16T16:35:30+05:30</updated>
+  <updated>2015-01-19T14:03:34+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A Program : Lattice Points in a Circle]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program/"/>
+    <updated>2015-01-20T15:11:46+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program</id>
+    <content type="html"><![CDATA[<p>We now give a program (i.e., a function) that, given a natural number $n$, lists all points in the plane with co-ordinates natural numbers, which are contained in the circle of radius $n$. This illustrates how we can implement a combination of nested loops and conditions using <em>map</em>, <em>flatMap</em> and <em>filter</em>.</p>
+
+<p>We first define a function $leq$, denoting less than or equal to, for natural number. We have reserved $\leq$ for something nicer. This is a recursive definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_leq_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Bool</span>
+</span><span class="line"><span class="nf">zero</span> <span class="n">leq</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">true</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">leq</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">false</span>
+</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">leq</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=</span> <span class="n">n</span> <span class="n">leq</span> <span class="n">m</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We can now construct the function we promised. For each $a \in \mathbb{N}$, we can define a function associating to it a list by filtering $b\in \mathbb{N}$ by requiring the pair $(a , b)$ to lie in the circle, and then map to the pair $(a, b)$. We flatMap using this list-valued function.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">points</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="p">(</span><span class="err">ℕ</span> <span class="err">×</span> <span class="err">ℕ</span><span class="p">)</span>
+</span><span class="line"><span class="nf">points</span> <span class="n">n</span> <span class="ow">=</span> <span class="p">(</span><span class="n">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span> <span class="n">flatMap</span> <span class="p">(</span><span class="err">λ</span> <span class="n">a</span> <span class="err">→</span> <span class="p">((</span><span class="n">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span> <span class="n">filter</span> <span class="p">(</span><span class="err">λ</span> <span class="n">b</span> <span class="err">→</span> <span class="p">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">))</span> <span class="n">leq</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span><span class="n">points</span> <span class="p">))</span> <span class="n">map</span> <span class="p">(</span><span class="err">λ</span> <span class="n">b</span> <span class="err">→</span> <span class="p">[</span> <span class="n">a</span> <span class="p">,</span> <span class="n">b</span> <span class="p">]))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We have used <em>map</em>, <em>flatMap</em> and <em>filter</em> to replace nested loops and control statements (<em>if</em> in this case) in older programming languages. In imperative code we would have started with an empty list, used a loop for $a$, an inner one for $b$ and added to the list pairs that satisfy the condition of lying in the circle.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Products and Sums]]></title>
