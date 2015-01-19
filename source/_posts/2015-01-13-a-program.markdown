@@ -1,13 +1,12 @@
 ---
 layout: post
-title: "A program"
-date: 2015-01-13 15:11:46 +0530
+title: "A program : Lattice points in a circle"
+date: 2015-01-20 15:11:46 +0530
 comments: true
-published: false
 categories:
 ---
 
-We consider next another function illustrating how we can implement a combination of nested loops and conditions. Specifically, suppose we are given two lists $xs$ and $ys$. We construct the list of all sums $x + y$ with $x$ in $xs$, $y$ in $ys$ and $x \leq y$.
+We now give a program (i.e., a function) that, given a natural number $n$, lists all points in the plane with co-ordinates natural numbers, which are contained in the circle of radius $n$. This illustrates how we can implement a combination of nested loops and conditions using _map_, _flatMap_ and _filter_.
 
 We first define a function $leq$, denoting less than or equal to, for natural number. We have reserved $\leq$ for something nicer. This is a recursive definition.
 
@@ -18,18 +17,11 @@ zero leq _ = true
 (succ n) leq (succ m) = n leq m
 ```
 
-We can now construct the function we promised. For each $x$ in $xs$, we construct a list by first filtering $ys$ by the condition $x \leq y$ and then mapping $y$ to $x + y$.
+We can now construct the function we promised. For each $a \in \mathbb{N}$, we can define a function associating to it a list by filtering $b\in \mathbb{N}$ by requiring the pair $(a , b)$ to lie in the circle, and then map to the pair $(a, b)$. We flatMap using this list-valued function.
 
 ```haskell
-eglist : List ℕ → List ℕ → List ℕ
-eglist xs ys = xs flatMap (λ x → (ys filter (λ y → x leq y))  map (λ y → x + y))
+points : ℕ → List (ℕ × ℕ)
+points n = (upto (succ n)) flatMap (λ a → ((upto (succ n)) filter (λ b → ((a * a) + (b * b)) leq (n * n)points )) map (λ b → [ a , b ]))
 ```
 
-Note that we could replace the filtering by the simpler expression,
-
-```haskell
-(ys filter (_leq_ x))
-```
-
-
-We have used _map_, _flatMap_ and _filter_ to replace nested loops and control statements (_if_ in this case) in older programming languages. In imperative code we would have started with an empty list, used a loop for cycling through $ys$ inside one for cycling through $xs$ and added an element $x + y$ if it satisfied the condition $x \leq y$.
+We have used _map_, _flatMap_ and _filter_ to replace nested loops and control statements (_if_ in this case) in older programming languages. In imperative code we would have started with an empty list, used a loop for $a$, an inner one for $b$ and added to the list pairs that satisfy the condition of lying in the circle.

@@ -52,7 +52,7 @@ Types can be interpreted as spaces, with terms of a type points of the correspon
 
 ## Resouces:
 
-* The code for this course is available on [Github](https://github.com/siddhartha-gadgil/LogicTypesSpaces).
+* The code for this course is available on [Github](https://github.com/siddhartha-gadgil/LogicTypesSpaces), with the code in lectures in a folder called **livecode**.
 
 * Our main reference is [the HoTT book](http://homotopytypetheory.org/2013/06/20/the-hott-book/).
 
