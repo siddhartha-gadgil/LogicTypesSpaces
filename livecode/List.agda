@@ -27,6 +27,10 @@ length : {A : Type} → List A → ℕ
 length [] = 0
 length (a :: l) = succ (length l)
 
+onN : List ℕ → ℕ
+onN [] = 1
+onN (a :: l) = (onN l) * 2 
+
 _++_ : {A : Type} → List A → List A → List A
 [] ++ l = l
 (x :: ys) ++ zs = x :: (ys ++ zs)
@@ -61,3 +65,9 @@ _filter_ : {A : Type} → List A → (A → Bool) → List A
 fold_by_from_ : {A B : Type} → List A → (A → B → B) → B → B
 fold [] by _ from b = b
 fold (x :: ys) by op from b = op x (fold ys by op from b) 
+
+open import Option
+
+_find_ : {A : Type} → List A → (A → Bool) → Option A
+[] find _ = None
+(x :: ys) find p = if (p x) then (Some x) else (ys find p) 
