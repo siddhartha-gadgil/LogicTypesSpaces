@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-21T14:12:11+05:30</updated>
+  <updated>2015-01-21T14:13:32+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -153,7 +153,7 @@ $a : A$ and is otherwise built using the usual rules for forming terms.</li>
 <ul>
   <li>Define the recursion functions $recBool$ on Booleans.</li>
   <li>Define the recursion function $recList A$ as a function of $A : Type$.</li>
-  <li>Define $not$, $\_ &amp; \_$  and $\_contains&#92;_$ in terms of the above recursion functions without using any pattern matching.</li>
+  <li>Define $not$, $\_ \&amp; \_$  and $\_contains&#92;_$ in terms of the above recursion functions without using any pattern matching.</li>
 </ul>
 ]]></content>
   </entry>
