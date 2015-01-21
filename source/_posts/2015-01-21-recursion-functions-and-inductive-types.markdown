@@ -122,5 +122,5 @@ We need a few more rules of a similar nature, mainly concerned with extending ru
 ## Exercise
 
 * Define the recursion functions $recBool$ on Booleans.
-* Define the recursion function $recList A$ as a function of $A : Type$.
-* Define $not$, $\\\_&\\\_$  and $\\\_contains\\\\_$ in terms of the above recursion functions without using any pattern matching.
+* Define the recursion function $recList(A)$ as a function of $A : Type$.
+* Define $not$, $\\\_ \\& \\\_$  and $\\\_contains\\\\_$ in terms of the above recursion functions without using any pattern matching.
