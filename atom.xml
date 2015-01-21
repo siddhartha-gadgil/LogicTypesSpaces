@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-19T14:03:34+05:30</updated>
+  <updated>2015-01-21T14:10:24+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Recursion Functions and Inductive Types]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/01/21/recursion-functions-and-inductive-types/"/>
+    <updated>2015-01-21T08:36:41+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2015/01/21/recursion-functions-and-inductive-types</id>
+    <content type="html"><![CDATA[<p>We have constructed various inductive types, and constructed functions on these types recursively. We have however not addressed the issue of what are valid definitions for inductive types and recursive functions. We now turn to these questions. The definition of inductive types we now consider is not the most general, but it includes all the examples so far.</p>
+
+<h3 id="examples-recalled">Examples recalled</h3>
+
+<p>Suppose now that we wish to define an inductive type $W$. We recall two previous types we have defined. For $W = \mathbb{N}$, we used the following  definition.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">ℕ</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">zero</span> <span class="kt">:</span> <span class="err">ℕ</span>
+</span><span class="line">  <span class="n">succ</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Lists are a parametrized inductive type, which means that for each type $A$ we get a list of type $A$. We focus on the case where $A =\mathbb{N}$, so the inductive definition of $List\mathbb{N}=List\  \mathbb{N}$ becomes the following.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">List</span><span class="err">ℕ</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span> <span class="kt">:</span> <span class="kt">List</span><span class="err">ℕ</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span><span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span><span class="err">ℕ</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="constructors">Constructors.</h2>
+
+<p>The inductive type $W$ is defined by constructors, which are curried functions that give an element in $W$, with the arguments possibly in $W$. In the above examples, the constructors have types:</p>
+
+<ul>
+  <li>For $W = \mathbb{N}$, $zero$ has type $W$ and $succ$ has type $W \to W$.</li>
+  <li>For $W = List\mathbb{N}$, $[]$ has  type $W$ and $\_::\_$ has  type $\mathbb{N}\to W \to W$.</li>
+</ul>
+
+<p>It is clear how to generalize these. A constructor for a type $W$ can be:</p>
+
+<ul>
+  <li>$W$ itself (which we can think of as a function of no arguments giving $W$, i.e. $W = \to W$).</li>
+  <li>obtained from a constructor type  $T =\dots \to W$ by mapping $W$ to this constructor type to get $W \to T = W \to \dots \to W$.</li>
+  <li>obtained from a constructor type $T = \dots \to W$ by mapping a type $A$ not involving $W$ to this constructor type to get $A \to T = A \to \dots \to W$.</li>
+</ul>
+
+<p>We shall later see some other ways of building constructors. For the present, observe that all our examples so far, $\mathbb{N}$, $List A$, $Bool$, $A \times B$ and $A \oplus B$  are  all of this form. We shall next see what we mean by recursive definitions on such inductive types.</p>
+
+<h2 id="recursive-definitions">Recursive definitions.</h2>
+
+<p>We shall associate with an inductively defined type $W$ and another type $X$ a function $rec_{W, X}$ which has arguments the ingredients of a recursive definition and gives a function from $W$ to $X$. So the type of $rec_{W, X}$ is  of the form $\dots \to (W \to X)$.</p>
+
+<p>First, consider the case when $W = \mathbb{N}$. A recursive function $f: W \to X$ is defined by specifying its value on $zero$ and on $succ(n)$ for $n \in \mathbb{N}$. These values in turn are determined by terms, whose types we call $D_{zero}$ and $D_{succ}$. In terms of these, the type of $rec_{\mathbb{N}, X}$ is thus $D_{zero} \to D_{succ} \to \mathbb{N}$.</p>
+
+<p>The function $f$ is determined on $zero$ by simply specifying its image $f(zero) : X$, so $D_{zero}$ is just $X$. On the other hand, for $n : \mathbb{N}$, $f(succ(n))$ is a function of $n$ and $f(n)$. So specifying the image of $f$ on all numbers of the form $f(succ(n))$ amounts to giving a function $\mathbb{N} \to X \to X$, with the first argument to be applied to $n$ and the second to $f(n)$.</p>
+
+<p>Thus, the recursion function of $\mathbb{N}$ has the type</p>
+
+<script type="math/tex; mode=display">rec_{\mathbb{N}, X} : X \to (\mathbb{N} \to X \to X) \to X</script>
+
+<p>Next, consider the case of lists of natural numbers. Again, we define a function $f$ recursively to a type $X$ in terms of the value on the result of each constructor. For the empty list, the value of $f$ is simply given by $f([]) : X$. On the other hand, for a list of the form $head :: tail$, the value of $f$ can be a function of $head$, $tail$ and $f(tail)$. Thus, we have a recursion function with the type</p>
+
+<script type="math/tex; mode=display">rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to X</script>
+
+<p>It is easy to generalize these examples to an inductive type $W$ of the form we are considering. Namely, we associate to a constructor type $T$ a recursion data type $R_X(T)$ as follows:</p>
+
+<ul>
+  <li>if $T = W$, $R_X(T) = X$</li>
+  <li>if $T = W \to T’$, $R_X(T) = W \to X \to R_X(T’)$</li>
+  <li>if $T = A \to T’$ with $A$ independent of $W$, then $R_X(T) = A \to R_X(T’)$</li>
+</ul>
+
+<p>These rules tell us the type of the recursion functions. The recursion function satisfies certain <em>definitional equalities</em>, saying that it acts on the image of constructors as specified. For example, in the case of natural numbers, we get the identities:</p>
+
+<ul>
+  <li>$rec_{\mathbb{N}, X} (z) (f) (0) \equiv z$,</li>
+  <li>$rec_{\mathbb{N}, X} (z) (f) (succ(n)) \equiv f (n) (rec_{\mathbb{N}, X} (z) (f) (n))$.</li>
+</ul>
+
+<p>In homotopy type theory, we view an inductive definition as introducing a type, constructor functions, a recursion function and certain definitional equalities. We shall see later the final ingredients of an inductive type definition, namely a so called <em>induction function</em> and corresponding definitional equalities.</p>
+
+<p>In terms of Agda code, we can simply define the recursion functions. For instance, for natural numbers, we have:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">rec</span><span class="err">ℕ</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="kt">X</span> <span class="err">→</span> <span class="p">(</span><span class="err">ℕ</span> <span class="err">→</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="err">ℕ</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span>
+</span><span class="line"><span class="nf">rec</span><span class="err">ℕ</span> <span class="n">z</span> <span class="n">f</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">z</span>
+</span><span class="line"><span class="nf">rec</span><span class="err">ℕ</span> <span class="n">z</span> <span class="n">f</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">n</span> <span class="p">(</span><span class="n">rec</span><span class="err">ℕ</span> <span class="n">z</span> <span class="n">f</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>We shall construct the recursion functions in the other cases later. First, we shall see that we can make recursive definitions using the recursion function, without any pattern matching. In terms of Agda code, this means we need to use pattern matching only once - to construct the recursion function. In terms of homotopy type theory, all we use is that we have a recursion function of the appropriate type and that the corresponding definitional equalities hold.</p>
+
+<h2 id="definitions-using-the-recursion-function">Definitions using the recursion function.</h2>
+
+<p>We turn to examples of definitions using recursion functions. First we define the factorial. Note that in this definition $n!$ is just a variable name.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">!</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="kr">_</span><span class="o">!</span> <span class="ow">=</span> <span class="n">rec</span><span class="err">ℕ</span> <span class="mi">1</span> <span class="p">(</span><span class="err">λ</span> <span class="n">n</span> <span class="n">n</span><span class="o">!</span> <span class="err">→</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="o">!</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, we define addition using the recursion function. This is a curried function $\_plus\_ : \mathbb{N} \to \mathbb{N} \to \mathbb{N}$, so $\_plus\_ (0) = 0\ plus\ \_$ is a function, namely the identity. Similarly $\_plus\_ (succ n) = (succ n)\ plus\ \_$ is a function defined in terms of $n$ and $n\ plus\ \_$, where $n\ plus\ \_$ is the function <em>addition by $n$</em> (we use the variable name $nplus = \_ plus\_ (n)$). Clearly the following is a definition of addition (we have written this using nested lambdas for clarity).</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_plus_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">_plus_</span> <span class="ow">=</span> <span class="n">rec</span><span class="err">ℕ</span> <span class="p">(</span><span class="err">λ</span> <span class="n">n</span> <span class="err">→</span> <span class="n">n</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">n</span> <span class="n">nplus</span> <span class="err">→</span> <span class="p">(</span><span class="err">λ</span> <span class="n">m</span> <span class="err">→</span> <span class="n">succ</span> <span class="p">(</span><span class="n">nplus</span> <span class="n">m</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Multiplication can be  defined similarly</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_times_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">_times_</span> <span class="ow">=</span> <span class="n">rec</span><span class="err">ℕ</span> <span class="p">(</span><span class="err">λ</span> <span class="n">n</span> <span class="err">→</span> <span class="mi">0</span><span class="p">)(</span><span class="err">λ</span> <span class="n">n</span> <span class="n">ntimes</span> <span class="err">→</span> <span class="p">(</span><span class="err">λ</span> <span class="n">m</span> <span class="err">→</span> <span class="p">(</span><span class="n">ntimes</span> <span class="n">m</span><span class="p">)</span> <span class="n">plus</span> <span class="n">m</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="foundations-so-far">Foundations so far.</h2>
+
+<p>As you can observe, we have now defined functions purely in terms of lambdas and recursion function. Thus, we now have clear foundation rules. Namely,</p>
+
+<ul>
+  <li>We have (so far) two ways of constructing types - inductive types and function types.</li>
+  <li>Terms can be constructed by applying a function $f: A \to B$ to a term $a : A$. We make the judgment $f(a) : B$.  </li>
+  <li>Terms of function types are constructed using lambdas. A $\lambda$-term $A \to B$ is of the form $\lambda a \mapsto b$ where $b$ is an expression of type $b$, which can involve the variable (term)
+$a : A$ and is otherwise built using the usual rules for forming terms.</li>
+  <li>An inductive type $W$ is specified by specifying the types of constructors. The type of a constructor is built from $W$ in certain specified ways.</li>
+  <li>When defining an inductive type, we define constructors as terms of the specified type.</li>
+  <li>For an inductive type $W$ and a type $X$, we obtain a recursion function $rec_{W, X}$, whose type is determined in terms of the constructors of $W$. We have certain <em>computation</em> rules giving definitional equalities for the action of a recursively defined function on the image of a constructor.</li>
+</ul>
+
+<p>We need a few more rules of a similar nature, mainly concerned with extending rules involving functions to so called <em>dependent functions</em>. Our next goal is to introduce dependent functions.</p>
+
+<h2 id="exercise">Exercise</h2>
+
+<ul>
+  <li>Define the recursion functions $recBool$ on Booleans.</li>
+  <li>Define the recursion function $recList A$ as a function of $A : Type$.</li>
+  <li>Define $not$, $\_&amp;\_$  and $\_contains&#92;_$ in terms of the above recursion functions without using any pattern matching.</li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Program : Lattice Points in a Circle]]></title>

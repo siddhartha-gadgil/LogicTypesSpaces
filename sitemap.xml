@@ -59,8 +59,14 @@
         <lastmod>2015-01-19T10:46:52+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/01/21/recursion-functions-and-inductive-types/
+        </loc>
+        <lastmod>2015-01-21T14:09:37+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
-        <lastmod>2015-01-19T10:46:52+05:30</lastmod>
+        <lastmod>2015-01-21T14:09:37+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/home/</loc>
@@ -72,6 +78,6 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/archives/</loc>
-        <lastmod>2015-01-19T10:46:52+05:30</lastmod>
+        <lastmod>2015-01-21T14:09:37+05:30</lastmod>
     </url>
 </urlset>
