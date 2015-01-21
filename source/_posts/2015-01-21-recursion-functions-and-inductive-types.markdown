@@ -32,7 +32,7 @@ data Listℕ : Type where
 The inductive type $W$ is defined by constructors, which are curried functions that give an element in $W$, with the arguments possibly in $W$. In the above examples, the constructors have types:
 
 * For $W = \mathbb{N}$, $zero$ has type $W$ and $succ$ has type $W \to W$.
-* For $W = List\mathbb{N}$, $[]$ has  type $W$ and $\_::\_$ has  type $\mathbb{N}\to W \to W$.
+* For $W = List\mathbb{N}$, $[]$ has  type $W$ and $\\\_::\\\_$ has  type $\mathbb{N}\to W \to W$.
 
 It is clear how to generalize these. A constructor for a type $W$ can be:
 
@@ -90,7 +90,7 @@ _! : ℕ → ℕ
 _! = recℕ 1 (λ n n! → (n + 1) * n!)
 ```
 
-Next, we define addition using the recursion function. This is a curried function $\\\_plus\\\_ : \mathbb{N} \to \mathbb{N} \to \mathbb{N}$, so $\\\_plus\\\_ 0 = 0 plus \\\_$ is a function, namely the identity. Similarly $\\\_plus\\\_ (succ n) = (succ n) plus \\\_$ is a function defined in terms of $n$ and $n plus \\\_$, where $n plus \\\_$ is the function _addition by $n$_ (we use the variable name $nplus = \\\_ plus\\\_ n$). Clearly the following is a definition of addition (we have written this using nested lambdas for clarity).
+Next, we define addition using the recursion function. This is a curried function $\\\_plus\\\_ : \mathbb{N} \to \mathbb{N} \to \mathbb{N}$, so $\\\_plus\\\_ (0) = 0\\ plus\\ \\\_$ is a function, namely the identity. Similarly $\\\_plus\\\_ (succ n) = (succ n)\\ plus\\ \\\_$ is a function defined in terms of $n$ and $n\\ plus\\ \\\_$, where $n\\ plus\\ \\\_$ is the function _addition by $n$_ (we use the variable name $nplus = \\\_ plus\\\_ (n)$). Clearly the following is a definition of addition (we have written this using nested lambdas for clarity).
 
 ```haskell
 _plus_ : ℕ → ℕ → ℕ
@@ -116,6 +116,8 @@ $a : A$ and is otherwise built using the usual rules for forming terms.
 * An inductive type $W$ is specified by specifying the types of constructors. The type of a constructor is built from $W$ in certain specified ways.
 * When defining an inductive type, we define constructors as terms of the specified type.
 * For an inductive type $W$ and a type $X$, we obtain a recursion function $rec\_{W, X}$, whose type is determined in terms of the constructors of $W$. We have certain _computation_ rules giving definitional equalities for the action of a recursively defined function on the image of a constructor.
+
+We need a few more rules of a similar nature, mainly concerned with extending rules involving functions to so called _dependent functions_. Our next goal is to introduce dependent functions.
 
 ## Exercise
 
