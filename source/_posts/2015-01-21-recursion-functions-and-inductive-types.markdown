@@ -90,7 +90,7 @@ _! : ℕ → ℕ
 _! = recℕ 1 (λ n n! → (n + 1) * n!)
 ```
 
-Next, we define addition using the recursion function. This is a curried function $\\\_plus\\\_ : \mathbb{N} \to \mathbb{N} \to \mathbb{N}$, so $\\\_plus\\\_ (0) = 0\\ plus\\ \\\_$ is a function, namely the identity. Similarly $\\\_plus\\\_ (succ n) = (succ n)\\ plus\\ \\\_$ is a function defined in terms of $n$ and $n\\ plus\\ \\\_$, where $n\\ plus\\ \\\_$ is the function _addition by $n$_ (we use the variable name $nplus = \\\_ plus\\\_ (n)$). Clearly the following is a definition of addition (we have written this using nested lambdas for clarity).
+Next, we define addition using the recursion function. This is a curried function $\\\_plus\\\_ : \mathbb{N} \to \mathbb{N} \to \mathbb{N}$, so $\\\_plus\\\_ (0) = 0\\ plus\\ \\\_$ is a function, namely the identity. Similarly $\\\_plus\\\_ (succ(n)) = (succ (n))\\ plus\\ \\\_$ is a function defined in terms of $n$ and $n\\ plus\\ \\\_$, where $n\\ plus\\ \\\_$ is the function _addition by $n$_ (we use the variable name $nplus = \\\_ plus\\\_ (n)$). Clearly the following is a definition of addition (we have written this using nested lambdas for clarity).
 
 ```haskell
 _plus_ : ℕ → ℕ → ℕ
