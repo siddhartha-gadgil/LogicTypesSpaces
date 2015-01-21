@@ -14,6 +14,10 @@ data AnotherList (A : Type) : Type where
   _:::_ : AnotherList A → A → AnotherList A
 
 
+data Listℕ : Type where
+  [] : Listℕ
+  _::_ : ℕ → Listℕ → Listℕ
+
 onetwothree : List ℕ
 onetwothree = 1 :: (2 :: (3 :: []))
 
