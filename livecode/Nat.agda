@@ -32,3 +32,16 @@ zero * _ = zero
 factorial : ℕ → ℕ
 factorial zero = 1
 factorial (succ n) = (succ n) * (factorial n)
+
+recℕ : {X : Type} → X → (ℕ → X → X) → (ℕ → X)
+recℕ x₀ φ zero = x₀
+recℕ x₀ φ (succ n) = φ n (recℕ x₀ φ n)
+
+_! : ℕ → ℕ
+_! = recℕ 1 (λ n n! → (succ n) * n!) 
+
+_plus_ : ℕ → (ℕ → ℕ)
+_plus_ = recℕ (λ n → n) (λ n nplus → (λ m → succ (nplus m)))
+
+_times_ : ℕ → (ℕ → ℕ)
+_times_ = recℕ (λ n → 0) (λ n ntimes → (λ m → m plus (ntimes m)))
