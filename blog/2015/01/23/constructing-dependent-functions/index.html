@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Constructing Dependent Functions - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="While we have introduced dependent functions, we do not formally have any way to construct them - those constructed so far used pattern matching. We &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions">
+  <link href="/LogicTypesSpaces/favicon.png" rel="icon">
+  <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/LogicTypesSpaces/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/LogicTypesSpaces/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58114020-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/LogicTypesSpaces/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/LogicTypesSpaces/home">Home</a></li>
+  <li><a href="/LogicTypesSpaces/">Blog</a></li>
+  <li><a href="/LogicTypesSpaces/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Constructing Dependent Functions</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>While we have introduced dependent functions, we do not formally have any way to construct them - those constructed so far used pattern matching. We shall generalize the two ways we have seen to construct functions, <em>lambdas</em> and using <em>recursion functions</em> to constructions of dependent functions. In doing so we also review and clarify the case of ordinary functions.</p>
+
+<h2 id="lambdas">Lambdas</h2>
+
+<p>We can construct a function of type $A \to B$ as a lambda, i.e., we consider an $\lambda$-expression $\lambda a \to b$, which is usually denoted $a \mapsto b$ in mathematics. More precisely,</p>
+
+<ul>
+  <li>$a$ is a variable of type $A$. This is just a term with a name, which we temporarily introduce. Note that the type $A$ may not have any terms at all.</li>
+  <li>$b$ is an expression (judgmentally) of type $B$ which can involve $a$. This means that $b$ is a term formed by the usual rules for forming terms - applying a function to an argument, constructing function types, lambdas etc., except that we can use the term $a : A$ along with other terms previously introduced to the context.</li>
+  <li>When we apply $\lambda a \to b$ to $a’ : A$, we obtain the result of <em>substituting</em> $a’$ for $a$ in $b$. For this to be meaningful, it is to be understood that our rules for forming terms include rules for <em>substitution</em>.</li>
+</ul>
+
+<p>It is clear how to generalize this to obtain dependent functions, with type say $\Pi_{a : A} B(a)$. Namely, we consider terms $\lambda a \to b$ so that the expression $b$ has type $B(a)$.</p>
+
+<h2 id="recursion-functions-revisited">Recursion functions revisited.</h2>
+
+<p>Functions on inductive types can be constructed using associated recursion functions. We clarify this in the case of the simple inductive types we have considered so far, and extend this to some more general inductive types.</p>
+
+<h4 id="constructors-for-w">Constructors for $W$</h4>
+
+<p>For a type $W$, previously, we considered constructors as terms with type that can be obtained in the following ways.</p>
+
+<ul>
+  <li>$W$ itself can be the type of a constructor.</li>
+  <li>If $T$ is the type of a constructor, then $W \to T$ can also be a type of a constructor for $W$.</li>
+  <li>If $T$ is the type of a constructor and $A$ is a type not involving $W$, then $A \to T$ can also be a type of a constructor for $W$.</li>
+</ul>
+
+<p>It may seem that any type $X$ should fall into one of the latter two cases, but this is not so. For example $W \to W$ is not in either case, and indeed $(W \to W) \to W$ is not a valid type for a constructor.</p>
+
+<p>Observe that for a constructor $g$ of the type $W \to T$, if $b : B$ then $g(b)$ is also a constructor, and we have a similar statement for the type being $A \to W$.</p>
+
+<p>We now look at two more ways of obtaining constructors, with functions in the second and third rule above generalized to dependent functions.</p>
+
+<ul>
+  <li>If we have a function associating to $w : W$ the type $T(w)$ of a constructor for $W$, then $\Pi_{w : W} T(w)$ can also be the type of a constructor.</li>
+  <li>If $A$ is a type not involving $W$ and we have a function associating to $a : A$ the type $T(a)$ of a constructor for $W$, then $\Pi_{a : A} T(a)$ can also be the type of a constructor.</li>
+</ul>
+
+<h4 id="domains-of-recursion">Domains of Recursion</h4>
+
+<p>Given a constructor $\varphi$ for $W$ and a type $X$, we obtain a type which we call the <em>domain of recursion</em> of $\varphi$ and denote $R_{W, X}(\varphi)$. For constructors obtained using the above rules, we define this as follows. Note that we could have defined this purely in terms of the type of $\varphi$, but we chose the definition to be parallel to the case for dependent functions.</p>
+
+<ul>
+  <li>If $\varphi : W$, then $R_{W, X}(\varphi) = W$.</li>
+  <li>If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R_{W, X}(\varphi) = W \to X \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.</li>
+  <li>If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R_{W, X}(\varphi) = A \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.</li>
+  <li>If $\varphi : \Pi<em>{w: W} T(w)$, then $R_{W, X}(\varphi) = \Pi</em>{w: W} (W \to X \to R_{W, X}(\varphi(w))).$</li>
+  <li>If $\varphi : \Pi<em>{a: A} T(a)$ with the type $A$ not involving $W$, then $R_{W, X}(\varphi) = \Pi</em>{a: A} (A \to R_{W, X}(\varphi(w))).$</li>
+</ul>
+
+<p>If we have a type such as $W \to W$ that involves $W$ but is not equal to $W$, it is not clear whether the second or third ruls applies. We shall eventually allow some such types, but not others. For these we will extend the rules for $W$.</p>
+
+<h4 id="the-recursion-function">The recursion function</h4>
+
+<p>Suppose now that $W$ is given by constructors $\varphi_1$, $\dots$, $\varphi_k$. Then when defining $W$, we introduce for each type $X$ a term $rec_{W, X}$ with type</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : R_{W, X}(\varphi_1) \to \dots \to R_{W, X}(\varphi_k) \to (W \to X)</script>
+
+<p>We make certain judgments, giving definitional equalities involving the recursion function.</p>
+
+<h2 id="induction-functions">Induction functions</h2>
+
+<p>It is straightforward to modify the above for definitions of dependent functions. The analogues of recursive definitions for dependent functions are called <em>inductive definitions</em>, and these are interpreted in terms of <em>induction functions</em>.</p>
+
+<h4 id="for-natural-numbers">For natural numbers</h4>
+
+<p>First we briefly consider an example, namely dependent functions on $\mathbb{N}$. Suppose $X : \mathbb{N} \to \mathcal{U}$ is a type family. To define inductively a dependent function $f : \Pi_{n : \mathbb{N}} X(n)$, we must specify</p>
+
+<ul>
+  <li>$f(0)$, of type $X(0)$.</li>
+  <li>For all $n$, $f(n + 1) : X(n+1)$ in terms of $n : \mathbb{N}$ and $f(n) : X(n)$.</li>
+</ul>
+
+<p>Thus we require a term of type $X(0)$, and for each $n$, a term of type $X(n+1)$ as a function of a term of type $\mathbb{N}$ and a term of type $X(n)$. The latter data can be viewed as a single term of type $\Pi_{n : \mathbb{N}} (X(n) \to X(n+1))$. Thus, the induction function for natural numbers has the type</p>
+
+<script type="math/tex; mode=display">ind_{W, X} :  X(0) \to \Pi_{n : \mathbb{N}} (X(n) \to X(n+1)) \to \Pi_{n : \mathbb{N}} X(n).</script>
+
+<p>Notice that this type involves the expression $n+1 = succ(n)$, so the type depends on the constructor $\varphi$, not just its type.</p>
+
+<h4 id="domains-of-induction">Domains of induction</h4>
+
+<p>Given now a type family $X$, we define for constructors $\varphi$ constructed as above a type $I_{W, X}(\varphi)$ as follows.</p>
+
+<ul>
+  <li>If $\varphi : W$, then $I_{W, X}(\varphi) = W$.</li>
+  <li>If $\varphi: W \to T$, then $I_{W, X}(\varphi) = \Pi_{w: W} (X(w) \to I_{W, X}(\varphi(w)))$.</li>
+  <li>If $\varphi: A \to T$, then $I_{W, X}(\varphi) = \Pi_{a: A} I_{W, X}(\varphi(a))$.</li>
+  <li>If $\varphi: \Pi_{w: W} T(w)$, then $I_{W, X}(\varphi) = \Pi_{w: W} (X(w) \to I_{W, X}(\varphi(w)))$.</li>
+  <li>If $\varphi: \Pi_{a : A} T(a)$, then $I_{W, X}(\varphi) = \Pi_{a: A} I_{W, X}(\varphi(a))$.</li>
+</ul>
+
+<p>Observe that the constructors involving dependent functions are essentially the same as those involving ordinary functions.</p>
+
+<h4 id="the-induction-function">The induction function</h4>
+
+<p>This can now be introduced in a manner similar to the recursion function. Suppose now that $W$ is given by constructors $\varphi_1$, $\dots$, $\varphi_k$. Then when defining $W$, we introduce for each type family $X$ a term $ind_{W, X}$ with type</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : I_{W, X}(\varphi_1) \to \dots \to I_{W, X}(\varphi_k) \to (\Pi_{w: W} X(w)).</script>
+
+<p>We make certain judgments, giving definitional equalities involving the induction function.</p>
+
+<h2 id="inductive-type-families">Inductive type families</h2>
+
+<p>We now sketch the generalization to <em>inductive type families</em>.</p>
+
+<h4 id="type-families">Type families</h4>
+
+<p>A type family is one of:
+* A type $W : \mathcal{U}$.
+* A function from a type $A$ to type families.</p>
+
+<p>Thus, a typical type family is $A \to B \to \mathcal{U}$ or $\Pi_{a : A} (B(a)\to mathcal{U})$.</p>
+
+<h4 id="inductive-type-families-1">Inductive type families</h4>
+
+<p>An inductive type family, say $W : A \to \mathcal{U}$, is a type family which is determined by constructors and for which there are recursion and induction functions. The most important point to note about such a family is that even though, for $a: A$, $W(a)$ is a type, it is <strong>not</strong> an inductive type. For instance, for a type $X$ we do not have a recursion function $rec_{W(a), X}$. Instead we can recursively (and inductively) define (dependent) functions for all values of the index, i.e., we have a recursion function with type of the form</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : \dots \to \Pi_{a : A}(W(a) \to X)</script>
+
+<p>and similarly for inductive functions.</p>
+
+<h4 id="constructors-for-families">Constructors for families.</h4>
+
+<p>Consider an inductive type family $W : A \to \mathcal{U}$. It is meaningless to talk of a constructor of type $W$, as $W$ is not a type. Instead basic constructors for such families are of the form $W(a)$ for $a : A$. Similarly, we can extend a constructor $T$ to $W(a’) \to T$.</p>
+
+<p>Definitions of recursion and induction functions for type families from constructors are easy generalizations of the definitions for inductive types.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/" title="Previous Post: Recursion functions and Inductive Types">&laquo; Recursion functions and Inductive Types</a>
+      
+      
+        <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/" title="Next Post: Rooted trees and General induction">Rooted trees and General induction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/23/constructing-dependent-functions/">Constructing Dependent Functions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/20/a-program/">A Program : Lattice Points in a Circle</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/LogicTypesSpaces/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'logictypesandspaces';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A Program : Lattice Points in a Circle - Logic, Types and Spaces</title>
+  <title>Rooted Trees and General Induction - Logic, Types and Spaces</title>
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="We now give a program (i.e., a function) that, given a natural number $n$, lists all points in the plane with co-ordinates natural numbers, which are &hellip;">
+  <meta name="description" content="We now consider a more complex example, which illustrates the most general form of constructors for inductive types. A rooted tree with leaf labels &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program">
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction">
   <link href="/LogicTypesSpaces/favicon.png" rel="icon">
   <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
@@ -96,7 +96,7 @@ MathJax.Hub.Config({
   
   <header>
     
-      <h1 class="entry-title">A Program : Lattice Points in a Circle</h1>
+      <h1 class="entry-title">Rooted Trees and General Induction</h1>
     
     
       <p class="meta">
@@ -112,29 +112,71 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><p>We now give a program (i.e., a function) that, given a natural number $n$, lists all points in the plane with co-ordinates natural numbers, which are contained in the circle of radius $n$. This illustrates how we can implement a combination of nested loops and conditions using <em>map</em>, <em>flatMap</em> and <em>filter</em>.</p>
+<div class="entry-content"><p>We now consider a more complex example, which illustrates the most general form of constructors for inductive types.</p>
 
-<p>We first define a function $leq$, denoting less than or equal to, for natural number. We have reserved $\leq$ for something nicer. This is a recursive definition.</p>
+<p>A rooted tree with leaf labels of type $A$ is a structure built recursively, being of one of the forms:</p>
+
+<ul>
+  <li>a single vertex, which is the root, with a label from $A$, or</li>
+  <li>a vertex, the root, to which are attached finitely many rooted trees with leaf labels by an edge to their roots.</li>
+</ul>
+
+<p>To model this, specifically to model “finitely many rooted trees”, we introduce the inductive type family associating to a natural number $n: \mathbb{N}$ the set of natural numbers less than $n$.</p>
+
+<h2 id="the-fin-type-family">The Fin type family.</h2>
+
+<p>We construct an inductive type family $Fin: \mathbb{N} \to \mathcal{U}$, with $Fin(n)$ consisting of integers $k$ with $0 \leq k &lt; n$. For $n &gt;0$, this has an element $0$. Further, if $k$ gives an element of $Fin(n)$, then $k + 1$ is an element of $Fin(n +1)$. It is easy to see that these give the constructors of the type family. Thus,</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_leq_</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">zero</span> <span class="n">leq</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">true</span>
-</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">leq</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">false</span>
-</span><span class="line"><span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">leq</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=</span> <span class="n">n</span> <span class="n">leq</span> <span class="n">m</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Fin</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">fzero</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line">  <span class="n">fsucc</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We can now construct the function we promised. For each $a \in \mathbb{N}$, we can define a function associating to it a list by filtering $b\in \mathbb{N}$ by requiring the pair $(a , b)$ to lie in the circle, and then map to the pair $(a, b)$. We flatMap using this list-valued function.</p>
+<h2 id="inductive-family-for-rooted-trees">Inductive family for rooted trees.</h2>
+
+<p>Observe that for $n : \mathbb{N}$, a collection of $n$ objects of type $X$ can be viewed as a function $Fin(n) \to X$. To consider all finite trees we consider terms of type $\Pi_{n : \mathbb{N}} Fin(n)\to X$. Using this, we can define the inductive type of rooted trees with leaf labels of type $A$.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">points</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="p">(</span><span class="err">ℕ</span> <span class="err">×</span> <span class="err">ℕ</span><span class="p">)</span>
-</span><span class="line"><span class="nf">points</span> <span class="n">n</span> <span class="ow">=</span> <span class="p">(</span><span class="n">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span> <span class="n">flatMap</span> <span class="p">(</span><span class="err">λ</span> <span class="n">a</span> <span class="err">→</span> <span class="p">((</span><span class="n">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">))</span> <span class="n">filter</span> <span class="p">(</span><span class="err">λ</span> <span class="n">b</span> <span class="err">→</span> <span class="p">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">))</span> <span class="n">leq</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span><span class="n">points</span> <span class="p">))</span> <span class="n">map</span> <span class="p">(</span><span class="err">λ</span> <span class="n">b</span> <span class="err">→</span> <span class="p">[</span> <span class="n">a</span> <span class="p">,</span> <span class="n">b</span> <span class="p">]))</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">RootedTree</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">leaf</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span>
+</span><span class="line">  <span class="n">node</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="kt">Fin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>We have used <em>map</em>, <em>flatMap</em> and <em>filter</em> to replace nested loops and control statements (<em>if</em> in this case) in older programming languages. In imperative code we would have started with an empty list, used a loop for $a$, an inner one for $b$ and added to the list pairs that satisfy the condition of lying in the circle.</p>
+<h2 id="constructors-recursion-and-induction-generalized">Constructors, Recursion and Induction generalized</h2>
+
+<p>Note that the constructor for rooted trees is not of the earlier forms, but a more general form. For a type $W$, we can regard a term of $A \to W$ as giving a family of terms of $W$, indexed by $A$. More generally, we can construct families by regarding $W$ itself as the type of a family, and regarding functions, and dependent functions, to families of terms of $W$ as families of terms of $W$. Note that the domains cannot involve $W$.</p>
+
+<p>We add another rule for types of constructors for $W$. This completes our list of constructors, so we now have the full definition of inductive types.</p>
+
+<ul>
+  <li>If $T$ is the type of a constructor of $W$, and $V = \dots \to W$ is the type of a family of terms of $W$, then $V \to W$ can be the type of a constructor.</li>
+</ul>
+
+<p>Consider recursive and inductive definitions on rooted trees, or more generally inductive types with constructors including the new type. The value of a function on a node can depend on values on each of the rooted trees that constitute it. To formalize this, observe that if $\alpha: A \to W$ is a family of terms of type $W$, and $f : W\to X$, then we obtain a function $f \circ \alpha: A \to X$ by composition. The value of $f$ on the image of the constructor can depend on $F \circ \varphi$.</p>
+
+<p>We thus make the following rule for $R_{W, X}$, which is easy to generalize to arbitrary families and to induction functions.</p>
+
+<ul>
+  <li>If $T$ is the type of a constructor of of $W$, $A$ is a type and $\alpha : A \to W$ is a variable (or term), then for a constructor $\varphi : (A \to W) \to T$, we have
+$R_{W, X}(\varphi) = (A \to W) \to (A \to X) \to R_{W, X}(\varphi(\alpha)).</li>
+</ul>
+
+<h2 id="exercise">Exercise:</h2>
+
+<ul>
+  <li>
+    <p>Define a fold function, which, given $n : \mathbb{N}$ (which can be inferred), $f: Fin(n) \to A$ and $\<em>*\</em> : A \times B \to B$, for types $A$ and $B$, has result
+$f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
+  </li>
+  <li>
+    <p>Define a function that, given a rooted tree with leaf labels in $A$ gives the list of labels.</p>
+  </li>
+</ul>
 </div>
 
 
@@ -158,7 +200,7 @@ MathJax.Hub.Config({
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -169,10 +211,8 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/16/products-and-sums/" title="Previous Post: Products and Sums">&laquo; Products and Sums</a>
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/23/constructing-dependent-functions/" title="Previous Post: Constructing Dependent functions">&laquo; Constructing Dependent functions</a>
       
-      
-        <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/" title="Next Post: Dependent function types: Sections of a bundle">Dependent function types: Sections of a bundle &raquo;</a>
       
     </p>
   </footer>
@@ -276,8 +316,8 @@ MathJax.Hub.Config({
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program/';
-        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/20/a-program/';
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction/';
         var disqus_script = 'embed.js';
       
     (function () {

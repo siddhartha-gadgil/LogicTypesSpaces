@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="We have constructed various inductive types, and constructed functions on these types recursively. We have however not addressed the issue of what &hellip;">
+  <meta name="description" content="We now consider a more complex example, which illustrates the most general form of constructors for inductive types. A rooted tree with leaf labels &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +93,254 @@ MathJax.Hub.Config({
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We now consider a more complex example, which illustrates the most general form of constructors for inductive types.</p>
+
+<p>A rooted tree with leaf labels of type $A$ is a structure built recursively, being of one of the forms:</p>
+
+<ul>
+  <li>a single vertex, which is the root, with a label from $A$, or</li>
+  <li>a vertex, the root, to which are attached finitely many rooted trees with leaf labels by an edge to their roots.</li>
+</ul>
+
+<p>To model this, specifically to model “finitely many rooted trees”, we introduce the inductive type family associating to a natural number $n: \mathbb{N}$ the set of natural numbers less than $n$.</p>
+
+<h2 id="the-fin-type-family">The Fin type family.</h2>
+
+<p>We construct an inductive type family $Fin: \mathbb{N} \to \mathcal{U}$, with $Fin(n)$ consisting of integers $k$ with $0 \leq k &lt; n$. For $n &gt;0$, this has an element $0$. Further, if $k$ gives an element of $Fin(n)$, then $k + 1$ is an element of $Fin(n +1)$. It is easy to see that these give the constructors of the type family. Thus,</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Fin</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">fzero</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line">  <span class="n">fsucc</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="inductive-family-for-rooted-trees">Inductive family for rooted trees.</h2>
+
+<p>Observe that for $n : \mathbb{N}$, a collection of $n$ objects of type $X$ can be viewed as a function $Fin(n) \to X$. To consider all finite trees we consider terms of type $\Pi_{n : \mathbb{N}} Fin(n)\to X$. Using this, we can define the inductive type of rooted trees with leaf labels of type $A$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">RootedTree</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">leaf</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span>
+</span><span class="line">  <span class="n">node</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="kt">Fin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">RootedTree</span> <span class="kt">A</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="constructors-recursion-and-induction-generalized">Constructors, Recursion and Induction generalized</h2>
+
+<p>Note that the constructor for rooted trees is not of the earlier forms, but a more general form. For a type $W$, we can regard a term of $A \to W$ as giving a family of terms of $W$, indexed by $A$. More generally, we can construct families by regarding $W$ itself as the type of a family, and regarding functions, and dependent functions, to families of terms of $W$ as families of terms of $W$. Note that the domains cannot involve $W$.</p>
+
+<p>We add another rule for types of constructors for $W$. This completes our list of constructors, so we now have the full definition of inductive types.</p>
+
+<ul>
+  <li>If $T$ is the type of a constructor of $W$, and $V = \dots \to W$ is the type of a family of terms of $W$, then $V \to W$ can be the type of a constructor.</li>
+</ul>
+
+<p>Consider recursive and inductive definitions on rooted trees, or more generally inductive types with constructors including the new type. The value of a function on a node can depend on values on each of the rooted trees that constitute it. To formalize this, observe that if $\alpha: A \to W$ is a family of terms of type $W$, and $f : W\to X$, then we obtain a function $f \circ \alpha: A \to X$ by composition. The value of $f$ on the image of the constructor can depend on $F \circ \varphi$.</p>
+
+<p>We thus make the following rule for $R_{W, X}$, which is easy to generalize to arbitrary families and to induction functions.</p>
+
+<ul>
+  <li>If $T$ is the type of a constructor of of $W$, $A$ is a type and $\alpha : A \to W$ is a variable (or term), then for a constructor $\varphi : (A \to W) \to T$, we have
+$R_{W, X}(\varphi) = (A \to W) \to (A \to X) \to R_{W, X}(\varphi(\alpha)).</li>
+</ul>
+
+<h2 id="exercise">Exercise:</h2>
+
+<ul>
+  <li>
+    <p>Define a fold function, which, given $n : \mathbb{N}$ (which can be inferred), $f: Fin(n) \to A$ and $\<em>*\</em> : A \times B \to B$, for types $A$ and $B$, has result
+$f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
+  </li>
+  <li>
+    <p>Define a function that, given a rooted tree with leaf labels in $A$ gives the list of labels.</p>
+  </li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/23/constructing-dependent-functions/">Constructing Dependent Functions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>While we have introduced dependent functions, we do not formally have any way to construct them - those constructed so far used pattern matching. We shall generalize the two ways we have seen to construct functions, <em>lambdas</em> and using <em>recursion functions</em> to constructions of dependent functions. In doing so we also review and clarify the case of ordinary functions.</p>
+
+<h2 id="lambdas">Lambdas</h2>
+
+<p>We can construct a function of type $A \to B$ as a lambda, i.e., we consider an $\lambda$-expression $\lambda a \to b$, which is usually denoted $a \mapsto b$ in mathematics. More precisely,</p>
+
+<ul>
+  <li>$a$ is a variable of type $A$. This is just a term with a name, which we temporarily introduce. Note that the type $A$ may not have any terms at all.</li>
+  <li>$b$ is an expression (judgmentally) of type $B$ which can involve $a$. This means that $b$ is a term formed by the usual rules for forming terms - applying a function to an argument, constructing function types, lambdas etc., except that we can use the term $a : A$ along with other terms previously introduced to the context.</li>
+  <li>When we apply $\lambda a \to b$ to $a’ : A$, we obtain the result of <em>substituting</em> $a’$ for $a$ in $b$. For this to be meaningful, it is to be understood that our rules for forming terms include rules for <em>substitution</em>.</li>
+</ul>
+
+<p>It is clear how to generalize this to obtain dependent functions, with type say $\Pi_{a : A} B(a)$. Namely, we consider terms $\lambda a \to b$ so that the expression $b$ has type $B(a)$.</p>
+
+<h2 id="recursion-functions-revisited">Recursion functions revisited.</h2>
+
+<p>Functions on inductive types can be constructed using associated recursion functions. We clarify this in the case of the simple inductive types we have considered so far, and extend this to some more general inductive types.</p>
+
+<h4 id="constructors-for-w">Constructors for $W$</h4>
+
+<p>For a type $W$, previously, we considered constructors as terms with type that can be obtained in the following ways.</p>
+
+<ul>
+  <li>$W$ itself can be the type of a constructor.</li>
+  <li>If $T$ is the type of a constructor, then $W \to T$ can also be a type of a constructor for $W$.</li>
+  <li>If $T$ is the type of a constructor and $A$ is a type not involving $W$, then $A \to T$ can also be a type of a constructor for $W$.</li>
+</ul>
+
+<p>It may seem that any type $X$ should fall into one of the latter two cases, but this is not so. For example $W \to W$ is not in either case, and indeed $(W \to W) \to W$ is not a valid type for a constructor.</p>
+
+<p>Observe that for a constructor $g$ of the type $W \to T$, if $b : B$ then $g(b)$ is also a constructor, and we have a similar statement for the type being $A \to W$.</p>
+
+<p>We now look at two more ways of obtaining constructors, with functions in the second and third rule above generalized to dependent functions.</p>
+
+<ul>
+  <li>If we have a function associating to $w : W$ the type $T(w)$ of a constructor for $W$, then $\Pi_{w : W} T(w)$ can also be the type of a constructor.</li>
+  <li>If $A$ is a type not involving $W$ and we have a function associating to $a : A$ the type $T(a)$ of a constructor for $W$, then $\Pi_{a : A} T(a)$ can also be the type of a constructor.</li>
+</ul>
+
+<h4 id="domains-of-recursion">Domains of Recursion</h4>
+
+<p>Given a constructor $\varphi$ for $W$ and a type $X$, we obtain a type which we call the <em>domain of recursion</em> of $\varphi$ and denote $R_{W, X}(\varphi)$. For constructors obtained using the above rules, we define this as follows. Note that we could have defined this purely in terms of the type of $\varphi$, but we chose the definition to be parallel to the case for dependent functions.</p>
+
+<ul>
+  <li>If $\varphi : W$, then $R_{W, X}(\varphi) = W$.</li>
+  <li>If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R_{W, X}(\varphi) = W \to X \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.</li>
+  <li>If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R_{W, X}(\varphi) = A \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.</li>
+  <li>If $\varphi : \Pi<em>{w: W} T(w)$, then $R_{W, X}(\varphi) = \Pi</em>{w: W} (W \to X \to R_{W, X}(\varphi(w))).$</li>
+  <li>If $\varphi : \Pi<em>{a: A} T(a)$ with the type $A$ not involving $W$, then $R_{W, X}(\varphi) = \Pi</em>{a: A} (A \to R_{W, X}(\varphi(w))).$</li>
+</ul>
+
+<p>If we have a type such as $W \to W$ that involves $W$ but is not equal to $W$, it is not clear whether the second or third ruls applies. We shall eventually allow some such types, but not others. For these we will extend the rules for $W$.</p>
+
+<h4 id="the-recursion-function">The recursion function</h4>
+
+<p>Suppose now that $W$ is given by constructors $\varphi_1$, $\dots$, $\varphi_k$. Then when defining $W$, we introduce for each type $X$ a term $rec_{W, X}$ with type</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : R_{W, X}(\varphi_1) \to \dots \to R_{W, X}(\varphi_k) \to (W \to X)</script>
+
+<p>We make certain judgments, giving definitional equalities involving the recursion function.</p>
+
+<h2 id="induction-functions">Induction functions</h2>
+
+<p>It is straightforward to modify the above for definitions of dependent functions. The analogues of recursive definitions for dependent functions are called <em>inductive definitions</em>, and these are interpreted in terms of <em>induction functions</em>.</p>
+
+<h4 id="for-natural-numbers">For natural numbers</h4>
+
+<p>First we briefly consider an example, namely dependent functions on $\mathbb{N}$. Suppose $X : \mathbb{N} \to \mathcal{U}$ is a type family. To define inductively a dependent function $f : \Pi_{n : \mathbb{N}} X(n)$, we must specify</p>
+
+<ul>
+  <li>$f(0)$, of type $X(0)$.</li>
+  <li>For all $n$, $f(n + 1) : X(n+1)$ in terms of $n : \mathbb{N}$ and $f(n) : X(n)$.</li>
+</ul>
+
+<p>Thus we require a term of type $X(0)$, and for each $n$, a term of type $X(n+1)$ as a function of a term of type $\mathbb{N}$ and a term of type $X(n)$. The latter data can be viewed as a single term of type $\Pi_{n : \mathbb{N}} (X(n) \to X(n+1))$. Thus, the induction function for natural numbers has the type</p>
+
+<script type="math/tex; mode=display">ind_{W, X} :  X(0) \to \Pi_{n : \mathbb{N}} (X(n) \to X(n+1)) \to \Pi_{n : \mathbb{N}} X(n).</script>
+
+<p>Notice that this type involves the expression $n+1 = succ(n)$, so the type depends on the constructor $\varphi$, not just its type.</p>
+
+<h4 id="domains-of-induction">Domains of induction</h4>
+
+<p>Given now a type family $X$, we define for constructors $\varphi$ constructed as above a type $I_{W, X}(\varphi)$ as follows.</p>
+
+<ul>
+  <li>If $\varphi : W$, then $I_{W, X}(\varphi) = W$.</li>
+  <li>If $\varphi: W \to T$, then $I_{W, X}(\varphi) = \Pi_{w: W} (X(w) \to I_{W, X}(\varphi(w)))$.</li>
+  <li>If $\varphi: A \to T$, then $I_{W, X}(\varphi) = \Pi_{a: A} I_{W, X}(\varphi(a))$.</li>
+  <li>If $\varphi: \Pi_{w: W} T(w)$, then $I_{W, X}(\varphi) = \Pi_{w: W} (X(w) \to I_{W, X}(\varphi(w)))$.</li>
+  <li>If $\varphi: \Pi_{a : A} T(a)$, then $I_{W, X}(\varphi) = \Pi_{a: A} I_{W, X}(\varphi(a))$.</li>
+</ul>
+
+<p>Observe that the constructors involving dependent functions are essentially the same as those involving ordinary functions.</p>
+
+<h4 id="the-induction-function">The induction function</h4>
+
+<p>This can now be introduced in a manner similar to the recursion function. Suppose now that $W$ is given by constructors $\varphi_1$, $\dots$, $\varphi_k$. Then when defining $W$, we introduce for each type family $X$ a term $ind_{W, X}$ with type</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : I_{W, X}(\varphi_1) \to \dots \to I_{W, X}(\varphi_k) \to (\Pi_{w: W} X(w)).</script>
+
+<p>We make certain judgments, giving definitional equalities involving the induction function.</p>
+
+<h2 id="inductive-type-families">Inductive type families</h2>
+
+<p>We now sketch the generalization to <em>inductive type families</em>.</p>
+
+<h4 id="type-families">Type families</h4>
+
+<p>A type family is one of:
+* A type $W : \mathcal{U}$.
+* A function from a type $A$ to type families.</p>
+
+<p>Thus, a typical type family is $A \to B \to \mathcal{U}$ or $\Pi_{a : A} (B(a)\to mathcal{U})$.</p>
+
+<h4 id="inductive-type-families-1">Inductive type families</h4>
+
+<p>An inductive type family, say $W : A \to \mathcal{U}$, is a type family which is determined by constructors and for which there are recursion and induction functions. The most important point to note about such a family is that even though, for $a: A$, $W(a)$ is a type, it is <strong>not</strong> an inductive type. For instance, for a type $X$ we do not have a recursion function $rec_{W(a), X}$. Instead we can recursively (and inductively) define (dependent) functions for all values of the index, i.e., we have a recursion function with type of the form</p>
+
+<script type="math/tex; mode=display">rec_{W, X} : \dots \to \Pi_{a : A}(W(a) \to X)</script>
+
+<p>and similarly for inductive functions.</p>
+
+<h4 id="constructors-for-families">Constructors for families.</h4>
+
+<p>Consider an inductive type family $W : A \to \mathcal{U}$. It is meaningless to talk of a constructor of type $W$, as $W$ is not a type. Instead basic constructors for such families are of the form $W(a)$ for $a : A$. Similarly, we can extend a constructor $T$ to $W(a’) \to T$.</p>
+
+<p>Definitions of recursion and induction functions for type families from constructors are easy generalizations of the definitions for inductive types.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -251,6 +499,154 @@ $a : A$ and is otherwise built using the usual rules for forming terms.</li>
   <li>Define the recursion functions $recBool$ on Booleans.</li>
   <li>Define the recursion function $recList(A)$ as a function of $A : Type$.</li>
   <li>Define $not$, $\_ \&amp; \_$  and $\_contains&#92;_$ in terms of the above recursion functions without using any pattern matching.</li>
+</ul>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="dependent-functions">Dependent functions</h2>
+
+<p>A function $f$ on a domain $A$ when applied to an elements $a$ of type $A$ gives a value $f(a)$. Further, a function is determined by the values it gives, in the sense that if $f$, $g$ are functions with domain $A$ so that</p>
+
+<script type="math/tex; mode=display">\forall x\in A, f(x) = g(x)</script>
+
+<p>then
+<script type="math/tex">f=g.</script></p>
+
+<p>Dependent functions generalize functions, with the above properties continuing to hold. What we no longer require is that $f(a)$ has a fixed type independent of $a$, namely the codomain B. Instead we have a family of codomains $B(a)$, so that $f(a)$ has type $B(a)$.</p>
+
+<p>Such objects are common in mathematics (and physics). For example, the velocity of water flowing on a sphere  gives a vector field on a sphere. At a point $x$ on the sphere, the value of the vetor field $V$ lies in the tangent space at the point, i.e.,</p>
+
+<script type="math/tex; mode=display">V(x) \in T_x S^2.</script>
+
+<p>Hence it is best to view vector fields as dependent functions. In mathematics, the codomains are generally called fibers, which together form a fiber bundle, and dependent functions are called sections of this bundle.</p>
+
+<p>We can (and often do) regard a dependent function as an ordinary function with codomain the union of the various codomains. But, besides losing information, the function we get is not natural, in the sense that it does not respect the underlying symmetries.</p>
+
+<h2 id="products-and-pi-types">Products and $\Pi$-types</h2>
+
+<p>Another situation which is best viewed in terms of dependent functions is a product. Consider a product $A_1 \times A_2 \times \dots \times A_n$. An element of such a product is a tuple $(a_a, a_2, dots, a_n)$. We would like to view such tuples as functions $a$ on the index set $\{1, 2, \dots, n\}$, but to do so we would have to require $a(i) : A_i$, i.e., a separate codomain for each index. Thus tuples are dependent functions.</p>
+
+<p>More generally, if we have a family of types $B(a)$ indexed by a set $A$, then elements of the product</p>
+
+<script type="math/tex; mode=display">\Pi_{a : A} B(a)</script>
+
+<p>are exactly dependent functions $f$ on $A$ so that $f(a)$ has type $B(a)$ for $a : A$. Thus a type of dependent functions is denoted as in $\Pi_{a : A} B(a)$ and is often called a $\Pi$-type.</p>
+
+<h2 id="examples-and-code">Examples and code</h2>
+
+<p>We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+</span><span class="line">  <span class="kt">[]</span>   <span class="kt">:</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">zero</span>
+</span><span class="line">  <span class="kr">_</span><span class="ow">::</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This gives a family of types <em>parametrized</em> by A and <em>indexed</em> by natural numbers. The difference between parameters and indices is a bit subtle but crucial. Observe that the Agda syntax treats them quite differently.</p>
+
+<h3 id="inductive-types-and-inductive-type-families">Inductive types and inductive type families</h3>
+
+<p>We defined Booleans and natural numbers using the data statement, and defined functions on them by pattern matching. More conceptually, these are inductive types, and functions defined on them are defined by applying the recursion function. For instance, in the case of Booleans, the recursion function takes as input a type $A$ and two objects with that type (the values of $true$ and $false$) and gives a function from Booleans to $A$.</p>
+
+<p>In the case of lists, for each type $A$, we obtain a corresponding inductive type. Thus we have a family of inductive types, parametrized by the type $A$.</p>
+
+<p>In the case of vectors too, the type $A$ acts as a parameter.  Assume that the type $A$ is fixed, so vectors are now a family of types indexed by natural numbers.</p>
+
+<p>However, the vectors of a fixed size (say $7$) do not form an inductive type - we cannot define a function recursively on vectors of length $7$ alone.  In this case, this is evident from the definition, as the constructor giving vectors of size $7$ uses vectors of size $6$. So a recursive definition must also involve vectors of size $6$, hence of $5$ etc.</p>
+
+<p>We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="kt">:+</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">a</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">a</span> <span class="kt">:+</span> <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:+</span> <span class="n">xs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, vectors form an inductive type family indexed by natural numbers (and parametrized by A). As we remarked, the type for a given index is not an inductive type. Note that even in cases where we can meaningfully write down a recursion rule for the type at a fixed index, such a recursion rule does not hold, i.e., there is no recursion function using which we can translate pattern matching into function applicatio.</p>
+
+<p><strong>Remark:</strong> From the point of view of programming languages, there is another sense in which indexing by natural numbers is different from parametrizing by types - the types we construct depend on <em>objects</em>, not just other types. Modern languages usually allow types to depend on other types (sometimes called generics), but most do not allow dependence on objects.</p>
+
+<h3 id="a-dependent-function">A dependent function</h3>
+
+<p>We shall now construct a dependent function <em>countdown</em> that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">countdown</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="err">ℕ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="n">zero</span> <span class="ow">=</span> <span class="n">zero</span> <span class="ow">::</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">countdown</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">countdown</span> <span class="n">m</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The definition in terms of pattern matching is similar to recursive definitions of functions. In terms of homotopy type theory, dependent functions on inductive types are constructed by applying a dependent function called the <em>induction function</em> to the data.</p>
+
+<p>As mentioned earlier, the type of a dependent function is called the <em>product type</em> corresponding to the family of types with base the domain. For instance, the type of countdown is</p>
+
+<script type="math/tex; mode=display">\prod\limits_{n : \Bbb{N}} Vec (\Bbb{N}) (n+1).</script>
+
+<p>Except for universes (which we will keep in the background as far as possible), we have now seen all the type constructions - inductive types, functions and dependent functions.</p>
+
+<h2 id="dependent-pairs">Dependent pairs</h2>
+
+<p>Besides dependent products, the other fundamental dependent type associated to a type $A$ and a family of types $B: A \to \mathcal{U}$ is the <em>dependent sum type</em>, denoted $\Sigma_{a : A} B(a)$, whose elements are pairs $(a, b)$ with $a : A$ and $b : B(a)$. Like the pair type $A \times B$, this can be defined as an inductive type.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="p">(</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Type</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="kt">B</span> <span class="n">a</span><span class="p">)</span> <span class="err">→</span> <span class="err">Σ</span> <span class="kt">A</span> <span class="kt">B</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="type-checking-with-dependent-types">Type checking with dependent types</h3>
+
+<p>A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider the <em>zip</em> operation on vectors which associates to a vector of type $A$ with entries $a_i$ and a vector of type $B$ with entries $b_j$ a vector of type $A\times B$ with entries pairs $(a_i, b_i)$. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors
+</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">zip</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span>
+</span><span class="line"><span class="nf">zip</span>  <span class="kt">[]</span> <span class="kt">[]</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
+</span><span class="line"><span class="nf">zip</span>  <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span> <span class="ow">::</span> <span class="n">ys</span><span class="p">)</span>  <span class="ow">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="ow">::</span> <span class="p">(</span><span class="n">zip</span>  <span class="n">xs</span> <span class="n">ys</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Note that we could have used lists in place of vectors, but we would then have to give a definition that can lead to errors at runtime, or truncates perhaps giving unexpected values.</p>
+
+<h2 id="exercise">Exercise:</h2>
+
+<ul>
+  <li>Define a function $vmap$ on vectors analogous to $map$ on lists.</li>
 </ul>
 </div>
   
@@ -958,171 +1354,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/04/types-and-first-order-languages/">Types and First-order Languages</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="grammar">Grammar</h2>
-
-<p>A first-order languages has words and phrases (expressions) belonging to four types/type families.</p>
-
-<ul>
-  <li>term</li>
-  <li>formula</li>
-  <li>function - determined by degree</li>
-  <li>predicate - determined by degree.</li>
-</ul>
-
-<p>Note that the last two types can only have words as members, i.e., we cannot create elements of these types. So for a fixed language, there are only a fixed number of types. Usually functions and predicates have degrees $1$ or $2$, so there are only about $6$ types of expressions.</p>
-
-<h2 id="formation-rules">Formation rules.</h2>
-
-<p>The formation rule for new phrases are entirely in terms of the types of its constituent words/phrases, and there are typically only about $6$ such types. This means the language is not very <em>expressive</em>.</p>
-
-<h2 id="consequences-of-low-expressiveness">Consequences of low expressiveness</h2>
-
-<p>Depending on ones objective, there are two ways to cope with lack of expressiveness.</p>
-
-<ul>
-  <li>In <em>weakly typed</em> or <em>dynamically typed</em> programming languages, a lot of expressions are permitted (at compile time, or even run time) but lead to errors.</li>
-  <li>In mathematics, one embeds actually mathematics in the not very expressive language of set theory paying the price of being verbose and opaque.</li>
-</ul>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2014/12/29/sets-and-types/">Sets and Types</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2 id="set-theory">Set theory</h2>
-
-<p>A <em>set</em> is a collection of objects with no further structure. Thus, the only property (or function) associated with a set $S$ is <em>membership</em> - a different object $x$ may or may not belong to $S$ (denoted as usual $x\in S$).</p>
-
-<p>It is natural to try to reverse this and consider, for any property of objects (for example sets) the set that consists of those satisfying this (for example all sets that have a certain property). Cantor discovered, however, that this leads to paradoxes. For instance, Russell’s paradox appears if we consider the set $ S = \{X : X \notin X\}.$</p>
-
-<p>We ask whether $S\in S$. By the definition of $S$, if $X\in X$, then $X\notin X$ and vice versa.</p>
-
-<p>To prevent such paradoxes, we cannot allow sets to be defined by arbitrary properties. We do of course see definitions that look very similar to the above in mathematics - these are definitions of <em>subsets</em> of a given set. Indeed one of the valid ways of defining a set is to consider the elements of a given set that satisfy some property.</p>
-
-<p>Clearly defining only subsets of pre-existing sets will not get us far. Instead, set theory is formulated in terms of axioms, many of which assert the existence of various sets. For instance, if $S$ is a set then there is an axiom asserting the existence of the <em>power set</em> of $S$, whose elements are subsets of $S$. Sometimes we need to consider collections, such as that consisting of all groups, that are so large that they cannot be treated as sets but are considered <em>classes</em> instead.</p>
-
-<h2 id="foundations-using-set-theory">Foundations using set theory</h2>
-
-<p>Sets (and classes) form the objects in the usual foundations of mathematics, analogous to the vocabulary of the language of mathematics. However to describe theorems, proofs, or even properties describing sets, we need rules telling us how to form <em>terms</em> - corresponding to sets that may depend on variables, as well as <em>formulas</em> - corresponding to properties. We also need to specify the rules of deduction by which we can show that a theorem (given by a formula) is true. Standard foundations are the rules of <em>predicate calculus</em>.</p>
-
-<p>These foundations can indeed express, or rather encode, all real mathematics. But this encoding is often very much longer than real life mathematics and are also opaque. If one actually expects to fully formalize mathematics, it is better to use some form of <em>type theory</em>.</p>
-
-<h2 id="type-theory">Type theory</h2>
-
-<p>In type theory we replace sets by types, and the notion of membership $x\in S$, $x$ belongs to the set $S$, by having an appropriate type $x : T$, i.e., $x$ has type $T$. The crucial difference is that objects of a given type $T$ (unlike elements of a set $S$) are expected to be of the same nature. For instance, the a typical type is $\mathbb{N}\to \mathbb{N}$, consisting of functions from $\mathbb{N}$ to $\mathbb{N}$.</p>
-
-<p>Thus, for example $f : \mathbb{N}\to \mathbb{N}$ gives a lot of information about $f$. In particular we know that if $a : \mathbb{N}$, it is meaningful to talk of $f(a)$ and that this  is  a natural number too. Typically types allow us to restrict which expressions are meaningful, and infer the type of a meaningful expression. Such information is very useful in programming languages (where it is called type checking) - not only revealing errors without running a program (i.e., at compile time) but allowing a detailed analysis of the program which is used by tools.</p>
-
-<p>In practical programming languages, type checking may be more or less strict - with stricter checking meaning that expressions that can cause error while running being more likely to be rejected at compile time itself. Some languages will treat an expression $f(a)$ as valid as long as $f$ is a function, and only give an error if $a$ has type different from the domain of $f$ when we actually try to compute this expression, while stricter  languages will reject such expression  unless the types match. However in practical code a function $f(x, y) = x/y$ will generally be regarded at best as a function of two real variables, with the compiler not checking that $y$ is non-zero.</p>
-
-<p>There is another more conceptual choice in the form of type theory considered - whether or not to allow sub-typing. For instance, we can either regard every natural number as a rational number, or work with  the canonical inclusion that takes a natural number $n$  to the rational number $n/1$.</p>
-
-<h2 id="types-as-spaces">Types as spaces</h2>
-
-<p>With  all these choices, type theory  is a very fragmented subject, with both practical engineering considerations and whims dictating the many choices. It is clear to a large extend what behaviour we expect from sets, and this anchors our axiomatization. Traditionally type theory is not constrained in such a manner.</p>
-
-<p>Homotopy type theory is born out of an observed deep connection between (a form of) type theory and topology. Thus behaviour that we  expect from topology guides our  choices, so we can hope for  coherent standard foundations. We shall see that this connection is indeed extremely fruitful. </p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2014/12/17/language/">Language, Logic, Types</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3 id="recursive-structures">Recursive structures</h3>
-
-<p>A sentence is made of phrases, which in turn are made of words, just as matter is made molecules, which are in turn made of atoms. Just as atoms are of different types (elements), words are of different types (parts of speech).</p>
-
-<p>But there is a crucial difference. A typical sentence consists of a <em>verb phrase</em> and a <em>noun phrase</em>. These may be single words - verbs or nouns, but can also be built from words and phrases, including verb phrases and noun phrases. Thus phrases are <strong>recursive</strong> - they can be built from other phrases of the same type. This gives language a richness that is absent in <strong>hierarchical</strong> structures such as matter, where each level is built from simpler structures.</p>
-
-<p>It is this richness of language that makes it a natural model for logic, and much of formal logic was traditionally modeled on language. We see this briefly in the case of first order logic, before turning to an overview of how and why to go beyond this.</p>
-
-<h3 id="first-order-logic">First order logic</h3>
-
-<p>First-order logic is based on a language with words being <em>variables</em>, <em>constants</em>, <em>functions</em>, <em>relations</em> (predicates),  <em>quantifiers</em>, <em>logical operations</em>. There are two types of phrases - <strong>terms</strong> and <strong>formulas</strong>, which are built out of these words. Terms can be single words - constants or variables, or can be built by applying a function to the appropriate number of terms; formulas can be built from terms. This is very similar to a formal grammar for a language.</p>
-
-<p>Traditional foundations of mathematics are based on <em>first order logic</em> giving the grammar - i.e., rules for constructing terms, formulas, proofs etc., with the vocabulary of <em>set theory</em>. This has proved sufficient to work consistently. Yet there are serious limitations.</p>
-
-<p>We can build functions by applying functions to terms, but not to other functions (functions are not terms). This means that we cannot naturally express functions of functions, such as the norm of a linear transformation. A naive approach will be to simply treat functions as terms, and allow expressions like $f(f)$, but this leads to paradoxes.</p>
-
-<p>In set theory the approach taken  is to use indirect descriptions - functions as relations, which are sets of pairs. This is fine in terms of issues like paradoxes and consistency, but results in formalizations of actual mathematics being absurdly verbose and bearing hardly any resemblance to real mathematics.</p>
-
-<h3 id="type-theory">Type theory</h3>
-
-<p>While terms in first-order logic, like phrases in a language, can be built recursively, the <em>types</em> of words, like the part of speech, are a fixed finite set - variables, constants, functions, quantifiers etc. In particular there is no type representing functions from a given type to another given type. In <em>type theory</em>, we allow not only terms but their types to be recursively generated, with rules telling us how to construct both terms and types, and how to determine the type of a term.</p>
-
-<p>There are many flavours of type theory. It was discovered by Curry and Howard that <em>dependent type theory</em> contains not only set theory but the usual rules of reasoning, making for very efficient and elegant foundations. We shall study a flavour of dependent type theory due to Per Martin-Löf, which turns out to have remarkable connections to topology.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="">&larr; Older</a>
@@ -1138,23 +1369,23 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/23/constructing-dependent-functions/">Constructing Dependent Functions</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
       </li>
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/20/a-program/">A Program : Lattice Points in a Circle</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/16/products-and-sums/">Products and Sums</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/13/fun-with-lists/">Fun With Lists</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/08/inductive-types-natural-numbers/">Inductive Types: Natural Numbers, Lists</a>
       </li>
     
   </ul>

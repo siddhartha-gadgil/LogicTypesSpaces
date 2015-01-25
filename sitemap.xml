@@ -1,12 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>
-            http://siddhartha-gadgil.github.io//github/blog/2014/03/21/dependent-function-types/
-        </loc>
-        <lastmod>2014-12-30T11:17:16+05:30</lastmod>
-    </url>
-    <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types/</loc>
         <lastmod>2014-12-29T06:03:33+05:30</lastmod>
     </url>
@@ -60,13 +54,31 @@
     </url>
     <url>
         <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/01/20/dependent-function-types/
+        </loc>
+        <lastmod>2015-01-25T13:30:51+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
             http://siddhartha-gadgil.github.io//github/blog/2015/01/21/recursion-functions-and-inductive-types/
         </loc>
         <lastmod>2015-01-21T17:50:06+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/01/23/constructing-dependent-functions/
+        </loc>
+        <lastmod>2015-01-24T08:34:02+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/01/25/rooted-trees-and-general-induction/
+        </loc>
+        <lastmod>2015-01-25T13:30:03+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
-        <lastmod>2015-01-21T17:50:06+05:30</lastmod>
+        <lastmod>2015-01-25T13:30:51+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/home/</loc>
@@ -74,7 +86,7 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/archives/</loc>
-        <lastmod>2015-01-21T17:50:06+05:30</lastmod>
+        <lastmod>2015-01-25T13:30:51+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/robots.txt</loc>
