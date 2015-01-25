@@ -159,8 +159,8 @@ MathJax.Hub.Config({
   <li>If $\varphi : W$, then $R_{W, X}(\varphi) = W$.</li>
   <li>If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R_{W, X}(\varphi) = W \to X \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.</li>
   <li>If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R_{W, X}(\varphi) = A \to R_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.</li>
-  <li>If $\varphi : \Pi<em>{w: W} T(w)$, then $R_{W, X}(\varphi) = \Pi</em>{w: W} (W \to X \to R_{W, X}(\varphi(w))).$</li>
-  <li>If $\varphi : \Pi<em>{a: A} T(a)$ with the type $A$ not involving $W$, then $R_{W, X}(\varphi) = \Pi</em>{a: A} (A \to R_{W, X}(\varphi(w))).$</li>
+  <li>If $\varphi : \Pi_{w: W} T(w)$, then $R_{W, X}(\varphi) = \Pi_{w: W} (W \to X \to R_{W, X}(\varphi(w))).$</li>
+  <li>If $\varphi : \Pi_{a: A} T(a)$ with the type $A$ not involving $W$, then $R_{W, X}(\varphi) = \Pi_{a: A} (A \to R_{W, X}(\varphi(w))).$</li>
 </ul>
 
 <p>If we have a type such as $W \to W$ that involves $W$ but is not equal to $W$, it is not clear whether the second or third ruls applies. We shall eventually allow some such types, but not others. For these we will extend the rules for $W$.</p>
@@ -273,7 +273,7 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/" title="Previous Post: Recursion functions and Inductive Types">&laquo; Recursion functions and Inductive Types</a>
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/22/dependent-function-types/" title="Previous Post: Dependent function types: Sections of a bundle">&laquo; Dependent function types: Sections of a bundle</a>
       
       
         <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/" title="Next Post: Rooted trees and General induction">Rooted trees and General induction &raquo;</a>
@@ -305,11 +305,11 @@ MathJax.Hub.Config({
       </li>
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/22/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
       </li>
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
       </li>
     
       <li class="post">

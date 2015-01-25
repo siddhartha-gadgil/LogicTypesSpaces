@@ -162,15 +162,14 @@ MathJax.Hub.Config({
 <p>We thus make the following rule for $R_{W, X}$, which is easy to generalize to arbitrary families and to induction functions.</p>
 
 <ul>
-  <li>If $T$ is the type of a constructor of of $W$, $A$ is a type and $\alpha : A \to W$ is a variable (or term), then for a constructor $\varphi : (A \to W) \to T$, we have
-$R_{W, X}(\varphi) = (A \to W) \to (A \to X) \to R_{W, X}(\varphi(\alpha)).</li>
+  <li>If $T$ is the type of a constructor of of $W$, $A$ is a type and $\alpha : A \to W$ is a variable (or term), then for a constructor $\varphi : (A \to W) \to T$, we have $R_{W, X}(\varphi) = (A \to W) \to (A \to X) \to R_{W, X}(\varphi(\alpha))$.</li>
 </ul>
 
 <h2 id="exercise">Exercise:</h2>
 
 <ul>
   <li>
-    <p>Define a fold function, which, given $n : \mathbb{N}$ (which can be inferred), $f: Fin(n) \to A$ and $\<em>*\</em> : A \times B \to B$, for types $A$ and $B$, has result
+    <p>Define a fold function, which, given $n : \mathbb{N}$ (which can be inferred), $f: Fin(n) \to A$ and $\_ *\_ : A \times B \to B$, for types $A$ and $B$, has result
 $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
   </li>
   <li>
@@ -241,11 +240,11 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
       </li>
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/22/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
       </li>
     
       <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/20/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
+        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
       </li>
     
       <li class="post">
