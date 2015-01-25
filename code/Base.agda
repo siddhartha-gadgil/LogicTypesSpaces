@@ -10,3 +10,6 @@ data _⊕_ (A B : Type) : Type where
   ι₁ : A → A ⊕ B
   ι₂ : B → A ⊕ B
 
+data Σ (A : Type) (B : A → Type) : Type where
+ [_,_] : (a : A) → (B a) → Σ A B
+ 

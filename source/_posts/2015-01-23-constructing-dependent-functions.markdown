@@ -20,11 +20,11 @@ It is clear how to generalize this to obtain dependent functions, with type say 
 
 ## Recursion functions revisited.
 
-Functions on inductive types can be constructed using associated recursion functions. We clarify this in the case of the simple inductive types we have considered so far.
+Functions on inductive types can be constructed using associated recursion functions. We clarify this in the case of the simple inductive types we have considered so far, and extend this to some more general inductive types.
 
 #### Constructors for $W$
 
-For a type $W$, a constructor is a term with type that can be obtained in the following ways.
+For a type $W$, previously, we considered constructors as terms with type that can be obtained in the following ways.
 
 * $W$ itself can be the type of a constructor.
 * If $T$ is the type of a constructor, then $W \\to T$ can also be a type of a constructor for $W$.
@@ -34,7 +34,11 @@ It may seem that any type $X$ should fall into one of the latter two cases, but 
 
 Observe that for a constructor $g$ of the type $W \to T$, if $b : B$ then $g(b)$ is also a constructor, and we have a similar statement for the type being $A \to W$.
 
-There are other ways of obtaining constructors, as we shall see.
+We now look at two more ways of obtaining constructors, with functions in the second and third rule above generalized to dependent functions.
+
+* If we have a function associating to $w : W$ the type $T(w)$ of a constructor for $W$, then $\Pi_{w : W} T(w)$ can also be the type of a constructor.
+* If $A$ is a type not involving $W$ and we have a function associating to $a : A$ the type $T(a)$ of a constructor for $W$, then $\Pi_{a : A} T(a)$ can also be the type of a constructor.
+
 
 #### Domains of Recursion
 
@@ -43,6 +47,10 @@ Given a constructor $\varphi$ for $W$ and a type $X$, we obtain a type which we 
 * If $\varphi : W$, then $R\_{W, X}(\varphi) = W$.
 * If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R\_{W, X}(\varphi) = W \to X \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.
 * If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R\_{W, X}(\varphi) = A \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.
+* If $\varphi : \Pi_{w: W} T(w)$, then $R\_{W, X}(\varphi) = \Pi_{w: W} (W \to X \to R\_{W, X}(\varphi(w))).$
+*  If $\varphi : \Pi_{a: A} T(a)$ with the type $A$ not involving $W$, then $R\_{W, X}(\varphi) = \Pi_{a: A} (A \to R\_{W, X}(\varphi(w))).$
+
+If we have a type such as $W \to W$ that involves $W$ but is not equal to $W$, it is not clear whether the second or third ruls applies. We shall eventually allow some such types, but not others. For these we will extend the rules for $W$.
 
 #### The recursion function
 
@@ -76,6 +84,10 @@ Given now a type family $X$, we define for constructors $\varphi$ constructed as
 * If $\varphi : W$, then $I\_{W, X}(\varphi) = W$.
 * If $\varphi: W \to T$, then $I\_{W, X}(\varphi) = \Pi\_{w: W} (X(w) \to I\_{W, X}(\varphi(w)))$.
 * If $\varphi: A \to T$, then $I\_{W, X}(\varphi) = \Pi\_{a: A} I\_{W, X}(\varphi(a))$.
+* If $\varphi: \Pi\_{w: W} T(w)$, then $I\_{W, X}(\varphi) = \Pi\_{w: W} (X(w) \to I\_{W, X}(\varphi(w)))$.
+* If $\varphi: \Pi\_{a : A} T(a)$, then $I\_{W, X}(\varphi) = \Pi\_{a: A} I\_{W, X}(\varphi(a))$.
+
+Observe that the constructors involving dependent functions are essentially the same as those involving ordinary functions.
 
 #### The induction function
 
@@ -96,7 +108,7 @@ A type family is one of:
 * A type $W : \mathcal{U}$.
 * A function from a type $A$ to type families.
 
-Thus, a typical type family is $A \to B \to \mathcal{U}$.
+Thus, a typical type family is $A \to B \to \mathcal{U}$ or $\Pi\_{a : A} (B(a)\to mathcal{U})$.
 
 #### Inductive type families
 
