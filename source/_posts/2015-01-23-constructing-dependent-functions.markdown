@@ -47,8 +47,8 @@ Given a constructor $\varphi$ for $W$ and a type $X$, we obtain a type which we 
 * If $\varphi : W$, then $R\_{W, X}(\varphi) = W$.
 * If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R\_{W, X}(\varphi) = W \to X \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.
 * If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R\_{W, X}(\varphi) = A \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.
-* If $\varphi : \Pi_{w: W} T(w)$, then $R\_{W, X}(\varphi) = \Pi_{w: W} (W \to X \to R\_{W, X}(\varphi(w))).$
-*  If $\varphi : \Pi_{a: A} T(a)$ with the type $A$ not involving $W$, then $R\_{W, X}(\varphi) = \Pi_{a: A} (A \to R\_{W, X}(\varphi(w))).$
+* If $\varphi : \Pi\_{w: W} T(w)$, then $R\_{W, X}(\varphi) = \Pi\_{w: W} (W \to X \to R\_{W, X}(\varphi(w))).$
+*  If $\varphi : \Pi\_{a: A} T(a)$ with the type $A$ not involving $W$, then $R\_{W, X}(\varphi) = \Pi_{a: A} (A \to R\_{W, X}(\varphi(w))).$
 
 If we have a type such as $W \to W$ that involves $W$ but is not equal to $W$, it is not clear whether the second or third ruls applies. We shall eventually allow some such types, but not others. For these we will extend the rules for $W$.
 
