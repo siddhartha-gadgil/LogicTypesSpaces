@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="We now consider a more complex example, which illustrates the most general form of constructors for inductive types. A rooted tree with leaf labels &hellip;">
+  <meta name="description" content="We briefly saw the Fin type family when constructing trees. We clarify and elaborate on its construction. The Fin type family is indexed by natural &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,6 +93,63 @@ MathJax.Hub.Config({
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/30/fin-type-family/">Fin Type Family</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We briefly saw the <strong>Fin</strong> type family when constructing trees. We clarify and elaborate on its construction.</p>
+
+<p>The <strong>Fin</strong> type family is indexed by natural numbers $\mathbb{N}$. For $n : \mathbb{N}$, $Fin(n)$ is a finite type with $n$ elements, corresponding to the integers $k$ with $0 \leq k &lt; n$. We denote by $[k]_n$ the element corresponding to the natural number $k$ in $Fin(n)$. Note that $[1]_2$ and $[1]_3$ are <strong>not</strong> the same term even though they correspond to the same natural number.</p>
+
+<p>We define $Fin$ as an inductive type family with two constructors. In Agda, this is as follows.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Fin</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">fzero</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line">  <span class="n">fsucc</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The constructors are similar to the $zero$ and $succ$ constructors for natural numbers. However, as remarked earlier,  $[0]_2$ and $[0]_3$ are <strong>not</strong> the same term, so the constructor $fzero$ takes an argument specifying the type of the term constructed. Since $Fin(0)$ does not have a term corresponding to $0$, but $Fin(k)$ does for $k \geq 1$, we set $fzero(n) = [0]_{n +1}$. Formally, as usual, we only specify the type of $fzero$ and declare it to be a constructor.</p>
+
+<p>The second constructor $fsucc$ takes $[k]_n$ to $[ k + 1]_{n +1}$. On the associated natural numbers, this is just the successor function. However it maps the type $Fin(n)$ to the type $Fin(n+1)$ - as one should expect since, given $0 \leq k &lt; n$, we need not have $k + 1 &lt;n$, but always have $0 \leq k+1 \leq n +1$.</p>
+
+<p>Note that if $0\leq k &lt;n$, then there is unique way to obtain $[k]_n$ using the given constructors, namely (using powers to denote iterated application) $[k]_n = fsucc^k (fzero (n -k -1))$.</p>
+
+<p>By a recursive definition, we can define the function $[k]_n \mapsto k$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_as</span><span class="err">ℕ</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">fzero</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="mi">0</span>
+</span><span class="line"><span class="p">(</span><span class="n">fsucc</span> <span class="n">k</span><span class="p">)</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">k</span> <span class="n">as</span><span class="err">ℕ</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -395,8 +452,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -418,8 +474,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="kt">:+</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
@@ -435,8 +490,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We shall now construct a dependent function <em>countdown</em> that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">countdown</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="err">ℕ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
@@ -466,8 +520,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider the <em>zip</em> operation on vectors which associates to a vector of type $A$ with entries $a_i$ and a vector of type $B$ with entries $b_j$ a vector of type $A\times B$ with entries pairs $(a_i, b_i)$. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">zip</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span>
@@ -1178,181 +1231,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/06/foundations-objects/">Foundations: Mathematical Objects, Types, Rules</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Quoth Andrej Bauer:</p>
-
-<blockquote>
-  <p>Mathematicians like to imagine that their papers could in principle be formalized in set theory. This gives them a feeling of security, not unlike the one experienced by a devout man entering a venerable cathedral. It is a form of faith professed by logicians. Homotopy Type Theory is an alternative foundation to set theory.</p>
-</blockquote>
-
-<p>We now turn to the basics of homotopy type theory. We begin by laying out the basic rules governing such foundations.</p>
-
-<p>We regard almost everything in mathematics as an object - not just numbers or groups, but even theorems, proofs, axioms, constructions etc.  This lets us consider functions acting on, and collections of, just about everything. Formally objects are called <em>terms</em>, based on standard terminology of logic, but it is best to think of <em>term</em> as a synonym for <em>mathematical object</em>.</p>
-
-<p>Every term has a type, which is generally (but not always) unique. Types themselves are terms, so in particular have types. A type whose objects are themselves types is called a universe. Every set is a type, but not all types are sets.</p>
-
-<p>Our foundations are governed by rules telling us the ways in which we can construct terms, which we will see as we go on. Further, we have rules letting us make two types of judgements:</p>
-
-<ul>
-  <li>that an object $x$ has a type $T$ (denoted $x : T$).</li>
-  <li>that two objects $x$ and $y$ are equal by definition.</li>
-</ul>
-
-<p>Objects may be equal even if they are not so by definition. For instance, for a real number x, we have the equality</p>
-
-<script type="math/tex; mode=display">sin^2(x) + cos^2(x) =1</script>
-
-<p>which it would be silly to say is true by definition. Rather, it is a proposition that it is true, and we say the two sides of these are propositionally equal (but not definitionally or judgementally equal). Similar considerations also apply to objects having specified types.</p>
-
-<p>In addition to constructing objects by our rules, we can introduce objects and make some judgements related to them as axioms. Axioms may of course introduce inconsistencies.</p>
-
-<h3 id="the-boolean-type">The Boolean type</h3>
-
-<p>Let us begin constructing some mathematical objects. We shall do this in the language/formal proof system Agda, but I will try to be self-contained.</p>
-
-<p>We start with a built in universe called Set - objects having type Set are sets. We shall use the <strong>data</strong> statement to construct the type of Booleans - which is a basic logical type used to represent whether a statement is true or false.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Boolean type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Bool</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
-</span><span class="line">  <span class="n">true</span>   <span class="kt">:</span> <span class="kt">Bool</span>
-</span><span class="line">  <span class="n">false</span>  <span class="kt">:</span> <span class="kt">Bool</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The above code gives the construction of three objects: a type called Bool and two objects true and false that have type Bool. This is a simple rule for constructing a type - give it a name and list objects in it. Such a rule, in both Agda and Homotopy type theory (HoTT) is a special case of a more general rule (for constructing inductive types) which we will see later.</p>
-
-<p>Note that we do not have an explicit rule saying that any term with type Bool is either <em>true</em> or <em>false</em>, or even that <em>true</em> and <em>false</em> are not equal. Indeed we will not introduce any such rule; instead rules for constructing objects will implicitly tell us that there are exactly two distinct terms with type Bool, true and false.</p>
-
-<h3 id="a-function">A function</h3>
-
-<p>A central role in type theory is played by function types - one may even say that the principal virtue of type theory is treating functions with the respect they deserve (as any good programming language does), instead of trying to wrap them up as subsets of cartesian products that happen to satisfy some properties. We now define our first function, and our first function type.</p>
-
-<p>Given types A and B, functions from A to B give a type</p>
-
-<script type="math/tex; mode=display">A \to B.</script>
-
-<p>We construct the function $not$ from Booleans to Booleans, which is the logical negation.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical Not function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">not</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">not</span> <span class="n">true</span> <span class="ow">=</span> <span class="n">false</span>
-</span><span class="line"><span class="nf">not</span> <span class="n">false</span> <span class="ow">=</span> <span class="n">true</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We have defined the function <em>not</em> by giving the values on each Boolean constant, and these values are constants. This is the simplest form of <em>pattern matching</em>.</p>
-
-<p>Note that being able to construct such a function means $true$ and $false$ are distinct objects as promised.</p>
-
-<h3 id="currying-functions">Currying functions</h3>
-
-<p>Let us now turn to functions of two variables. By a trick due to the logician Haskell Curry, we do not have to introduce a new type. Instead, observe that if we have a function $f(x,y)$ of two variables (of types $A$ and $B$, taking values of type $C$), then for fixed $x$ we get a function of $y$ only</p>
-
-<p>$f(x , \_ ) = y \mapsto f(x,y)$</p>
-
-<p>so $f(x, \_ )$ has the type of functions from $B$ to $C$. Now viewing $f(x, \_)$ as a function of $x$, we get the curried form of $f$,</p>
-
-<script type="math/tex; mode=display">x \mapsto (y \mapsto f(x,y))</script>
-
-<p>which has type</p>
-
-<script type="math/tex; mode=display">A \to B \to C = A \to (B \to C).</script>
-
-<p>We next define the logical <em>and</em> (in its curried form). A convenient Agda feature is that we can define functions so that their arguments can appear in the beginning, end, middle or any other combination, just by putting underscores as placeholders.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical And function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="o">&amp;</span><span class="kr">_</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">true</span> <span class="o">&amp;</span> <span class="n">true</span> <span class="ow">=</span> <span class="n">true</span>
-</span><span class="line"><span class="nf">false</span> <span class="o">&amp;</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">false</span>
-</span><span class="line"><span class="nf">true</span> <span class="o">&amp;</span> <span class="n">false</span> <span class="ow">=</span> <span class="n">false</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The definition is a small extension of pattern matching we used in defining not. If some argument does not affect the result, we can use an underscore to represent all cases.</p>
-
-<h3 id="function-application">Function application</h3>
-
-<p>So far we have defined functions by defining their values on each constant as a constant. In general we use variables to represent arguments, and the values are built from previously constructed terms and the variables. Here is an example.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using function application</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">notnot</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">notnot</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">not</span> <span class="p">(</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We used a variable for the argument of the function, another generalization of pattern matching. The right hand side was built from previously constructed terms using function application. Namely, a function $f$ from $A$ to $B$ can be applied to an object with type $A$ to get an object $f(a)$ with type $B$.</p>
-
-<h3 id="lambda-expressions-giving-functions">Lambda: Expressions giving functions</h3>
-
-<p>Functions can be specified by describing the image of each argument. These are given by λ-expressions, following the notation of Church’s λ-calculus. We define such a function, $verytrue$, below, by equating it with an anonymous function that forms the right hand side.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>A function using lambda</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">verytrue</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">verytrue</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">x</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We can define (curried) functions of more than one variable using λ-expressions without having to explicitly nest λs.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Logical &#8220;exclusive or&#8221; : nested lambdas</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_xor_</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">_xor_</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="n">y</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">not</span> <span class="n">y</span><span class="p">))</span> <span class="o">||</span> <span class="p">((</span><span class="n">not</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We have now seen the most basic constructions of types and mathematical terms. We shall next turn to the more powerful constructions - inductive types and dependent types.</p>
-
-<h2 id="exercise">Exercise:</h2>
-<p>Complete the following three definitions of the logical <em>nand</em> function (look up definition if it is not familiar). Note that subscripts in Agda are obtained by typing, for example, <strong>nand\_0</strong></p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">nand</span><span class="err">₀</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">nand</span><span class="err">₀</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">nand</span><span class="err">₁</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">nand</span><span class="err">₁</span> <span class="n">true</span> <span class="n">true</span> <span class="ow">=</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">nand</span><span class="err">₂</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="nf">nand</span><span class="err">₂</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="n">y</span> <span class="err">→</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="">&larr; Older</a>
@@ -1368,6 +1246,10 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/30/fin-type-family/">Fin Type Family</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a>
       </li>
     
@@ -1381,10 +1263,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/20/a-program/">A Program : Lattice Points in a Circle</a>
       </li>
     
   </ul>

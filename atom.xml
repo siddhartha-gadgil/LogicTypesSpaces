@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-01-25T13:52:07+05:30</updated>
+  <updated>2015-01-30T11:42:15+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fin Type Family]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family/"/>
+    <updated>2015-01-30T10:55:34+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family</id>
+    <content type="html"><![CDATA[<p>We briefly saw the <strong>Fin</strong> type family when constructing trees. We clarify and elaborate on its construction.</p>
+
+<p>The <strong>Fin</strong> type family is indexed by natural numbers $\mathbb{N}$. For $n : \mathbb{N}$, $Fin(n)$ is a finite type with $n$ elements, corresponding to the integers $k$ with $0 \leq k &lt; n$. We denote by $[k]_n$ the element corresponding to the natural number $k$ in $Fin(n)$. Note that $[1]_2$ and $[1]_3$ are <strong>not</strong> the same term even though they correspond to the same natural number.</p>
+
+<p>We define $Fin$ as an inductive type family with two constructors. In Agda, this is as follows.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Fin</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Type</span> <span class="kr">where</span>
+</span><span class="line">  <span class="n">fzero</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span><span class="line">  <span class="n">fsucc</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The constructors are similar to the $zero$ and $succ$ constructors for natural numbers. However, as remarked earlier,  $[0]_2$ and $[0]_3$ are <strong>not</strong> the same term, so the constructor $fzero$ takes an argument specifying the type of the term constructed. Since $Fin(0)$ does not have a term corresponding to $0$, but $Fin(k)$ does for $k \geq 1$, we set $fzero(n) = [0]_{n +1}$. Formally, as usual, we only specify the type of $fzero$ and declare it to be a constructor.</p>
+
+<p>The second constructor $fsucc$ takes $[k]_n$ to $[ k + 1]_{n +1}$. On the associated natural numbers, this is just the successor function. However it maps the type $Fin(n)$ to the type $Fin(n+1)$ - as one should expect since, given $0 \leq k &lt; n$, we need not have $k + 1 &lt;n$, but always have $0 \leq k+1 \leq n +1$.</p>
+
+<p>Note that if $0\leq k &lt;n$, then there is unique way to obtain $[k]_n$ using the given constructors, namely (using powers to denote iterated application) $[k]_n = fsucc^k (fzero (n -k -1))$.</p>
+
+<p>By a recursive definition, we can define the function $[k]_n \mapsto k$.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_as</span><span class="err">ℕ</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="err">ℕ</span>
+</span><span class="line"><span class="nf">fzero</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="mi">0</span>
+</span><span class="line"><span class="p">(</span><span class="n">fsucc</span> <span class="n">k</span><span class="p">)</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">k</span> <span class="n">as</span><span class="err">ℕ</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rooted Trees and General Induction]]></title>
@@ -258,8 +295,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The Type family of vectors of length n</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -281,8 +317,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Appending to a vector</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="kt">:+</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
@@ -298,8 +333,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>We shall now construct a dependent function <em>countdown</em> that maps a natural number $n$ to the list consisting of natural numbers from $n$ down to $0$. Thus the type of $countdown(n)$ is vectors of natural numbers of length $n+1$.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>countdown : a dependent function</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">countdown</span> <span class="kt">:</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="err">ℕ</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
@@ -329,8 +363,7 @@ $f(0) * (f(1) * (\dots * (f(n-1) * b)))$</p>
 
 <p>A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider the <em>zip</em> operation on vectors which associates to a vector of type $A$ with entries $a_i$ and a vector of type $B$ with entries $b_j$ a vector of type $A\times B$ with entries pairs $(a_i, b_i)$. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Componentwise operation on vectors</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">zip</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Vec</span> <span class="kt">A</span> <span class="n">n</span>
@@ -1197,8 +1230,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>We begin by representing the two simplest propositions: true - always true,  and false.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>True and False types
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>True and False types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1222,8 +1254,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p><em>Modus Ponens</em> is the rule of deduction (due to Aristotle) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Ponens transaltes to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Ponens
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Modus Ponens</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">modusponens</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">P</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Q</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">P</span> <span class="err">→</span> <span class="p">(</span><span class="kt">P</span> <span class="err">→</span> <span class="kt">Q</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Q</span>
 </span><span class="line"><span class="nf">modusponens</span> <span class="n">p</span> <span class="n">imp</span> <span class="ow">=</span> <span class="n">imp</span> <span class="n">p</span>
@@ -1233,8 +1264,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 
 <p>As the $False$ type has no cases at all, a function is defined on $False$ by using an absurd pattern, which just says that there are no cases, so no definition is needed.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Vacuous implication
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Vacuous implication</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">vacuous</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">False</span> <span class="err">→</span> <span class="kt">A</span>
 </span><span class="line"><span class="nf">vacuous</span> <span class="nb">()</span>
@@ -1251,8 +1281,7 @@ We can <em>lift</em> such a partially defined function to one taking values in a
 Thus, we can define the inductive type family:</li>
 </ul>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Even type family</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Even</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -1262,8 +1291,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>We can prove that $2$ is even by applying the second rule, with $n=0$, to the first rule (telling us that $0$ is even).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>2 is Even
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>2 is Even</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">2</span>
 </span><span class="line"><span class="mi">2</span><span class="n">even</span> <span class="ow">=</span> <span class="o">+</span><span class="mi">2</span><span class="n">even</span> <span class="n">zeroeven</span>
@@ -1275,8 +1303,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Indeed, what we prove is that there is a function from $Even\ 1$ to $False$ ; we define this using an absurd pattern.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>1 is odd
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>1 is odd</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="kt">:</span> <span class="kt">Even</span> <span class="mi">1</span> <span class="err">→</span> <span class="kt">False</span>
 </span><span class="line"><span class="mi">1</span><span class="n">odd</span> <span class="nb">()</span>
@@ -1286,8 +1313,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>One of the most fundamental concepts in homotopy type theory is the identity type family, representing equality between objects with a given type. This is an inductive type family, generated by the reflexivity constructor giving an equality between an object and itself.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The identity type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>The identity type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="o">==</span><span class="kr">_</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="n">refl</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
@@ -1299,8 +1325,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Firstly, if $f$ is a function and $a==b$ (i.e., there is an object of type $a==b$), then $f(a)==f(b)$ (again, we mean there is an object of this type).</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Equality under function application</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">transfer</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </span><span class="line"><span class="nf">transfer</span> <span class="n">f</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
@@ -1308,15 +1333,13 @@ Thus, we can define the inductive type family:</li>
 
 <p>Further, we see that equality (given by the identity type) is symmetric and transitive.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Symmetry of the equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">symm</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span>
 </span><span class="line"><span class="nf">symm</span> <span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Transitivity of equality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Transitivity of equality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_transEq_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">}</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="err">→</span> <span class="n">y</span> <span class="o">==</span> <span class="n">z</span> <span class="err">→</span> <span class="n">x</span> <span class="o">==</span> <span class="n">z</span>
 </span><span class="line"><span class="p">(</span><span class="n">refl</span> <span class="n">a</span><span class="p">)</span> <span class="n">transEq</span> <span class="p">(</span><span class="n">refl</span> <span class="o">.</span><span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">a</span>
@@ -1342,8 +1365,7 @@ Thus, we can define the inductive type family:</li>
 
 <p>Such a statement is normally proved by induction (indeed any proof must reduce to induction). We see that our pattern matching rules for constructing dependent functions suffice to prove this - this is why the dependent function that gives them is called the induction function.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>f(n)= f(n+1) for all n implies f is constant
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>f(n)= f(n+1) for all n implies f is constant</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">constthm</span> <span class="kt">:</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">m</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">succ</span> <span class="n">m</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="n">m</span><span class="p">))</span> <span class="err">→</span> <span class="p">(</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">f</span> <span class="mi">0</span><span class="p">)</span>
@@ -1387,8 +1409,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Firstly, if $A$ and $B$ are types corresponding to propositions, then there are objects with each of these types if and only if there is a pair $(a, b)$ of the pair type $A \times B$, which we define as follows.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pair type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Pair type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">×</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">×</span> <span class="kt">B</span>
@@ -1398,8 +1419,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Next, suppose $A$ and $B$ are types corresponding to propositions and we wish to construct a type corresponding to $A$ <em>or</em> $B$, then we require a type whose elements are elements of $A$ and elements of $B$, or more accurately the images of such elements under constructors. This is the direct sum type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Direct Sum type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Direct Sum type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">⊕</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
@@ -1409,8 +1429,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>Finally, if we are given a collection of types $B(a)$ for objects $a$ of type $A$, we construct the type corresponding to at least one of these types having an element, i.e., a <em>there exists</em> type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sigma type
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sigma type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="err">Σ</span><span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="p">(</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
 </span><span class="line">  <span class="err">ι</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="n">a</span> <span class="err">→</span> <span class="err">Σ</span> <span class="kt">A</span> <span class="kt">B</span>
@@ -1420,8 +1439,7 @@ The proof is obtained by applying the function corresponding to the transitivity
 
 <p>As we see, we can express all the usual mathematical statements using types built up using our basic constructions: inductive types, functions and dependent functions. We have also seen that the basic rules for constructing objects are powerful rules of deduction. However, there are some things they cannot deduce, for instance the statement (called the axiom of extensionality) that if $f, g: A\to B$ are function with $f(a)=g(a)$ for all $a \in A$, then $f=g$. Hence, we have to introduce this as a postulate - we just postulate that  there is an object (which we give a name) of a given type.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Axiom of Extensionality
-</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Axiom of Extensionality</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 </pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">postulate</span>
 </span><span class="line">  <span class="n">extensionality</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">A</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">g</span> <span class="n">x</span><span class="p">))</span> <span class="err">→</span> <span class="n">f</span> <span class="o">==</span> <span class="n">g</span>
