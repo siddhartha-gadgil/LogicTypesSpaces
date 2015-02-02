@@ -39,6 +39,11 @@ double : (n : ℕ) → Σ ℕ Even
 double 0 = [ 0 , 0even ]
 double (succ n) = [ (succ (succ (proj₁ (double n)))) , (proj₂ (double n)) +2even ]
 
+halfdouble : ℕ → ℕ
+halfdouble n = half (proj₁ (double n)) (proj₂ (double n))
+
+
+
 module Collatz where
   frompf : (n : ℕ) → n|n+1even.P n → ℕ
   frompf n (ι₁ p) = half n p
