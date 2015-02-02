@@ -52,11 +52,11 @@ The function $f$ is determined on $zero$ by simply specifying its image $f(zero)
 
 Thus, the recursion function of $\mathbb{N}$ has the type
 
-$$rec_{\mathbb{N}, X} : X \to (\mathbb{N} \to X \to X) \to X$$
+$$rec_{\mathbb{N}, X} : X \to (\mathbb{N} \to X \to X) \to (\mathbb{N} \to X)$$
 
 Next, consider the case of lists of natural numbers. Again, we define a function $f$ recursively to a type $X$ in terms of the value on the result of each constructor. For the empty list, the value of $f$ is simply given by $f([]) : X$. On the other hand, for a list of the form $head :: tail$, the value of $f$ can be a function of $head$, $tail$ and $f(tail)$. Thus, we have a recursion function with the type
 
-$$rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to X$$
+$$rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to (List \mathbb{N} \to X)$$
 
 It is easy to generalize these examples to an inductive type $W$ of the form we are considering. Namely, we associate to a constructor type $T$ a recursion data type $R\_X(T)$ as follows:
 
