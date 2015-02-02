@@ -45,8 +45,10 @@ halfdouble n = half (proj₁ (double n)) (proj₂ (double n))
 
 
 module Collatz where
-  frompf : (n : ℕ) → n|n+1even.P n → ℕ
+  open n|n+1even
+
+  frompf : (n : ℕ) → P n → ℕ
   frompf n (ι₁ p) = half n p
   frompf n (ι₂ p) = (3 * n) + 1
 
-  fn = λ n → frompf n (n|n+1even.thm n) 
+  fn = λ n → frompf n (thm n) 
