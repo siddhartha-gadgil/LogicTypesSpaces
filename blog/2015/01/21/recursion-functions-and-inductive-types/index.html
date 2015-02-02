@@ -165,11 +165,11 @@ MathJax.Hub.Config({
 
 <p>Thus, the recursion function of $\mathbb{N}$ has the type</p>
 
-<script type="math/tex; mode=display">rec_{\mathbb{N}, X} : X \to (\mathbb{N} \to X \to X) \to X</script>
+<script type="math/tex; mode=display">rec_{\mathbb{N}, X} : X \to (\mathbb{N} \to X \to X) \to (\mathbb{N} \to X)</script>
 
 <p>Next, consider the case of lists of natural numbers. Again, we define a function $f$ recursively to a type $X$ in terms of the value on the result of each constructor. For the empty list, the value of $f$ is simply given by $f([]) : X$. On the other hand, for a list of the form $head :: tail$, the value of $f$ can be a function of $head$, $tail$ and $f(tail)$. Thus, we have a recursion function with the type</p>
 
-<script type="math/tex; mode=display">rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to X</script>
+<script type="math/tex; mode=display">rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to (List \mathbb{N} \to X)</script>
 
 <p>It is easy to generalize these examples to an inductive type $W$ of the form we are considering. Namely, we associate to a constructor type $T$ a recursion data type $R_X(T)$ as follows:</p>
 
@@ -307,6 +307,10 @@ $a : A$ and is otherwise built using the usual rules for forming terms.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/02/02/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/30/fin-type-family/">Fin Type Family</a>
       </li>
     
@@ -320,10 +324,6 @@ $a : A$ and is otherwise built using the usual rules for forming terms.</li>
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/22/dependent-function-types/">Dependent Function Types: Sections of a Bundle</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/21/recursion-functions-and-inductive-types/">Recursion Functions and Inductive Types</a>
       </li>
     
   </ul>
