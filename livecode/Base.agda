@@ -26,3 +26,9 @@ proj₁ ([ a , b ]) = a
 
 proj₂ : {A : Type} → {B : A → Type} → (ab : Σ A B) → (B (proj₁ ab))
 proj₂ ([ a , b ]) = b 
+
+
+-- Equality type
+
+data _==_ {A : Type} : A → A → Type where
+  refl : (a : A) → a == a
