@@ -1,3 +1,5 @@
+{-# OPTIONS --without-K #-}
+
 open import Base
 
 module Id where
@@ -11,4 +13,7 @@ _&&_ (refl a) (refl .a) = refl a
 _#_ : {A B : Type} → {x y : A} → (f : A → B) → x == y → (f x) == (f y)
 f # (refl x) = refl (f x) 
 
-
+{-
+trouble : {A : Type} → {a : A} → (loop : (a == a)) → (loop == (refl a))
+trouble (refl x) = refl (refl x)
+-}
