@@ -40,7 +40,7 @@ are exactly dependent functions $f$ on $A$ so that $f(a)$ has type $B(a)$ for $a
 We now turn to some simple examples and code. First we consider type families, which give the collection of codomains for dependent functions. The typical example is vectors of length $n$ of elements of a type $A$. Formally, a type family is just a function with codomain a universe, so the values the function takes are types.
 
 ``` haskell The Type family of vectors of length n
-data Vec (A : Set) : ℕ → Set where
+data Vec (A : Type) : ℕ → Type where
   []   : Vec A zero
   _::_ : {n : ℕ} → A → Vec A n → Vec A (succ n)
 ```
@@ -60,7 +60,7 @@ However, the vectors of a fixed size (say $7$) do not form an inductive type - w
 We can, however, recursively define functions on vectors of all sizes, i.e., of all values of the index. For examples, here is the function that appends (adds to the end) an element to a vector.
 
 ```haskell Appending to a vector
-_:+_ : {A : Set} → {n : ℕ} → A → Vec A n → Vec A (succ n)
+_:+_ : {A : Type} → {n : ℕ} → A → Vec A n → Vec A (succ n)
 a :+ [] = a :: []
 a :+ (x :: xs) = x :: (a :+ xs)
 ```
@@ -101,9 +101,9 @@ data Σ (A : Type) (B : A → Type) : Type where
 A principal use of types in programming is to avoid writing meaningless expressions, by ensuring that such expressions violate the rules for constructing objects and types. Dependent types are even better than this. For instance, consider the _zip_ operation on vectors which associates to a vector of type $A$ with entries $a\_i$ and a vector of type $B$ with entries $b\_j$ a vector of type $A\times B$ with entries pairs $(a\_i, b\_i)$. This makes sense only when both vectors have the same length. Using dependent functions and types, we can define the function in such a way that it is defined only on pairs of vectors with the same length.
 
 ```haskell Componentwise operation on vectors
-zip : {A : Set} → {n : ℕ} → Vec A n → Vec A n → Vec A n
-zip  [] [] _ = []
-zip  (x :: xs) (y :: ys)  = [x, y] :: (zip  xs ys)
+zip : {n : ℕ} → {A : Type} → Vec A n → Vec A n → Vec (A × A) n
+zip [] [] = []
+zip (x :: xs) (y :: ys) = [ x , y ] :: (zip xs ys)
 ```
 
 Note that we could have used lists in place of vectors, but we would then have to give a definition that can lead to errors at runtime, or truncates perhaps giving unexpected values.
