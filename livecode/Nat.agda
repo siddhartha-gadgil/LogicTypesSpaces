@@ -45,3 +45,13 @@ _plus_ = recℕ (λ n → n) (λ n nplus → (λ m → succ (nplus m)))
 
 _times_ : ℕ → (ℕ → ℕ)
 _times_ = recℕ (λ n → 0) (λ n ntimes → (λ m → m plus (ntimes m)))
+
+suc= : {n m : ℕ} → n == m → (succ n) == (succ m)
+suc= (refl n) = refl (succ n)
+
+
+0rid : (n : ℕ) → (n + 0) == n
+0rid 0 = refl 0
+0rid (succ n) = suc= (0rid n)
+
+

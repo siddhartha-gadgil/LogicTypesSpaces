@@ -1,3 +1,5 @@
+{-# OPTIONS --without-K #-}
+
 open import Base
 
 open import Nat
