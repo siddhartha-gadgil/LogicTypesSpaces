@@ -32,3 +32,8 @@ list→vec (head :: tail) = [ succ (proj₁ (list→vec tail)) , head :: (proj�
 vec→list : {A : Type} → Σ ℕ (λ n → Vec A n) → List A
 vec→list [ 0 , [] ] = []
 vec→list [ succ n , (head :: tail) ] = head :: (vec→list [ n , tail ])
+
+get : {A : Type} → (n : ℕ) → Vec A n → (k : ℕ) → ((succ k) ≤ n) → A
+get .0 [] k ()
+get (succ n) (head :: tail) zero p = head
+get (succ n) (head :: tail) (succ k) (succ≤ .(succ k) .n p) = get n tail k p

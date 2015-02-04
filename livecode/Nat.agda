@@ -54,4 +54,7 @@ suc= (refl n) = refl (succ n)
 0rid 0 = refl 0
 0rid (succ n) = suc= (0rid n)
 
+data _≤_ : ℕ → ℕ → Type where
+  0≤n : (n : ℕ) → 0 ≤ n
+  succ≤ : (a b : ℕ) → (a ≤ b) → ((succ a) ≤ (succ b))
 
