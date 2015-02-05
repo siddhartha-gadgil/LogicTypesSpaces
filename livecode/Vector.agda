@@ -37,3 +37,6 @@ get : {A : Type} → (n : ℕ) → Vec A n → (k : ℕ) → ((succ k) ≤ n) �
 get .0 [] k ()
 get (succ n) (head :: tail) zero p = head
 get (succ n) (head :: tail) (succ k) (succ≤ .(succ k) .n p) = get n tail k p
+
+vhead : {A : Type} → {n : ℕ} → Vec A (succ n) → A
+vhead (x :: v) = x
