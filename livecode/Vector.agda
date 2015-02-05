@@ -23,6 +23,12 @@ zip (a :: as) (b :: bs) = ([ a , b ]) :: (zip as bs)
 -- wrong
 -- zip {ℕ} {3} (countdown 2) (countdown 3)
 
+vhead : {A : Type} → {n : ℕ} → Vec A (succ n) → A
+vhead (x :: v) = x
+
+vtail : {A : Type} → {n : ℕ} → Vec A (succ n) → Vec A n
+vtail (x :: v) = v
+
 open import List
 
 list→vec : {A : Type} → List A → Σ ℕ (λ n → Vec A n)
@@ -32,3 +38,4 @@ list→vec (head :: tail) = [ succ (proj₁ (list→vec tail)) , head :: (proj�
 vec→list : {A : Type} → Σ ℕ (λ n → Vec A n) → List A
 vec→list [ 0 , [] ] = []
 vec→list [ succ n , (head :: tail) ] = head :: (vec→list [ n , tail ])
+

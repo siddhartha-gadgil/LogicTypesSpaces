@@ -32,3 +32,6 @@ proj₂ ([ a , b ]) = b
 
 data _==_ {A : Type} : A → A → Type where
   refl : (a : A) → a == a
+
+dual : {A B : Type} → (C : Type) → (A → B) → ((B → C) → (A → C))
+dual C f φ = λ a → φ (f a)
