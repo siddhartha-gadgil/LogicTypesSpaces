@@ -58,11 +58,11 @@ Next, consider the case of lists of natural numbers. Again, we define a function
 
 $$rec_{List \mathbb{N}, X} : X \to (\mathbb{N} \to List \mathbb{N} \to X \to X) \to (List \mathbb{N} \to X)$$
 
-It is easy to generalize these examples to an inductive type $W$ of the form we are considering. Namely, we associate to a constructor type $T$ a recursion data type $R\_X(T)$ as follows:
+It is easy to generalize these examples to an inductive type $W$ of the form we are considering. Namely, we associate to a constructor type $T$ a recursion data type $R\_{W, X}(T)$ as follows:
 
-* if $T = W$, $R\_X(T) = X$
-* if $T = W \to T'$, $R\_X(T) = W \to X \to R\_X(T')$
-* if $T = A \to T'$ with $A$ independent of $W$, then $R\_X(T) = A \to R\_X(T')$
+* if $T = W$, $R\_{W, X}(T) = X$
+* if $T = W \to T'$, $R\_{W, X}(T) = W \to X \to R\_{W, X}(T')$
+* if $T = A \to T'$ with $A$ independent of $W$, then $R\_{W, X}(T) = A \to R\_{W, X}(T')$
 
 These rules tell us the type of the recursion functions. The recursion function satisfies certain _definitional equalities_, saying that it acts on the image of constructors as specified. For example, in the case of natural numbers, we get the identities:
 
