@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Products and Sums - Logic, Types and Spaces</title>
+  <title>Category: Exercises - Logic, Types and Spaces</title>
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="Given types $A$ and $B$, we can combine them to get the product types $A\times B$ and the sum type $A \oplus B$. These are both inductive types &hellip;">
+  <meta name="description" content="Category: Exercises">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums">
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//githubblog/categories/exercises">
   <link href="/LogicTypesSpaces/favicon.png" rel="icon">
   <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
@@ -93,97 +93,36 @@ MathJax.Hub.Config({
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Products and Sums</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
+    <h1 class="entry-title">Category: Exercises</h1>
     
   </header>
-
-
-<div class="entry-content"><p>Given types $A$ and $B$, we can combine them to get the product types $A\times B$ and the sum type $A \oplus B$. These are both inductive types parametrized by $A$ and $B$.</p>
-
-<h2 id="the-product">The Product</h2>
-
-<p>A term in the product $A \times B$ corresponds to an element of $A$ and an element of $B$. Hence we can define the product using a single constructor. We use square brackets for pairs as parenthesis have other meanings in Agda.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">×</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
-</span><span class="line">  <span class="p">[</span><span class="kr">_</span><span class="p">,</span><span class="kr">_</span><span class="p">]</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">×</span> <span class="kt">B</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h2 id="the-direct-sum">The (direct) Sum</h2>
-
-<p>The direct sum $A \oplus B$ of types $A$ and $B$ can be thought of as the type whose elements are the elements of $A$ and the elements of $B$. Formally we have inclusion maps $\iota_j$ from the given types. Hence we get a description with two constructors.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kr">_</span><span class="err">⊕</span><span class="kr">_</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">B</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Type</span> <span class="kr">where</span>
-</span><span class="line">  <span class="err">ι₁</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
-</span><span class="line">  <span class="err">ι₂</span> <span class="kt">:</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">⊕</span> <span class="kt">B</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
-
-      
+  <div id="blog-archives" class="category">
 
 
 
-
-
-      
-
-
-    </p>
-    
-      <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
+  <h2>2015</h2>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/13/fun-with-lists/" title="Previous Post: Fun with lists">&laquo; Fun with lists</a>
-      
-      
-        <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2015/01/20/a-program/" title="Next Post: A program : Lattice points in a circle">A program : Lattice points in a circle &raquo;</a>
-      
-    </p>
-  </footer>
+<article>
+  
+<h1><a href="/LogicTypesSpaces/blog/2015/02/09/exercises-for-midterm/">Exercises for Midterm</a></h1>
+<time datetime="2015-02-09T10:04:45+05:30" pubdate><span class='month'>Feb</span> <span class='day'>09</span> <span class='year'>2015</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/LogicTypesSpaces/blog/categories/exercises/'>Exercises</a></span>
+</footer>
+
+
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -276,10 +215,7 @@ MathJax.Hub.Config({
       var disqus_shortname = 'logictypesandspaces';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums/';
-        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/16/products-and-sums/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
