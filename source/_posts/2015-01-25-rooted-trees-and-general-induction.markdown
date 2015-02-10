@@ -27,7 +27,7 @@ data Fin : ℕ → Type where
 
 ## Inductive family for rooted trees.
 
-Observe that for $n : \mathbb{N}$, a collection of $n$ objects of type $X$ can be viewed as a function $Fin(n) \to X$. To consider all finite trees we consider terms of type $\Pi\_{n : \mathbb{N}} Fin(n)\to X$. Using this, we can define the inductive type of rooted trees with leaf labels of type $A$.
+Observe that for $n : \mathbb{N}$, a collection of $n$ objects of type $X$ can be viewed as a function $Fin(n) \to X$. To consider all finite collections we consider terms of type $\Pi\_{n : \mathbb{N}} (Fin(n)\to X)$. Using this, we can define the inductive type of rooted trees with leaf labels of type $A$.
 
 ```haskell
 data RootedTree (A : Type) : Type where
