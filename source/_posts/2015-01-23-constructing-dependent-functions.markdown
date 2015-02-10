@@ -44,7 +44,7 @@ We now look at two more ways of obtaining constructors, with functions in the se
 
 Given a constructor $\varphi$ for $W$ and a type $X$, we obtain a type which we call the _domain of recursion_ of $\varphi$ and denote $R\_{W, X}(\varphi)$. For constructors obtained using the above rules, we define this as follows. Note that we could have defined this purely in terms of the type of $\varphi$, but we chose the definition to be parallel to the case for dependent functions.
 
-* If $\varphi : W$, then $R\_{W, X}(\varphi) = \Pi_{w: W} X(w)$.
+* If $\varphi : W$, then $R\_{W, X}(\varphi) = X$.
 * If $\varphi : W \to T$ and $w : W$ is a variable (or term), then $R\_{W, X}(\varphi) = W \to X \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $w : W$. Indeed it is determined by the type $T$ of $\varphi(w)$.
 * If $\varphi : A \to T$ and $a : W$ is a variable (or term), then $R\_{W, X}(\varphi) = A \to R\_{W, X}(\varphi(w))$. Note that this does not depend on the choice of $a : A$. Indeed it is determined by the type $T$ of $\varphi(a)$.
 * If $\varphi : \Pi\_{w: W} T(w)$, then $R\_{W, X}(\varphi) = \Pi\_{w: W} (W \to X \to R\_{W, X}(\varphi(w))).$
