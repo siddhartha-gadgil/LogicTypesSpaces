@@ -13,7 +13,7 @@ We have constructed various inductive types, and constructed functions on these 
 Suppose now that we wish to define an inductive type $W$. We recall two previous types we have defined. For $W = \mathbb{N}$, we used the following  definition.
 
 ``` haskell
-data ℕ : Type where
+data ℕ : Set where
   zero : ℕ
   succ : ℕ → ℕ
 ```
