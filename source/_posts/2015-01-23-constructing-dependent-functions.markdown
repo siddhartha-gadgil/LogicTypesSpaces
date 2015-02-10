@@ -32,7 +32,7 @@ For a type $W$, previously, we considered constructors as terms with type that c
 
 It may seem that any type $X$ should fall into one of the latter two cases, but this is not so. For example $W \to W$ is not in either case, and indeed $(W \to W) \to W$ is not a valid type for a constructor.
 
-Observe that for a constructor $g$ of the type $W \to T$, if $b : B$ then $g(b)$ is also a constructor, and we have a similar statement for the type being $A \to T$.
+Observe that for a constructor $g$ of the type $W \to T$, if $w : W$ then $g(w)$ is also a constructor, and we have a similar statement for the type being $A \to T$.
 
 We now look at two more ways of obtaining constructors, with functions in the second and third rule above generalized to dependent functions.
 
