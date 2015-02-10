@@ -108,7 +108,7 @@ A type family is one of:
 * A type $W : \mathcal{U}$.
 * A function from a type $A$ to type families.
 
-Thus, a typical type family is $A \to B \to \mathcal{U}$ or $\Pi\_{a : A} (B(a)\to \mathcal{U})$.
+Thus, a typical type family is $A \to B \to \mathcal{U}$ or $\Pi\_{a : A} (B(a)\to mathcal{U})$.
 
 #### Inductive type families
 
