@@ -50,3 +50,4 @@ _times_ = recℕ (λ n → 0) (λ n ntimes → (λ m → m plus (ntimes m)))
 data _≤_ : ℕ → ℕ → Type where
   0≤ : (n : ℕ) → 0 ≤ n
   succ≤ : {a : ℕ} → {b : ℕ} → (a ≤ b) → (succ a) ≤ (succ b)
+

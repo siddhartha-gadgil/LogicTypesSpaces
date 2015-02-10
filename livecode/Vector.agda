@@ -39,3 +39,17 @@ vec→list : {A : Type} → Σ ℕ (λ n → Vec A n) → List A
 vec→list [ 0 , [] ] = []
 vec→list [ succ n , (head :: tail) ] = head :: (vec→list [ n , tail ])
 
+ltov : {A : Type} → (l : List A) → Vec A (length l)
+ltov [] = []
+ltov (x :: l) = x :: ltov l
+
+lookup : {A : Type} → (n : ℕ) → Vec A n → (k : ℕ) → (succ k ≤ n) → A
+lookup .0 [] k ()
+lookup (succ n) (x :: v) zero p = x
+lookup (succ n) (x :: v) (succ k) (succ≤ p) = lookup n v k p  
+
+example = lookup _ (1 :: (2 :: (3 :: []))) 1 (succ≤ (succ≤ (0≤ 1)))
+
+-- letstry = lookup _ (1 :: (2 :: (3 :: []))) 1 _
+
+
