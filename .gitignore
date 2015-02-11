@@ -12,7 +12,6 @@ source/stylesheets/screen.css
 vendor
 node_modules
 *~
-*.agdai
 .cache
 .classpath
 .project
@@ -26,3 +25,4 @@ archivecode/#*
 livecode/MAlonzo/
 code/MAlonzo/
 .preview-mode
+livecode/latex/
