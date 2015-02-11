@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fin Type Family - Logic, Types and Spaces</title>
+  <title>Exercises for Midterm - Logic, Types and Spaces</title>
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="We briefly saw the Fin type family when constructing trees. We clarify and elaborate on its construction. The Fin type family is indexed by natural &hellip;">
+  <meta name="description" content="These exercises are for review before the midterm. They are not to be submitted. Let $\_\le\_$ denote the type family corresponding to the less than &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family">
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm">
   <link href="/LogicTypesSpaces/favicon.png" rel="icon">
   <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
@@ -97,7 +97,7 @@ MathJax.Hub.Config({
   
   <header>
     
-      <h1 class="entry-title">Fin Type Family</h1>
+      <h1 class="entry-title">Exercises for Midterm</h1>
     
     
       <p class="meta">
@@ -113,35 +113,22 @@ MathJax.Hub.Config({
   </header>
 
 
-<div class="entry-content"><p>We briefly saw the <strong>Fin</strong> type family when constructing trees. We clarify and elaborate on its construction.</p>
+<div class="entry-content"><p>These exercises are for review before the midterm. They are not to be submitted.</p>
 
-<p>The <strong>Fin</strong> type family is indexed by natural numbers $\mathbb{N}$. For $n : \mathbb{N}$, $Fin(n)$ is a finite type with $n$ elements, corresponding to the integers $k$ with $0 \leq k &lt; n$. We denote by $[k]_n$ the element corresponding to the natural number $k$ in $Fin(n)$. Note that $[1]_2$ and $[1]_3$ are <strong>not</strong> the same term even though they correspond to the same natural number.</p>
-
-<p>We define $Fin$ as an inductive type family with two constructors. In Agda, this is as follows.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Fin</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">Type</span> <span class="kr">where</span>
-</span><span class="line">  <span class="n">fzero</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
-</span><span class="line">  <span class="n">fsucc</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>The constructors are similar to the $zero$ and $succ$ constructors for natural numbers. However, as remarked earlier,  $[0]_2$ and $[0]_3$ are <strong>not</strong> the same term, so the constructor $fzero$ takes an argument specifying the type of the term constructed. Since $Fin(0)$ does not have a term corresponding to $0$, but $Fin(k)$ does for $k \geq 1$, we set $fzero(n) = [0]_{n +1}$. Formally, as usual, we only specify the type of $fzero$ and declare it to be a constructor.</p>
-
-<p>The second constructor $fsucc$ takes $[k]_n$ to $[ k + 1]_{n +1}$. On the associated natural numbers, this is just the successor function. However it maps the type $Fin(n)$ to the type $Fin(n+1)$ - as one should expect since, given $0 \leq k &lt; n$, we need not have $k + 1 &lt;n$, but always have $0 \leq k+1 \leq n +1$.</p>
-
-<p>Note that if $0\leq k &lt;n$, then there is unique way to obtain $[k]_n$ using the given constructors, namely (using powers to denote iterated application) $[k]_n = fsucc^k (fzero (n -k -1))$.</p>
-
-<p>By a recursive definition, we can define the function $[k]_n \mapsto k$.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_as</span><span class="err">ℕ</span> <span class="kt">:</span> <span class="p">{</span><span class="n">n</span> <span class="kt">:</span> <span class="err">ℕ</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Fin</span> <span class="n">n</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">fzero</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="mi">0</span>
-</span><span class="line"><span class="p">(</span><span class="n">fsucc</span> <span class="n">k</span><span class="p">)</span> <span class="n">as</span><span class="err">ℕ</span> <span class="ow">=</span> <span class="n">succ</span> <span class="p">(</span><span class="n">k</span> <span class="n">as</span><span class="err">ℕ</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<ol>
+  <li>
+    <p>Let $\_\le\_$ denote the type family corresponding to the <em>less than or equal to</em> relation. For a function $f : \mathbb{N} \to \mathbb{N}$, what does the type $\Pi_{n : \mathbb{N}}\Pi_{m : \mathbb{N}} (m \le n \to f(n) \le f(m))$ represent?</p>
+  </li>
+  <li>
+    <p>For fixed types $A$ and $B$, recall that $A \times B$ is an inductive type. For a type $W$, what is the type of $rec_{A \times B, X}$? Relate this to Currying functions.</p>
+  </li>
+  <li>
+    <p>For a function $f : \mathbb{N} \to \mathbb{N}$, define a type corresponding to $f$ being bounded (above), using the type family $\_\le\_$.</p>
+  </li>
+  <li>
+    <p>Let $S$ be a type. Define an inductive type $W(S)$ whose terms are words, i.e., finite sequences, with each letter an element of $S$ or the formal inverse of an element of $S$. For example, if $S$ is the set (which we view as a type) $S = \{a, b\}$, then a term of $W(S)$ is $ab\bar{a}a\bar{b}$.</p>
+  </li>
+</ol>
 </div>
 
 
@@ -160,12 +147,18 @@ MathJax.Hub.Config({
 
       
 
+<span class="categories">
+  
+    <a class='category' href='/LogicTypesSpaces/blog/categories/exercises/'>Exercises</a>
+  
+</span>
+
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -176,10 +169,8 @@ MathJax.Hub.Config({
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/" title="Previous Post: Rooted trees and General induction">&laquo; Rooted trees and General induction</a>
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/02/02/logic-from-types/" title="Previous Post: Logic from Types">&laquo; Logic from Types</a>
       
-      
-        <a class="basic-alignment right" href="/LogicTypesSpaces/blog/2015/02/02/logic-from-types/" title="Next Post: Logic from Types">Logic from Types &raquo;</a>
       
     </p>
   </footer>
@@ -283,8 +274,8 @@ MathJax.Hub.Config({
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family/';
-        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/01/30/fin-type-family/';
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm/';
         var disqus_script = 'embed.js';
       
     (function () {
