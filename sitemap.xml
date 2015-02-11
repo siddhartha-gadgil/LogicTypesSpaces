@@ -1,10 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://siddhartha-gadgil.github.io//github/blog/2014/03/26/logic-from-types/</loc>
-        <lastmod>2015-02-10T11:46:41+05:30</lastmod>
-    </url>
-    <url>
         <loc>
             http://siddhartha-gadgil.github.io//github/blog/2014/12/12/welcome-to-the-course-logic/
         </loc>
@@ -83,12 +79,6 @@
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/2015/02/02/logic-from-types/</loc>
         <lastmod>2015-02-10T11:47:28+05:30</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://siddhartha-gadgil.github.io//github/blog/2015/02/09/exercises-for-midterm/
-        </loc>
-        <lastmod>2015-02-09T11:24:15+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
