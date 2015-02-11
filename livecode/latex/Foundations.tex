@@ -284,6 +284,36 @@ We have rules that:
 
 \end{frame}
 
+\begin{frame}{Inductive types: Lists}
+
+\begin{itemize}
+
+\item For each type $A$, $List(A)$ is a type inductively defined by its constructors.
+\begin{itemize}
+\item $[] : List(A)$.
+\item $cons : A \to List(A) \to List(A)$.
+\end{itemize}
+
+\item In Agda, this is
+
+\begin{code}\>\<%
+\\
+\>\AgdaKeyword{data} \AgdaDatatype{List}\AgdaSymbol{(}\AgdaBound{A} \AgdaSymbol{:} \AgdaFunction{Type}\AgdaSymbol{)} \AgdaSymbol{:} \AgdaFunction{Type} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{[]} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaInductiveConstructor{\_::\_} \AgdaSymbol{:} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaBound{A}\<%
+\\
+\>\<\end{code}
+
+
+\end{itemize}
+
+\end{frame}
+
+
 
 
 \begin{frame}{Recursion and Induction : a first look}
