@@ -288,7 +288,7 @@ We have rules that:
 
 \begin{itemize}
 
-\item For each type $A$, $List(A)$ is a type inductively defined by its constructors.
+\item For each type $A : \U$, $List(A)$ is a type inductively defined by its constructors.
 \begin{itemize}
 \item $[] : List(A)$.
 \item $cons : A \to List(A) \to List(A)$.
@@ -308,6 +308,7 @@ We have rules that:
 \\
 \>\<\end{code}
 
+\item We can view this as a $lambda$-expression with variable $A : \U$, with the right hand side given by the rules for constructing inductive types.
 
 \end{itemize}
 
@@ -320,48 +321,104 @@ We have rules that:
 
 \begin{itemize}
 
-  \item
+\item We can define a function on an inductive type $W$ by defining it on each constructor.
 
+\item To define it on a constructor, we give an expression like the right hand side of a $\lambda$-expression, except that if some argument $w$ to the constructor is of type $W$ (or a more general situation we shall see later), then we can use $f(w)$ in forming the right hand side.
+
+\item For instance, for $f: \N \to X$, we can define $f(succ n) = m$, with $m$ a term formed using all the terms in the context, the term $n : \N$ and the term $f(n) : X$. Thus the data giving $f(succ \_)$ is a term of type $\N \to X \to X$, which we apply to $n$ and then $f(n)$.
+
+\item Similarly, for a type $A$, when defining $f : List(A) \to X$, we can define $f(cons(a)(l))$ in terms of $a$, $l$ and $f(l)$. Thus the data giving $f(cons(a)(l))$ is a term of type $A \to List(A) \to X \to X$, which we apply to $a$, then $l$ and finally $f(l)$. 
+
+\item The analogue of recursive definitions for defining dependnet functions are called inductive definitions.
 
 \end{itemize}
 
 \end{frame}
 
+\begin{frame}{Recursion functions}
+
+\begin{itemize}
+
+\item In Homotopy Type Theory, recursive definitions are formalized by giving rules for forming a function $rec_{W, X}$ for an inductive type $W$ and a type $X$, which when applied to the data for recursive definition for each constructor gives a function $W \to X$.
+
+\item We also have identities saying that function built from $rec_{W, X}$, when applied to the data for a constructor, has the appropriate value.
+
+\item For instance, for $W = \N$ and a type $X$, the data for the constructor $0$ is $f(0) : X$, while the data for the constructor $succ$ is $\N \to X \to X$ (as we have seen).
+
+\item Thus, $rec_{\N , X}$ has type $X \to (\N \to X \to X) \to (\N \to X)$.
+
+\item For the constructor applied to $0$, we get the identity $rec_{\N , X}(z)(g)(0) \equiv z$.
+
+\item For a term $n : \N$, the constructor applied to $succ(n)$ gives the identity $rec_{\N , X}(z)(g)(succ(n)) \equiv g(n)(rec_{\N , X}(z)(g)(n))$.
+
+\end{itemize}
+
+\end{frame}
 
 
 \begin{frame}{Families}
 
 \begin{itemize}
 
-  \item
+\item For a type $W$, a \emph{family}  of terms of $W$ is one of:
+\begin{itemize}
+\item a term $w : W$.
+\item a function $\varphi : A \to W'$ where, for each $a : A$,  $\varphi(a) : W'$ is a family of terms of $W$.
+\item a dependent function $\varphi : \Pi_{a : A} W'(a)$ where, for each $a : A$, $\varphi(a) : W'(a)$ is a family of terms of $W$.
+\end{itemize}
 
+\item We shall call the type of a famiy of $W$ a family-type for $W$. Family types are types of the form:
+\begin{itemize}
+\item $W$.
+\item $A \to W'$ where $W'$ is a family-type $W$.
+\item $\Pi_{a : A} W'(a)$ where, for each $a : A$, $W'(a)$ is a family-type for $W$.
+\end{itemize}
+
+\item We can recursively define a \emph{member of a family}, which is a term of type $W$.
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Induced functions on families}
+
+\begin{itemize}
+
+\item Suppose $f: W \to X$ is a function, and $\varphi$ is a family of terms of $W$, then we can define $f_*(\varphi)$ as follows.
+\begin{itemize}
+\item for $\varphi = w$ with $w : W$, $f_*(\varphi) = f(w)$.
+\item for $\varphi : A \to W'$ where $W'$ is a family of terms of $W$, define $f_*(\varphi) = (a : A) \mapsto f_*(\varphi(a))$.
+\item for $\varphi : \Pi_{a : A} W'(a)$ where, for each $a : A$, $W'(a)$ is a family of terms of $W$, define $f_*(\varphi) = (a : A) \mapsto f_*(\varphi(a))$.
+\end{itemize}
+
+\item This gives functions, or dependent functions, on any given family-types.
+
+\item We can use the same definition for dependent functions $f$. 
+
+\item In all cases, the type of the induced function on a family-type $W'$ depends only on the type $F$ of $f$. We denote this $Ind_F W'$
 
 \end{itemize}
 
 \end{frame}
-
-
 
 
 \begin{frame}{Constructor types for an inductive type}
 
 \begin{itemize}
 
-  \item
-
-
+\item The constructors of an inductive type $W$ must (and can) be terms with type $T$ a so-called \emph{Constructor type} for $W$, which is one of the following:
+\begin{itemize}
+\item $T = W$.
+\item $T = A \to T'$, where $T'$ is a constructor-type for $W$ and $A$ is a type can be formed from the terms in the context not including $W$.
+\item $T = W \to T'$, $T'$ as above.
+\item $T = \Pi_{a : A} T'(a)$, each $T'(a)$ a constructor type for $W$.
+\item $T = \Pi_{w : W} T'(w)$, each $T'(w)$ a constructor type for $W$.
+\item $T = W' \to T'$, $W'$ a family-type for $W$.
+\item $T = \Pi_{w : W'} T'(w)$, $W'$ family-type for $W$.
 \end{itemize}
 
-\end{frame}
-
-
-
-\begin{frame}{Recursion for constructors having families}
-
-\begin{itemize}
-
-  \item
-
+\item We call a term of a constructor type for $W$ a quasi-constructor for $W$.
 
 \end{itemize}
 
@@ -373,8 +430,18 @@ We have rules that:
 
 \begin{itemize}
 
-  \item
+\item We shall associate to any quasi-constructor $\varphi$ for $W$ a type $R_{W, X}(\varphi)$ which we call the domain of recursion. 
+\item This can be defined in all cases for the type of $\varphi$. We give only the dependent function cases below.
+\begin{itemize}
+\item If $\varphi : W$, then $R_{W, X}(\varphi) = X$.
+\item If $\varphi : \Pi_{a : A} W$, then $R_{W, X}(\varphi) = \Pi_{a : A} R_{W, X}(\varphi(a))$.
+\item If $\varphi : \Pi_{a : A} W$, then $R_{W, X}(\varphi) = \Pi_{w : W} (X \to R_{W, X}(\varphi(a)))$.
+\item If $\varphi : \Pi_{a : A} W'$, with $W'$ a family-type for $W$, then $R_{W, X}(\varphi) = \Pi_{w : W'} (Ind_{W \to X}(W') \to R_{W, X}(\varphi(a)))$.
+\end{itemize}
 
+\item Domains of Induction are similar.
+
+\item We now see examples.
 
 \end{itemize}
 
@@ -385,32 +452,54 @@ We have rules that:
 
 \begin{itemize}
 
-  \item
+\item The types and identities of recursion functions can be built from the domains of recursion of the constructors.
 
+\item Namely, if an inductive type has constructors $g_1$, $g_2$, $\dots$, $g_k$, then $rec_{W, X}$ has type 
+$$R_{W, X}(g_1) \to R_{W, X}(g_2) \to \dots \to R_{W, X}(g_n) \to (W \to X).$$
 
-\end{itemize}
-
-\end{frame}
-
-
-\begin{frame}{Domains of induction}
-
-\begin{itemize}
-
-  \item
-
+\item We get identities for each constructor recursively.
 
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Induction functions}
+
+\begin{frame}{Inductive type families}
 
 \begin{itemize}
 
-  \item
+\item A type family $\tilde{W}$ is a family of terms of a universe $\U$.
 
+\item We can define constructor types for $\tilde{W}$ analogous to those for a type $W$, except that we replace all instances of $W$ by members of the family $\tilde{W}$.
+
+\item Recursion, induction etc. are similar.
+
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Rules for forming terms}
+
+We now can list all the rules for forming terms.
+
+\begin{itemize}
+
+\item Universes: given in advance.
+
+\item Can form function types and $\Pi$-types
+
+\item Can apply (dependent) functions to arguments of the right type.
+
+\item Can define (dependent) functions using $\lambda$-expressions.
+
+\item Can define inductive types and inductive type families by listing constructors, which must be of the appropriate constructor type.
+
+\item For an inductive type $W$ and a type $X$ (or type family on $W$), we have recursion/induction functions.
+
+\item Finally, we can simply introduce a term with a given type as an \emph{axiom}.
 
 \end{itemize}
 
