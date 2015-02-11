@@ -1,4 +1,4 @@
-\documentclass[10 pt., handout]{beamer}
+\documentclass[10 pt]{beamer}
 
 \usepackage{agda}
 
