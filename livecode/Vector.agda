@@ -23,6 +23,12 @@ zip (a :: as) (b :: bs) = ([ a , b ]) :: (zip as bs)
 -- wrong
 -- zip {ℕ} {3} (countdown 2) (countdown 3)
 
+vhead : {A : Type} → {n : ℕ} → Vec A (succ n) → A
+vhead (x :: v) = x
+
+vtail : {A : Type} → {n : ℕ} → Vec A (succ n) → Vec A n
+vtail (x :: v) = v
+
 open import List
 
 list→vec : {A : Type} → List A → Σ ℕ (λ n → Vec A n)
@@ -33,10 +39,17 @@ vec→list : {A : Type} → Σ ℕ (λ n → Vec A n) → List A
 vec→list [ 0 , [] ] = []
 vec→list [ succ n , (head :: tail) ] = head :: (vec→list [ n , tail ])
 
-get : {A : Type} → (n : ℕ) → Vec A n → (k : ℕ) → ((succ k) ≤ n) → A
-get .0 [] k ()
-get (succ n) (head :: tail) zero p = head
-get (succ n) (head :: tail) (succ k) (succ≤ .(succ k) .n p) = get n tail k p
+ltov : {A : Type} → (l : List A) → Vec A (length l)
+ltov [] = []
+ltov (x :: l) = x :: ltov l
 
-vhead : {A : Type} → {n : ℕ} → Vec A (succ n) → A
-vhead (x :: v) = x
+lookup : {A : Type} → (n : ℕ) → Vec A n → (k : ℕ) → (succ k ≤ n) → A
+lookup .0 [] k ()
+lookup (succ n) (x :: v) zero p = x
+lookup (succ n) (x :: v) (succ k) (succ≤ p) = lookup n v k p  
+
+example = lookup _ (1 :: (2 :: (3 :: []))) 1 (succ≤ (succ≤ (0≤ 1)))
+
+-- letstry = lookup _ (1 :: (2 :: (3 :: []))) 1 _
+
+

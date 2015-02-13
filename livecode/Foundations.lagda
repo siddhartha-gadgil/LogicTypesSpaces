@@ -1,4 +1,4 @@
-\documentclass[10 pt]{beamer}
+\documentclass[10 pt.]{beamer}
 
 \usepackage{agda}
 
@@ -192,13 +192,11 @@ We have rules that:
 
 \begin{itemize}
 
-\item There is a sequence of universes, $\U_0$, $U_1$, $\dots$
+\item There is a sequence of universes, $\U_0$, $\U_1$, $\dots$
     
 \item The universe $\U_i$ has type $\U_{i+1}$. 
 
-\item These are cumulative, with $U_i \subset U_{i+1}$.
-
-\item If a type $T$ has type $\U_i$, it also has type $\U_{i+1}$.  
+\item These are cumulative, i.e., if a type $T$ has type $\U_i$, it also has type $\U_{i+1}$.  
 
 
 \end{itemize}
