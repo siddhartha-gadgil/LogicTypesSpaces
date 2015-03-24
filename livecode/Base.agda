@@ -35,3 +35,10 @@ data _==_ {A : Type} : A → A → Type where
 
 dual : {A B : Type} → (C : Type) → (A → B) → ((B → C) → (A → C))
 dual C f φ = λ a → φ (f a)
+
+id : (A : Type) → A → A
+id A a = a
+
+_∘_ : {A B C : Type} → (B → C) → (A → B) → (A → C)
+_∘_ f g a = f (g a)
+ 
