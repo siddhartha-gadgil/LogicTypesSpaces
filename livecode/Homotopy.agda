@@ -38,5 +38,12 @@ isEquiv {X} {Y} f = Σ (Y → X) (λ h → Σ (Y → X) (λ g → ((f ∘ g) ∼
 QImonodromy : (X : Type) → isQuasiEquiv (id X)  → ((x : X) → (x == x)) 
 QImonodromy X qe x = (sym ((p₁ (proj₂ qe)) x)) && p₂ (proj₂ qe) x
 
-{- QImonodromy X qe = (symm(p₁ (proj₂ qe))) trans ((id∘ g) trans ((symm (g ∘id)) trans (p₂ (proj₂ qe)))) where
-  g = proj₁ qe -}
+
+open import Boolean
+
+notnot~id : (not ∘ not) ~ (id Bool)
+notnot~id true = refl true
+notnot~id false = refl false
+
+notIsEquiv : isEquiv(not)
+notIsEquiv = [ not , [ not ,  [ notnot~id , notnot~id ]  ] ]
