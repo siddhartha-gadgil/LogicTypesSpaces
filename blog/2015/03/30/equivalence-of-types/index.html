@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Equivalence of Types - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="We have seen that functions should be regarded as equal if they are homotopic. As usual in mathematics, we have a corresponding notion of equivalence &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types">
+  <link href="/LogicTypesSpaces/favicon.png" rel="icon">
+  <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/LogicTypesSpaces/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/LogicTypesSpaces/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58114020-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/LogicTypesSpaces/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/LogicTypesSpaces/home">Home</a></li>
+  <li><a href="/LogicTypesSpaces/">Blog</a></li>
+  <li><a href="/LogicTypesSpaces/blog/archives">Archives</a></li>
+  <li><a href="/LogicTypesSpaces/blog/categories/exercises/">Exercises</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Equivalence of Types</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We have seen that functions should be regarded as equal if they are <em>homotopic</em>. As usual in mathematics, we have a corresponding notion of equivalence between types, namely a function $f: A \to B$ is an equivalence if there is an inverse functions with compositions equal, i.e., homotopic, to the identity. However, if we naturally turn this into a type, the result (as we see below) is not well-behaved. So we call this relation <em>quasi-equivalence</em>.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">isQuasiEquiv</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="nf">isQuasiEquiv</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kt">Y</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">g</span> <span class="err">→</span> <span class="p">((</span><span class="n">f</span> <span class="err">∘</span> <span class="n">g</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Y</span><span class="p">))</span> <span class="err">×</span> <span class="p">((</span><span class="n">g</span> <span class="err">∘</span> <span class="n">f</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Instead, we define $f$ to be an equivalence if it has separate left and right equivalences. As we see in Algebra, this is an equivalent condition. However, this is better behaved in that the proofs of the proposition as types is generally unique in this formulation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">isEquiv</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="nf">isEquiv</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kt">Y</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">h</span> <span class="err">→</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">g</span> <span class="err">→</span> <span class="p">((</span><span class="n">f</span> <span class="err">∘</span> <span class="n">g</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Y</span><span class="p">))</span> <span class="err">×</span> <span class="p">((</span><span class="n">h</span> <span class="err">∘</span> <span class="n">f</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">))))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>## Exercise: Construct a function from $isEquiv(f)$ to $isQuasiEquiv(f)$.</p>
+
+<h2 id="an-equivalence">An Equivalence</h2>
+
+<p>The function $not: Bool \to Bool$ is an equivalence, with itself as an inverse.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="kt">:</span> <span class="p">(</span><span class="n">not</span> <span class="err">∘</span> <span class="n">not</span><span class="p">)</span> <span class="o">~</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Bool</span><span class="p">)</span>
+</span><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="n">true</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">true</span>
+</span><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="n">false</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">false</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">notIsEquiv</span> <span class="kt">:</span> <span class="n">isEquiv</span><span class="p">(</span><span class="n">not</span><span class="p">)</span>
+</span><span class="line"><span class="nf">notIsEquiv</span> <span class="ow">=</span> <span class="p">[</span> <span class="n">not</span> <span class="p">,</span> <span class="p">[</span> <span class="n">not</span> <span class="p">,</span>  <span class="p">[</span> <span class="n">notnot</span><span class="o">~</span><span class="n">id</span> <span class="p">,</span> <span class="n">notnot</span><span class="o">~</span><span class="n">id</span> <span class="p">]</span>  <span class="p">]</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="monodromy-for-quasi-equivalences">Monodromy for Quasi-Equivalences</h2>
+
+<p>We now see the subtle problem in using the relation that we called quasi-equivalence. Consider the identity map on a type $A$. Let $g$ be an inverse of the identity, so that both conditions become $g \sim id$. However elements of the type are in general two proofs of $g \sim id$. For $a : A$, these are two paths from $a$ to $g(a)$. Combining these we get a path from $a$ to itself, the <em>monodromy</em>. In type theoretic terms, this is the following.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kt">QImonodromy</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">X</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="err">→</span> <span class="n">isQuasiEquiv</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">)</span>  <span class="err">→</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line"><span class="kt">QImonodromy</span> <span class="kt">X</span> <span class="n">qe</span> <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">sym</span> <span class="p">((</span><span class="n">p</span><span class="err">₁</span> <span class="p">(</span><span class="n">proj</span><span class="err">₂</span> <span class="n">qe</span><span class="p">))</span> <span class="n">x</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="err">₂</span> <span class="p">(</span><span class="n">proj</span><span class="err">₂</span> <span class="n">qe</span><span class="p">)</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, for a point $a : A$, an element of $isQuasiEquiv(A)$ gives an element of $a = a$, i.e., a loop. If there are non-trivial loops in $A$, we have more than one proof that identity is an equivalence.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/03/30/homotopy-type-theory/" title="Previous Post: Homotopy Type theory">&laquo; Homotopy Type theory</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/03/30/equivalence-of-types/">Equivalence of Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/03/30/homotopy-type-theory/">Homotopy Type Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/02/09/exercises-for-midterm/">Exercises for Midterm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/02/02/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/30/fin-type-family/">Fin Type Family</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/LogicTypesSpaces/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'logictypesandspaces';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

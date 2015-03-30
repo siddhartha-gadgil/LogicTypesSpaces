@@ -4,7 +4,7 @@
   <title><![CDATA[Logic, Types and Spaces]]></title>
   <link href="http://siddhartha-gadgil.github.io//github/atom.xml" rel="self"/>
   <link href="http://siddhartha-gadgil.github.io//github/"/>
-  <updated>2015-03-30T13:48:55+05:30</updated>
+  <updated>2015-03-30T18:24:05+05:30</updated>
   <id>http://siddhartha-gadgil.github.io//github/</id>
   <author>
     <name><![CDATA[Siddhartha Gadgil]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Equivalence of Types]]></title>
+    <link href="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/"/>
+    <updated>2015-03-30T17:03:22+05:30</updated>
+    <id>http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types</id>
+    <content type="html"><![CDATA[<p>We have seen that functions should be regarded as equal if they are <em>homotopic</em>. As usual in mathematics, we have a corresponding notion of equivalence between types, namely a function $f: A \to B$ is an equivalence if there is an inverse functions with compositions equal, i.e., homotopic, to the identity. However, if we naturally turn this into a type, the result (as we see below) is not well-behaved. So we call this relation <em>quasi-equivalence</em>.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">isQuasiEquiv</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="nf">isQuasiEquiv</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kt">Y</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">g</span> <span class="err">→</span> <span class="p">((</span><span class="n">f</span> <span class="err">∘</span> <span class="n">g</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Y</span><span class="p">))</span> <span class="err">×</span> <span class="p">((</span><span class="n">g</span> <span class="err">∘</span> <span class="n">f</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Instead, we define $f$ to be an equivalence if it has separate left and right equivalences. As we see in Algebra, this is an equivalent condition. However, this is better behaved in that the proofs of the proposition as types is generally unique in this formulation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">isEquiv</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="nf">isEquiv</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kt">Y</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">h</span> <span class="err">→</span> <span class="err">Σ</span> <span class="p">(</span><span class="kt">Y</span> <span class="err">→</span> <span class="kt">X</span><span class="p">)</span> <span class="p">(</span><span class="err">λ</span> <span class="n">g</span> <span class="err">→</span> <span class="p">((</span><span class="n">f</span> <span class="err">∘</span> <span class="n">g</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Y</span><span class="p">))</span> <span class="err">×</span> <span class="p">((</span><span class="n">h</span> <span class="err">∘</span> <span class="n">f</span><span class="p">)</span> <span class="err">∼</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">))))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>## Exercise: Construct a function from $isEquiv(f)$ to $isQuasiEquiv(f)$.</p>
+
+<h2 id="an-equivalence">An Equivalence</h2>
+
+<p>The function $not: Bool \to Bool$ is an equivalence, with itself as an inverse.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="kt">:</span> <span class="p">(</span><span class="n">not</span> <span class="err">∘</span> <span class="n">not</span><span class="p">)</span> <span class="o">~</span> <span class="p">(</span><span class="n">id</span> <span class="kt">Bool</span><span class="p">)</span>
+</span><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="n">true</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">true</span>
+</span><span class="line"><span class="nf">notnot</span><span class="o">~</span><span class="n">id</span> <span class="n">false</span> <span class="ow">=</span> <span class="n">refl</span> <span class="n">false</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">notIsEquiv</span> <span class="kt">:</span> <span class="n">isEquiv</span><span class="p">(</span><span class="n">not</span><span class="p">)</span>
+</span><span class="line"><span class="nf">notIsEquiv</span> <span class="ow">=</span> <span class="p">[</span> <span class="n">not</span> <span class="p">,</span> <span class="p">[</span> <span class="n">not</span> <span class="p">,</span>  <span class="p">[</span> <span class="n">notnot</span><span class="o">~</span><span class="n">id</span> <span class="p">,</span> <span class="n">notnot</span><span class="o">~</span><span class="n">id</span> <span class="p">]</span>  <span class="p">]</span> <span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2 id="monodromy-for-quasi-equivalences">Monodromy for Quasi-Equivalences</h2>
+
+<p>We now see the subtle problem in using the relation that we called quasi-equivalence. Consider the identity map on a type $A$. Let $g$ be an inverse of the identity, so that both conditions become $g \sim id$. However elements of the type are in general two proofs of $g \sim id$. For $a : A$, these are two paths from $a$ to $g(a)$. Combining these we get a path from $a$ to itself, the <em>monodromy</em>. In type theoretic terms, this is the following.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kt">QImonodromy</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">X</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">)</span> <span class="err">→</span> <span class="n">isQuasiEquiv</span> <span class="p">(</span><span class="n">id</span> <span class="kt">X</span><span class="p">)</span>  <span class="err">→</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line"><span class="kt">QImonodromy</span> <span class="kt">X</span> <span class="n">qe</span> <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">sym</span> <span class="p">((</span><span class="n">p</span><span class="err">₁</span> <span class="p">(</span><span class="n">proj</span><span class="err">₂</span> <span class="n">qe</span><span class="p">))</span> <span class="n">x</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="err">₂</span> <span class="p">(</span><span class="n">proj</span><span class="err">₂</span> <span class="n">qe</span><span class="p">)</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Thus, for a point $a : A$, an element of $isQuasiEquiv(A)$ gives an element of $a = a$, i.e., a loop. If there are non-trivial loops in $A$, we have more than one proof that identity is an equivalence.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Homotopy Type Theory]]></title>

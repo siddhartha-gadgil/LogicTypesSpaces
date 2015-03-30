@@ -93,8 +93,14 @@
         <lastmod>2015-03-30T13:48:46+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://siddhartha-gadgil.github.io//github/blog/2015/03/30/equivalence-of-types/
+        </loc>
+        <lastmod>2015-03-30T18:23:21+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://siddhartha-gadgil.github.io//github/</loc>
-        <lastmod>2015-03-30T13:48:46+05:30</lastmod>
+        <lastmod>2015-03-30T18:23:21+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/home/</loc>
@@ -102,7 +108,7 @@
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/blog/archives/</loc>
-        <lastmod>2015-03-30T13:48:46+05:30</lastmod>
+        <lastmod>2015-03-30T18:23:21+05:30</lastmod>
     </url>
     <url>
         <loc>http://siddhartha-gadgil.github.io//github/robots.txt</loc>
