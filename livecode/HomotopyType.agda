@@ -28,8 +28,8 @@ loopSpace Aa = [ (a == a) , refl a ] where
   a = point Aa
 
 
-contractLoop : (Aa : BasedType) → isContractible Aa → (l : (point Aa) == (point Aa)) → l == (refl (point Aa))
-contractLoop Aa pf (refl .(point Aa)) = refl (refl (point Aa))
+contractLoop : (Aa : BasedType) →  (l : (point Aa) == (point Aa)) → l == (refl (point Aa))
+contractLoop Aa (refl .(point Aa)) = refl (refl (point Aa))
 
-loopSpcContract : (Aa : BasedType) → isContractible Aa → isContractible (loopSpace Aa)
-loopSpcContract Aa pf = λ (x : point Aa == point Aa) → contractLoop Aa pf x
+loopSpcContract : (Aa : BasedType)  → isContractible (loopSpace Aa)
+loopSpcContract Aa  = λ (x : point Aa == point Aa) → contractLoop Aa  x
