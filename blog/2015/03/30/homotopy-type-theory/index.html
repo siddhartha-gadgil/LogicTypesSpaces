@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Homotopy Type Theory - Logic, Types and Spaces</title>
+  <meta name="author" content="Siddhartha Gadgil">
+
+  
+  <meta name="description" content="In homotopy type theory , we interpret a type $A$ as a space $|A|$, and a term $a : A$ as a point $|a| \in |A|$ in the corresponding space. Here &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/homotopy-type-theory">
+  <link href="/LogicTypesSpaces/favicon.png" rel="icon">
+  <link href="/LogicTypesSpaces/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Logic, Types and Spaces" type="application/atom+xml">
+  <script src="/LogicTypesSpaces/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/LogicTypesSpaces/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-58114020-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/LogicTypesSpaces/">Logic, Types and Spaces</a></h1>
+  
+    <h2>Towards homotopy type theory</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:siddhartha-gadgil.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/LogicTypesSpaces/home">Home</a></li>
+  <li><a href="/LogicTypesSpaces/">Blog</a></li>
+  <li><a href="/LogicTypesSpaces/blog/archives">Archives</a></li>
+  <li><a href="/LogicTypesSpaces/blog/categories/exercises/">Exercises</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Homotopy Type Theory</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In <em>homotopy type theory</em> , we interpret a type $A$ as a space $|A|$, and a term $a : A$ as a point $|a| \in |A|$ in the corresponding space. Here space means topological space, but we  do not actually need to know what  this means. All we need of  spaces is:</p>
+
+<ul>
+  <li>Subsets of a Euclidean space are spaces.</li>
+  <li>For spaces $X$ and $Y$, it is meaningful to talk about continuous functions between them.</li>
+  <li>For spaces  $X$ and $Y$, continuous functions between $X$ and $Y$ also form a space $C(X, Y)$.</li>
+  <li>Currying and uncurrying are continuous.</li>
+</ul>
+
+<h2 id="the-interpretation">The interpretation.</h2>
+
+<p>As mentioned above types and terms are interpreted as spaces and points. For types $A$ and $B$, we interpret $A \to B$ as the space of continuous functions $C(|A|, |B|)$. We can similarly interpret dependent functions, but we shall not go into  details here.</p>
+
+<p>The most crucial ingredient in our interpretation is that of an equality type. For $x, y : A$, the type $x = y$ is interpreted as the space of <em>paths</em> in $|A|$ from $|x|$ to $|y|$, i.e., the space of continuous functions $\alpha: [0, 1] \to |A|$ so that $\alpha(0) = |x|$ and $\alpha(1) = |y|$.</p>
+
+<p>It is a result of Voevodsky and Awodey-Warren that we do have a consistent interpretation of type theory, in the sense we have seen it so far, in which types, terms, (dependent) function types and equality types are mapped in the above fashion.</p>
+
+<p>Given such an interpretation, various topological notions can be defined purely in type theoretic terms. The first of these arises when we ask  when functions are equality.</p>
+
+<h2 id="equality-of-functions">Equality of functions.</h2>
+
+<p>Let $A, B$ be types and $f, g: A \to B$ be functions. Then $f$ and $g$ must be equal if and only if there is  a path between $|f|$ and $|g|$ in $C(|A|, |B|)$. Such a path is a function $[0, 1] \to |A| \to |B|$, which after Uncurrying corresponds to a function $([0, 1] \times |A|) \to |B|$. Flipping the coordinates in the domain and Currying gives a function $|A| \to ([0, 1] \to |B|)$, i.e., a function mapping points of $|A|$ to paths in $|B|$. Indeed, using that the path we started with is from $|f|$ to $|g|$, it is  easy to deduce that a point $|a|$ is mapped to a path from $|f(a)|$ to $|g(a)|$. Such a path corresponds to a term of the type $f(a) = g(a)$!</p>
+
+<p>Thus, we see that  if we have a consistent homotopical interpretation, then the equality type $f = g$ must equal the type
+<script type="math/tex">\Pi_{a : A} (f(a) = g(a)).</script></p>
+
+<p>Function extensionality was the postulate that these types  were equal. We shall not postulate this, but instead introduce  and study <em>homotopy</em> type $f\sim g$ corresponding to such equality. We see this  in Agda code. Firstly, we see the definitions for functions and dependent functions.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="err">∼</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="kr">_</span><span class="err">∼</span><span class="kr">_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="kr">_</span><span class="o">~</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Y</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="kt">Y</span> <span class="n">x</span><span class="p">)))</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="kr">_</span><span class="o">~</span><span class="kr">_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It is easy to see that this gives an equivalence relation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">rfl</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">f</span><span class="p">)</span>
+</span><span class="line"><span class="nf">rfl</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">symm</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">g</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">g</span> <span class="err">∼</span> <span class="n">f</span><span class="p">)</span>
+</span><span class="line"><span class="nf">symm</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="n">pf</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">sym</span> <span class="p">(</span><span class="n">pf</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">_trans_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="n">h</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">g</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">g</span> <span class="err">∼</span> <span class="n">h</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">h</span><span class="p">)</span>
+</span><span class="line"><span class="nf">_trans_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="n">h</span> <span class="n">f</span><span class="err">∼</span><span class="n">g</span> <span class="n">g</span><span class="err">∼</span><span class="n">h</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="err">∼</span><span class="n">g</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">g</span><span class="err">∼</span><span class="n">h</span> <span class="n">x</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>While these are simple inductive constructions, in topological terms they are more interesting. Given paths $\alpha, \beta: [0, 1] \to X$, for a space $X$, if $\alpha(1) = \beta(0)$ we can define a path $\alpha * \beta$ which is the  path $\alpha$ followed by the path $\beta$. This is the path corresponding to transitivity. Reflexivity corresponds to constant paths. Finally symmetry corresponds to the map associating to a path $\alpha$ the path $\bar{\alpha}: t \mapsto \alpha(1-t)$.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Siddhartha Gadgil</span></span>
+
+      
+
+
+
+
+
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/homotopy-type-theory/" data-via="" data-counturl="http://siddhartha-gadgil.github.io//github/blog/2015/03/30/homotopy-type-theory/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/LogicTypesSpaces/blog/2015/02/09/exercises-for-midterm/" title="Previous Post: Exercises for midterm">&laquo; Exercises for midterm</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/03/30/homotopy-type-theory/">Homotopy Type Theory</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/02/09/exercises-for-midterm/">Exercises for Midterm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/02/02/logic-from-types/">Logic From Types</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/30/fin-type-family/">Fin Type Family</a>
+      </li>
+    
+      <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/siddhartha-gadgil">@siddhartha-gadgil</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'siddhartha-gadgil',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/LogicTypesSpaces/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/+SiddharthaGadgil?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Siddhartha Gadgil -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'logictypesandspaces';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://siddhartha-gadgil.github.io//github/blog/2015/03/30/homotopy-type-theory/';
+        var disqus_url = 'http://siddhartha-gadgil.github.io//github/blog/2015/03/30/homotopy-type-theory/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

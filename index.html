@@ -9,7 +9,7 @@
   <meta name="author" content="Siddhartha Gadgil">
 
   
-  <meta name="description" content="These exercises are for review before the midterm. They are not to be submitted. Let $\_\le\_$ denote the type family corresponding to the less than &hellip;">
+  <meta name="description" content="In homotopy type theory , we interpret a type $A$ as a space $|A|$, and a term $a : A$ as a point $|a| \in |A|$ in the corresponding space. Here &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,6 +94,95 @@ MathJax.Hub.Config({
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/03/30/homotopy-type-theory/">Homotopy Type Theory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In <em>homotopy type theory</em> , we interpret a type $A$ as a space $|A|$, and a term $a : A$ as a point $|a| \in |A|$ in the corresponding space. Here space means topological space, but we  do not actually need to know what  this means. All we need of  spaces is:</p>
+
+<ul>
+  <li>Subsets of a Euclidean space are spaces.</li>
+  <li>For spaces $X$ and $Y$, it is meaningful to talk about continuous functions between them.</li>
+  <li>For spaces  $X$ and $Y$, continuous functions between $X$ and $Y$ also form a space $C(X, Y)$.</li>
+  <li>Currying and uncurrying are continuous.</li>
+</ul>
+
+<h2 id="the-interpretation">The interpretation.</h2>
+
+<p>As mentioned above types and terms are interpreted as spaces and points. For types $A$ and $B$, we interpret $A \to B$ as the space of continuous functions $C(|A|, |B|)$. We can similarly interpret dependent functions, but we shall not go into  details here.</p>
+
+<p>The most crucial ingredient in our interpretation is that of an equality type. For $x, y : A$, the type $x = y$ is interpreted as the space of <em>paths</em> in $|A|$ from $|x|$ to $|y|$, i.e., the space of continuous functions $\alpha: [0, 1] \to |A|$ so that $\alpha(0) = |x|$ and $\alpha(1) = |y|$.</p>
+
+<p>It is a result of Voevodsky and Awodey-Warren that we do have a consistent interpretation of type theory, in the sense we have seen it so far, in which types, terms, (dependent) function types and equality types are mapped in the above fashion.</p>
+
+<p>Given such an interpretation, various topological notions can be defined purely in type theoretic terms. The first of these arises when we ask  when functions are equality.</p>
+
+<h2 id="equality-of-functions">Equality of functions.</h2>
+
+<p>Let $A, B$ be types and $f, g: A \to B$ be functions. Then $f$ and $g$ must be equal if and only if there is  a path between $|f|$ and $|g|$ in $C(|A|, |B|)$. Such a path is a function $[0, 1] \to |A| \to |B|$, which after Uncurrying corresponds to a function $([0, 1] \times |A|) \to |B|$. Flipping the coordinates in the domain and Currying gives a function $|A| \to ([0, 1] \to |B|)$, i.e., a function mapping points of $|A|$ to paths in $|B|$. Indeed, using that the path we started with is from $|f|$ to $|g|$, it is  easy to deduce that a point $|a|$ is mapped to a path from $|f(a)|$ to $|g(a)|$. Such a path corresponds to a term of the type $f(a) = g(a)$!</p>
+
+<p>Thus, we see that  if we have a consistent homotopical interpretation, then the equality type $f = g$ must equal the type
+<script type="math/tex">\Pi_{a : A} (f(a) = g(a)).</script></p>
+
+<p>Function extensionality was the postulate that these types  were equal. We shall not postulate this, but instead introduce  and study <em>homotopy</em> type $f\sim g$ corresponding to such equality. We see this  in Agda code. Firstly, we see the definitions for functions and dependent functions.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">_</span><span class="err">∼</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="kr">_</span><span class="err">∼</span><span class="kr">_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="kr">_</span><span class="o">~</span><span class="kr">_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">Y</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="p">((</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="kt">Y</span> <span class="n">x</span><span class="p">)))</span> <span class="err">→</span> <span class="kt">Type</span>
+</span><span class="line"><span class="kr">_</span><span class="o">~</span><span class="kr">_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">X</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It is easy to see that this gives an equivalence relation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">rfl</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">f</span><span class="p">)</span>
+</span><span class="line"><span class="nf">rfl</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">refl</span> <span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">symm</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">g</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">g</span> <span class="err">∼</span> <span class="n">f</span><span class="p">)</span>
+</span><span class="line"><span class="nf">symm</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="n">pf</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">sym</span> <span class="p">(</span><span class="n">pf</span> <span class="n">x</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">_trans_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">X</span> <span class="kt">Y</span> <span class="kt">:</span> <span class="kt">Type</span><span class="p">}</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="n">g</span> <span class="n">h</span> <span class="kt">:</span> <span class="kt">X</span> <span class="err">→</span> <span class="kt">Y</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">g</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">g</span> <span class="err">∼</span> <span class="n">h</span><span class="p">)</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span> <span class="err">∼</span> <span class="n">h</span><span class="p">)</span>
+</span><span class="line"><span class="nf">_trans_</span> <span class="p">{</span><span class="kt">X</span><span class="p">}</span> <span class="p">{</span><span class="kr">_</span><span class="p">}</span> <span class="n">f</span> <span class="n">g</span> <span class="n">h</span> <span class="n">f</span><span class="err">∼</span><span class="n">g</span> <span class="n">g</span><span class="err">∼</span><span class="n">h</span> <span class="ow">=</span> <span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">f</span><span class="err">∼</span><span class="n">g</span> <span class="n">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">g</span><span class="err">∼</span><span class="n">h</span> <span class="n">x</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>While these are simple inductive constructions, in topological terms they are more interesting. Given paths $\alpha, \beta: [0, 1] \to X$, for a space $X$, if $\alpha(1) = \beta(0)$ we can define a path $\alpha * \beta$ which is the  path $\alpha$ followed by the path $\beta$. This is the path corresponding to transitivity. Reflexivity corresponds to constant paths. Finally symmetry corresponds to the map associating to a path $\alpha$ the path $\bar{\alpha}: t \mapsto \alpha(1-t)$.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1138,179 +1227,6 @@ $a : A$ and is otherwise built using the usual rules for forming terms.</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/LogicTypesSpaces/blog/2015/01/13/fun-with-lists/">Fun With Lists</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>We continue working with lists. We have already mapped and flatmapped lists. We shall see how to filter, fold and find, letting us do some actual programming, i.e., with answers that are numbers. We shall also see if-expressions and option types.</p>
-
-<h3 id="filtering--and-if-then-else">Filtering  and if-then-else</h3>
-
-<p>Let us start with a function checking if a list contains an element with a certain property.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>checking if a list contains an element with a given property</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_contains_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Bool</span>
-</span><span class="line"><span class="kt">[]</span> <span class="n">contains</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">false</span>
-</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">contains</span> <span class="n">p</span> <span class="ow">=</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">xs</span> <span class="n">contains</span> <span class="n">p</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Before turning to filtering, we define an <em>if expression</em>, which gives one of two values depending on whether a Boolean term is $true$ or $false$. Note that this is not an if statement, doing something according to a condition, but a function that returns a value depending on the condition.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>if expression</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">if_then_else</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Bool</span> <span class="err">→</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">A</span>  <span class="err">→</span> <span class="kt">A</span>
-</span><span class="line"><span class="kr">if</span> <span class="n">true</span> <span class="kr">then</span> <span class="n">x</span> <span class="kr">else</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">x</span>
-</span><span class="line"><span class="kr">if</span> <span class="n">false</span> <span class="kr">then</span> <span class="kr">_</span> <span class="kr">else</span> <span class="n">y</span> <span class="ow">=</span> <span class="n">y</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>With this in hand, we define a function filtering elements of a list by a given property. This is defined inductively, using the if expression to decide whether to prepend the first element.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>filtering a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_filter_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span>
-</span><span class="line"><span class="kt">[]</span> <span class="n">filter</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
-</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">filter</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="kr">then</span> <span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="p">(</span><span class="n">xs</span> <span class="n">filter</span> <span class="n">p</span><span class="p">))</span> <span class="kr">else</span> <span class="p">(</span><span class="n">xs</span> <span class="n">filter</span> <span class="n">p</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="folding">Folding</h3>
-
-<p>So far we have defined many objects and types, but not actually computed anything concrete. To do this, we shall use a very useful function on lists, folding. This is a function that takes as input:</p>
-
-<ul>
-  <li>A list of type $A$, say $[ a_ 0, a_ 1 \dots, a_ n ]$.</li>
-  <li>An element of type $B$, say $b : B$.</li>
-  <li>A binary operation that lets us multiply (or add) an element of $A$ to (the left of) an element of $B$, $op : A \to B \to B$.</li>
-</ul>
-
-<p>The fold is obtained by starting with the given element in B, and successively multiplying on the left by elements of the list, starting with the rightmost. This stops when the list is empty, giving an element in B. Thus, if we omit parenthesis (assuming associativity of the operation), and if * denotes the operation, then folding is the function</p>
-
-<script type="math/tex; mode=display">fold([a_0, a_1, \dots, a_n], b) = a_0*a_1 * \dots * a_n *b</script>
-
-<p>As usual, we define the fold function recursively.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Folding a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">fold_by_from_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">B</span> <span class="err">→</span> <span class="kt">B</span>
-</span><span class="line"><span class="nf">fold</span> <span class="kt">[]</span> <span class="n">by</span> <span class="kr">_</span> <span class="n">from</span> <span class="n">b</span> <span class="ow">=</span> <span class="n">b</span>
-</span><span class="line"><span class="nf">fold</span> <span class="p">(</span><span class="n">a</span> <span class="ow">::</span> <span class="n">as</span><span class="p">)</span> <span class="n">by</span> <span class="n">op</span> <span class="n">from</span> <span class="n">b</span> <span class="ow">=</span> <span class="n">op</span> <span class="n">a</span> <span class="p">(</span><span class="n">fold</span> <span class="n">as</span> <span class="n">by</span> <span class="n">op</span> <span class="n">from</span> <span class="n">b</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="a-program">A program</h3>
-
-<p>Equipped with our list operations, we now give a function computing the sums of squares of numbers from 1 to n. After importing natural numbers, we define (recursively) a function that gives the list of numbers from 1 to n. We then map this to get a list of squares. Finally, we fold this by the addition function to get the sum of squares.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Sum of squares</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">open</span> <span class="kr">import</span> <span class="nn">Nat</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">upto</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">upto</span> <span class="n">zero</span> <span class="ow">=</span> <span class="kt">[]</span>
-</span><span class="line"><span class="nf">upto</span> <span class="p">(</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">upto</span> <span class="n">n</span><span class="p">)</span> <span class="o">++</span> <span class="p">((</span><span class="n">succ</span> <span class="n">n</span><span class="p">)</span> <span class="ow">::</span> <span class="kt">[]</span><span class="p">)</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">listsqs</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="kt">List</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">listsqs</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">upto</span> <span class="n">n</span> <span class="n">map</span> <span class="p">(</span><span class="err">λ</span> <span class="n">x</span> <span class="err">→</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
-</span><span class="line">
-</span><span class="line"><span class="nf">sumsqs</span> <span class="kt">:</span> <span class="err">ℕ</span> <span class="err">→</span> <span class="err">ℕ</span>
-</span><span class="line"><span class="nf">sumsqs</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">fold</span> <span class="p">(</span><span class="n">listsqs</span> <span class="n">n</span><span class="p">)</span> <span class="n">by</span> <span class="kr">_</span><span class="o">+</span><span class="kr">_</span> <span class="n">from</span> <span class="n">zero</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>In the Agda mode of emacs, we can evaluate , for example, the sum of squares up to $20$ to get $2870$. This illustrates that what we are doing does include general purpose programming - indeed it implements an older model of computing, due to Church, which is equivalent to what may be more familiar models.</p>
-
-<h3 id="finding-and-option-types">Finding and option types.</h3>
-
-<p>We next define a function that finds an element in a list (of type $A$) having a given property. However the list may have no such element, so we cannot always return an object in $A$. Simply giving an error is meaningless mathematically and a bad idea for a program.</p>
-
-<p>To deal with such a situation, we use the type $Option A$, whose objects are $Some\ a$ for objects $a$ of type $A$, and an object $None$ representing no result.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="kr">data</span> <span class="kt">Option</span> <span class="p">(</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Set</span> <span class="kr">where</span>
-</span><span class="line">  <span class="kt">Some</span> <span class="kt">:</span> <span class="kt">A</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
-</span><span class="line">  <span class="kt">None</span> <span class="kt">:</span> <span class="kt">Option</span> <span class="kt">A</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>We can now define a find function, returning an option type, containing an object in the list with the given property if there is such an object.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>finding in a list</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_find_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">List</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">Bool</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span>
-</span><span class="line"><span class="kt">[]</span> <span class="n">find</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
-</span><span class="line"><span class="p">(</span><span class="n">x</span> <span class="ow">::</span> <span class="n">xs</span><span class="p">)</span> <span class="n">find</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="p">(</span><span class="n">p</span> <span class="n">x</span><span class="p">)</span> <span class="kr">then</span> <span class="p">(</span><span class="kt">Some</span> <span class="n">x</span><span class="p">)</span> <span class="kr">else</span> <span class="p">(</span><span class="n">xs</span> <span class="n">find</span> <span class="n">p</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Thus, using option types, we can represent partially defined functions - those defined on some objects of a type $A$. One often encounters partial functions - finding in a list, taking square-roots, division (avoiding division by $0$), etc.
-We can <em>lift</em> such a partially defined function to one taking values in an option type. We shall identify partial functions with their lifts.</p>
-
-<p>Suppose we have a partially defined function $f: A\to B$ (not defined on some values of $A$ in general) and a function $g : B \to C$ (defined everywhere). Then it is natural to define the composition of $f$ and $g$ as a partial function defined wherever $f$ is defined. Passing to lifts, this is accomplished by the map function on option types.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>map on an option type</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_mapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
-</span><span class="line"><span class="kt">None</span> <span class="n">mapOption</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
-</span><span class="line"><span class="p">(</span><span class="kt">Some</span> <span class="n">a</span><span class="p">)</span> <span class="n">mapOption</span> <span class="n">f</span> <span class="ow">=</span> <span class="kt">Some</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Even better, if both $f: A\to B$ and $g : B\to C$ are both partially defined, we can compose them to get a value in $C$ exactly for elements $a : A$ for which $f(a)$ is defined and lies in the domain of g. We do this  by flatmapping (after passing to lifts once more).</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>flatmap on option types</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="haskell"><span class="line"><span class="nf">_flatMapOption_</span> <span class="kt">:</span> <span class="p">{</span><span class="kt">A</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="p">{</span><span class="kt">B</span> <span class="kt">:</span> <span class="kt">Set</span><span class="p">}</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">A</span> <span class="err">→</span> <span class="p">(</span><span class="kt">A</span> <span class="err">→</span>  <span class="kt">Option</span> <span class="kt">B</span><span class="p">)</span> <span class="err">→</span> <span class="kt">Option</span> <span class="kt">B</span>
-</span><span class="line"><span class="kt">None</span> <span class="n">flatMapOption</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">None</span>
-</span><span class="line"><span class="p">(</span><span class="kt">Some</span> <span class="n">a</span><span class="p">)</span> <span class="n">flatMapOption</span> <span class="n">f</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">a</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>There are some obvious common features between lists and option types.</p>
-
-<ul>
-  <li>They are both parametrized by a single type A.</li>
-  <li>The type A itself can be embedded in these: map $a$ to the list $a :: []$ in $List\ A$ and the object $Some\ a$ in $Option\ A$, respectively.</li>
-  <li>We can map elements of these types, given a function with domain $A$.</li>
-  <li>Given a function with domain $A$ and codomain of the form $List\ B$ or $Option\ B$ as appropriate, we can flatmap to get an object of type $List\ C$ or $Option\ C$, respectively.</li>
-</ul>
-
-<p>Types that have these properties (and some consistency relations between the embeddings, map and flatmap) are called Monadic. There are many other useful such types, for example $Future\ A$ is used to represent an object of type $A$ that will be available in the future, for instance after a long computation. We do not have to wait for the computation to be over before saying what to do with the result when available, even if this involves another long computation which will return a result as a Future.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="">&larr; Older</a>
@@ -1326,6 +1242,10 @@ We can <em>lift</em> such a partially defined function to one taking values in a
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/LogicTypesSpaces/blog/2015/03/30/homotopy-type-theory/">Homotopy Type Theory</a>
+      </li>
+    
+      <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/02/09/exercises-for-midterm/">Exercises for Midterm</a>
       </li>
     
@@ -1339,10 +1259,6 @@ We can <em>lift</em> such a partially defined function to one taking values in a
     
       <li class="post">
         <a href="/LogicTypesSpaces/blog/2015/01/25/rooted-trees-and-general-induction/">Rooted Trees and General Induction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/LogicTypesSpaces/blog/2015/01/23/constructing-dependent-functions/">Constructing Dependent Functions</a>
       </li>
     
   </ul>
