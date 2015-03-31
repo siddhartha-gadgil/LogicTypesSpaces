@@ -24,10 +24,21 @@ _∼₁_ {X} {_} f g = (x : X) → (f(x) ≅ g(x))
 data isEquiv₁ {A B : Set₁} : (A → B) → Set₁ where 
   eqv : (f : A → B) → (g : B → A) → (h : B → A) → (Id A ∼₁ (λ x → g (f x))) → (Id B ∼₁ (λ x → f (h x))) → isEquiv₁ f
 
+
+hinv : {A B : Set₁} → {f : A → B} → isEquiv₁ f → (B → A)
+hinv (eqv _ g _ _ _) = g
+
+
 postulate
-  univalence : (A : Type) → (B : Type) → isEquiv₁ {A ≅ B} {A ≃ B} ≅To≃
+  univalence : {A : Type} → {B : Type} → isEquiv₁ {A ≅ B} {A ≃ B} ≅To≃
+
+≃To≅ : {A B : Type} → (A ≃ B) → A ≅ B
+≃To≅ = hinv univalence
 
 open import Boolean
 
 flip : Bool ≃ Bool
 flip = not use notIsEquiv
+
+notloop : Bool ≅ Bool
+notloop = ≃To≅ flip
