@@ -60,3 +60,12 @@ isTrue (φ x x₁ x₂) (Exists x₃ fmla) = {!!}
 
 data Theory (axioms : Axioms) : Set₁ where
   theory : {M : Set} → (interp : Interpretation M) → (fmla : Formula) → (axioms fmla) == true → (isTrue interp fmla) == true → Theory axioms 
+postulate
+  ⋀ : {I : Set} → (I → Bool) → Bool
+  ⋀=> : {I : Set} → (p : I → Bool) → ⋀ p == true → (i : I) → (p i) == true
+  =>⋀ : {I : Set} → (p : I → Bool) → ((i : I) → (p i) == true) → ⋀ p == true
+
+data Deduction (axiom : Formula -> Bool) : Formula -> Type where
+  assumption : (fmla : Formula) -> (axiom fmla) == true -> Deduction axiom fmla
+  modusPonens : {p q : Formula} -> Deduction axiom p → Deduction axiom q → Deduction axiom p -- cannot write p => q
+   
