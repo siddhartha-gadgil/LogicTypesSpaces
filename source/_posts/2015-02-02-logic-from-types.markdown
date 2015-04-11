@@ -13,11 +13,11 @@ At the core of homotopy type theory (and its predecessors) is the idea of *propo
 We begin by representing the two simplest propositions: true - always true,  and false.
 
 ```haskell True and False types
-data True : Set where
+data True : Type where
   qed : True
 
 
-data False : Set where
+data False : Type where
 
 ```
 
@@ -34,7 +34,7 @@ If $P$ and $Q$ are propositions, which we identify with their corresponding type
 *Modus Ponens* is the rule of deduction (going back to antiquity) that says that if the proposition $P$ is true, and $P$ implies $Q$, then $Q$ is true. We can prove this in the types interpretation. Namely, Modus Ponens translates to the statement that if we have an objects of type $P$ and $P \to Q$, then we have an object of type $Q$. We get an object of type $Q$ by function application.
 
 ```haskell
-mp : {P : Set} → {Q : Set} → P → (P → Q) → Q
+mp : {P : Type} → {Q : Type} → P → (P → Q) → Q
 mp p imp = imp p
 ```
 
@@ -43,7 +43,7 @@ Next, we see my favourite method of proof - vacuous implication. This says that 
 As the $False$ type has no cases at all, a function is defined on $False$ by using an absurd pattern, which just says that there are no cases, so no definition is needed.
 
 ```haskell
-vacuous : {A : Set} → False → A
+vacuous : {A : Type} → False → A
 vacuous ()
 ```
 
@@ -60,7 +60,7 @@ Next, we define a type family $Even(n)$, for $n : \mathbb{N}$, which is non-empt
 Thus, we can define the inductive type family:
 
 ```haskell
-data Even : ℕ → Set where
+data Even : ℕ → Type where
   0even : Even 0
   _+2even : {n : ℕ} → Even n → Even (succ (succ n))
 ```
@@ -229,7 +229,7 @@ As we see, we can express all the usual mathematical statements using types buil
 
 ```haskell
 postulate
-  extensionality : {A B : Set} → (f g : A → B) → ((x : A) → (f x) == (g x)) → f == g
+  extensionality : {A B : Type} → (f g : A → B) → ((x : A) → (f x) == (g x)) → f == g
 ```
 
 We can similarly introduce axioms specific to a domain, say Euclidean geometry, by postulating them in a module.
