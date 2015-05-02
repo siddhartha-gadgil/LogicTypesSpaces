@@ -30,9 +30,12 @@ open import Nat
 ass+ : assoc _+_
 ass+ zero y z = refl (y + z)
 ass+ (succ x) y z = succ # ass+ x y z
-
+ 
 module AddNatSG = SemiGroup ℕ _+_ ass+
 
-
+lftId : {A : Type} → semiGroup A → A → Type
+lftId {A} [ a , x ] a₁ = lfid a₁ where
+  module SG = SemiGroup A a x
+  lfid = SG.leftId
 
 
