@@ -9,7 +9,7 @@ categories:
 Booleans were a finite type, where we specified all constant objects of the type. More generally, we can construct inductive types by introducing constructors - functions mapping to the type. For instance, we can define the natural numbers (which in logic generally start with $0$).
 
 ``` haskell Natural Numbers: Inductive Definition
-data ℕ : Set where
+data ℕ : Type where
   zero : ℕ
   succ : ℕ → ℕ
 ```
@@ -80,7 +80,7 @@ sq₁ = λ n →
 We shall now define the type of Lists of objects, each of which is of a given type A. Thus, we are defining not just one type, but a family of types parametrized by the type A.
 
 ```haskell Lists
-data List (A : Set) : Set where
+data List (A : Type) : Type where
   [] : List A
   _::_ : A → List A → List A
 ```
@@ -97,7 +97,7 @@ onetwothree = 1 :: (2 :: (3 :: []))
 We can make things a little cleaner by specifying that $\\_::\\_$ is right associative. We shall discuss this later. Let us now define the length of a list. Here is our first definition.
 
 ```haskell Length of a list: First attempt
-length₀ : (A : Set) → List A → ℕ
+length₀ : (A : Type) → List A → ℕ
 length₀ _ [] = zero
 length₀ A (a :: l) = succ (length₀ A l)
 ```
@@ -105,7 +105,7 @@ length₀ A (a :: l) = succ (length₀ A l)
 We have given a recursive definition. We defined a function of the type $A$ as well as the list, as we needed $A$ in the right hand side of the second pattern. But $A$ can be inferred in this pattern - it is the type of the element $a$. So we can declare $A$ to be an optional argument (by putting it in braces), and let Agda infer its value. This gives us a cleaner definition.
 
 ```haskell Length of a list
-length : {A : Set} → List A → ℕ
+length : {A : Type} → List A → ℕ
 length [] = zero
 length (a :: l) = succ (length l)
 ```
@@ -113,7 +113,7 @@ length (a :: l) = succ (length l)
 Next, we define some functions recursively. The first is concatentation, which combines two lists by giving the entries of the first followed by those of the second.
 
 ``` haskell Concatenation of Lists
-_++_ : {A : Set} → List A → List A → List A
+_++_ : {A : Type} → List A → List A → List A
 [] ++ l = l
 (a :: xs) ++ l = a :: (xs ++ l)
 ```
@@ -121,7 +121,7 @@ _++_ : {A : Set} → List A → List A → List A
 We next define the function that reverses a list.
 
 ```haskell Reversing a list
-reverse : {A : Set} → List A → List A
+reverse : {A : Type} → List A → List A
 reverse [] = []
 reverse (a :: l) = (reverse l) ++ (a :: [])
 ```
@@ -129,7 +129,7 @@ reverse (a :: l) = (reverse l) ++ (a :: [])
 We now turn to some more interesting functions. Given a list of objects of type $A$ and a function $f:A \to B$, we can apply $f$ to each entry of the list to get a list of elements of $B$. This is usually called the $map$ function.
 
 ``` haskell map function on lists
-_map_ : {A B : Set} → List A → (A → B) → List B
+_map_ : {A B : Type} → List A → (A → B) → List B
 [] map _ = []
 (a :: xs) map f = (f a) :: (xs map f)
 ```
@@ -137,7 +137,7 @@ _map_ : {A B : Set} → List A → (A → B) → List B
 We can do more - if we have a function $f: A \to List\\ B$, then we can map a list $l$ of elements of $A$ to a list of elements of $B$ - each element of $l$ maps to a list of elements of $B$, and we get a list by concatenating these lists together.
 
 ``` haskell flatmap on lists
-_flatMap_ : {A B : Set} → List A → (A → List B) → List B
+_flatMap_ : {A B : Type} → List A → (A → List B) → List B
 [] flatMap _ = []
 (a :: xs) flatMap f = (f a) ++ (xs flatMap f)
 ```
