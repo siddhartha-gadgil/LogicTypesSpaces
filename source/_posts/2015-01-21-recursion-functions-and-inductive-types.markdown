@@ -64,6 +64,9 @@ It is easy to generalize these examples to an inductive type $W$ of the form we 
 * if $T = W \to T'$, $R\_X(T) = W \to X \to R\_X(T')$
 * if $T = A \to T'$ with $A$ independent of $W$, then $R\_X(T) = A \to R\_X(T')$
 
+For example the recursion data type of the `_::_` constructor of List data type can be evaluated the following way:
+$R_X(A \to List A \to List A) = A \to R_X(List A \to List A) = A \to List A \to X \to R_X(List A) = A \to List A \to X \to X$
+
 These rules tell us the type of the recursion functions. The recursion function satisfies certain _definitional equalities_, saying that it acts on the image of constructors as specified. For example, in the case of natural numbers, we get the identities:
 
 * $rec\_{\mathbb{N}, X} (z) (f) (0) \equiv z$,
