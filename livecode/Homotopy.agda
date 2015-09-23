@@ -33,6 +33,8 @@ isQuasiEquiv {X} {Y} f = Σ (Y → X) (λ g → ((f ∘ g) ∼ (id Y)) × ((g �
 isEquiv : {X Y : Type} → (X → Y) → Type
 isEquiv {X} {Y} f = Σ (Y → X) (λ h → Σ (Y → X) (λ g → ((f ∘ g) ∼ (id Y)) × ((h ∘ f) ∼ (id X))))
  
+idEqv : (A : Type) → isEquiv (id A)
+idEqv A = [ (id A) , [ (id A) , [ (rfl (id A)) , (rfl (id A)) ] ] ]
 
 
 QImonodromy : (X : Type) → isQuasiEquiv (id X)  → ((x : X) → (x == x)) 
