@@ -21,8 +21,6 @@ forever (succ x) = forever (succ (succ x))
 -} 
 
 {-# BUILTIN NATURAL ℕ #-}
-{-# BUILTIN ZERO zero #-}
-{-# BUILTIN SUC succ #-}
 
 _*_ : ℕ → ℕ → ℕ
 zero * _ = zero
