@@ -37,10 +37,12 @@ succ x + y = x + succ y
 
 {-# BUILTIN NATURAL ℕ #-}
 
-data ℕList : Type where --list type
-  [] : ℕList
-  _::_ : ℕ → ℕList → ℕList
+data ℕList : Type where --list type 
+  [] : ℕList -- empty list 
+  _::_ : ℕ → ℕList → ℕList -- add number to head of list
 
+mylist : ℕList 
+mylist = 3 :: (4 :: (2 :: [])) -- the list [3, 4, 2]
 
 data Vector : ℕ → Type where -- type family
   [] : Vector 0
@@ -87,3 +89,6 @@ step n pf = +2even _ pf
 thm : (n  : ℕ) → isEven (double n)
 thm zero = 0even
 thm (succ n) = step _ (thm n)
+
+halfOfDouble : ℕ → ℕ
+halfOfDouble n = half (double n) (thm n)
