@@ -31,6 +31,10 @@ value : {n : ℕ} → Even n → ℕ
 value 0even = 0
 value (p +2even) = succ (succ (value p))
 
+evenValue : {n : ℕ} → (pf : Even n) → Even (value pf)
+evenValue 0even = 0even
+evenValue (pf +2even) = evenValue pf +2even
+
 half : (n : ℕ) → Even n → ℕ
 half .0 0even = 0
 half (succ (succ n)) (p +2even) = succ (half n p) 
@@ -44,3 +48,9 @@ double (succ n) = [ succ (succ (proj₁(double n))) , (proj₂ (double n) +2even
 halfdouble : ℕ → ℕ
 halfdouble n = half (proj₁ (double n)) (proj₂ (double n))
 
+module Collatz where
+  open n|n+1even
+
+  fn : {n : ℕ} → P n → ℕ
+  fn (ι₁ x) = half (value x) (evenValue x)
+  fn (ι₂ (x +2even)) = succ (half (value x) (evenValue x) + (value x))
