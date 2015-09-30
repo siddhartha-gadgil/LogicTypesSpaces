@@ -83,12 +83,9 @@ double : (n : ℕ) → ℕ
 double 0 = 0
 double (succ n) = succ(succ(double(n)))
 
-step : (n : ℕ) → (isEven (double n)) → isEven (double(succ(n)))
-step n pf = +2even _ pf
-
 thm : (n  : ℕ) → isEven (double n)
 thm zero = 0even
-thm (succ n) = step _ (thm n)
+thm (succ n) = +2even _ (thm n)
 
 halfOfDouble : ℕ → ℕ
 halfOfDouble n = half (double n) (thm n)
