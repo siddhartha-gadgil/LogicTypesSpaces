@@ -77,7 +77,7 @@ data False : Type where
 
 half : (n : ℕ) → isEven n → ℕ
 half .0 0even = 0
-half .(succ (succ n)) (+2even n pf) = half n pf
+half .(succ (succ n)) (+2even n pf) = succ(half n pf)
 
 double : (n : ℕ) → ℕ
 double 0 = 0
