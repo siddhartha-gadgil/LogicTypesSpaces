@@ -75,6 +75,9 @@ data False : Type where
 3odd : isEven 3 → False
 3odd (+2even .1 ())
 
+5odd : isEven 5 → False
+5odd (+2even .3 (+2even .1 ()))
+
 half : (n : ℕ) → isEven n → ℕ
 half .0 0even = 0
 half .(succ (succ n)) (+2even n pf) = succ(half n pf)
